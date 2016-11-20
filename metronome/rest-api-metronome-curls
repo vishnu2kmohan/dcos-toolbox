@@ -1,0 +1,44 @@
+# Get all jobs
+curl -skSL -X GET -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs
+
+# Create a job
+curl -skSL -X POST -d @<JSON_FILE> -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs
+
+# Get details about a specific job with {jobId}
+curl -skSL -X GET  -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}
+
+# Update the configuration of a specific job with {jobId}
+curl -skSL -X PUT -d @<JSON_FILE> -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}
+
+# Delete a specific job with {jobId}
+curl -skSL -X DELETE -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}
+
+# Get all schedules for a specific job with {jobId}
+curl -skSL -X GET  -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}/schedules
+
+# Create the schedule for a specific job with {jobId}
+curl -skSL -X POST -d @<JSON_FILE> -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}/schedules
+
+# Get the specific schedule for {scheduleId} for {jobId}
+curl -skSL -X GET  -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}/schedules/{scheduleId}
+
+# Update the schedules for {jobId} with {scheduleId}
+curl -skSL -X PUT -d '{"jobId": "{jobId}", "scheduleId": "{scheduleId}"' -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}/schedules/{scheduleId}
+
+# Delete the schedule with {scheduleId} for {jobId}
+curl -skSL -X DELETE -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}/schedules/{scheduleId}
+
+# Get all the runs for {jobId}
+curl -skSL -X GET  -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}/runs
+
+# Trigger a run for {jobId}
+curl -skSL -X POST -d '{"jobId": "{jobId}"}' -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}/runs
+
+# Get the details for a specific run with {runId} for {jobId}
+curl -skSL -X GET  -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}/runs/{runId}
+
+# Stop the specific run with {runId} for {jobId}
+curl -skSL -X POST -d '{"jobId": "{jobId}", "runId": "{runId}"' -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/{jobId}/runs/{runId}/action/stop
+
+# Get the names of all the jobs defined
+curl -skSL -X GET -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs | jq -er .[].id

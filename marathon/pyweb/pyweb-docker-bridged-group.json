@@ -1,0 +1,92 @@
+{
+  "id": "/pyweb-docker-bridged-group",
+  "apps": [
+    {
+      "id": "/pyweb-docker-bridged-group/controller",
+      "cmd": "env | sort && python3 -m http.server",
+      "instances": 1,
+      "cpus": 0.01,
+      "mem": 32,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "python:3-alpine",
+          "network": "BRIDGE",
+          "portMappings": [
+            {
+                "containerPort": 8000,
+                "hostPort": 0,
+                "name": "pyweb-controller",
+                "protocol": "tcp",
+                "labels": { "VIP_0": "/pyweb-docker-bridged-group/controller:8000" }
+            }
+          ]
+        }
+      },
+      "labels": {
+        "HAPROXY_GROUP": "external"
+      },
+      "healthChecks": [
+        {
+          "portIndex": 0,
+          "protocol": "HTTP",
+          "path": "/",
+          "gracePeriodSeconds": 20,
+          "intervalSeconds": 20,
+          "timeoutSeconds": 20,
+          "maxConsecutiveFailures": 3,
+          "ignoreHttp1xx": false
+        }
+      ],
+      "requirePorts": false,
+      "backoffSeconds": 1,
+      "backoffFactor": 1.15,
+      "maxLaunchDelaySeconds": 3600
+    },
+    {
+      "id": "/pyweb-docker-bridged-group/agent",
+      "cmd": "env | sort && python3 -m http.server",
+      "instances": 4,
+      "cpus": 0.01,
+      "mem": 32,
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "python:3-alpine",
+          "network": "BRIDGE",
+          "portMappings": [
+            {
+                "containerPort": 8000,
+                "hostPort": 0,
+                "name": "pyweb-agent",
+                "protocol": "tcp",
+                "labels": { "VIP_0": "/pyweb-docker-bridged-group/agent:8000" }
+            }
+          ]
+        }
+      },
+      "labels": {
+        "HAPROXY_GROUP": "external"
+      },
+      "healthChecks": [
+        {
+          "portIndex": 0,
+          "protocol": "HTTP",
+          "path": "/",
+          "gracePeriodSeconds": 20,
+          "intervalSeconds": 20,
+          "timeoutSeconds": 20,
+          "maxConsecutiveFailures": 3,
+          "ignoreHttp1xx": false
+        }
+      ],
+      "requirePorts": false,
+      "backoffSeconds": 1,
+      "backoffFactor": 1.15,
+      "maxLaunchDelaySeconds": 3600,
+      "dependencies": [
+        "/pyweb-docker-bridged-group/controller"
+      ]
+    }
+  ]
+}

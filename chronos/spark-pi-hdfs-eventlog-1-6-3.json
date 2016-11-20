@@ -1,0 +1,22 @@
+{
+  "name": "spark-pi-hdfs-event-log-1-6-3",
+  "schedule": "R1/2016-01-01T00:00:00Z/PT24H",
+  "command": "env | sort && /opt/spark/dist/bin/spark-submit --name SparkPi-HDFS-Eventlog-1-6-3 --master mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos --conf spark.mesos.coarse=true --conf spark.cores.max=4 --conf spark.driver.cores=1 --conf spark.driver.memory=1g --conf spark.driver.supervise=false --conf spark.executor.cores=2 --conf spark.executor.memory=1g --conf spark.mesos.executor.docker.image=mesosphere/spark:1.0.5-1.6.3-hadoop-2.6 --conf spark.executor.home=/opt/spark/dist --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hdfs/history --conf spark.eventLog.compress=false --conf spark.ssl.noCertVerification=true --conf spark.mesos.uris=http://hdfs.marathon.mesos:9000/v1/connection/hdfs-site.xml,http://hdfs.marathon.mesos:9000/v1/connection/core-site.xml --class org.apache.spark.examples.SparkPi /opt/spark/dist/lib/spark-examples-1.6.3-hadoop2.6.0.jar ${SPARK_PI_ITERATIONS}",
+  "cpus": "1",
+  "mem": "1024",
+  "runAsUser": "root",
+  "environmentVariables": [                                                     
+    {                                                                           
+      "name": "SPARK_PI_ITERATIONS",                                                 
+      "value": "30"                                               
+    }                                                                           
+  ],
+  "uris": [
+    "http://hdfs.marathon.mesos:9000/v1/connection/hdfs-site.xml",
+    "http://hdfs.marathon.mesos:9000/v1/connection/core-site.xml"
+  ],
+  "container": {
+    "type": "DOCKER",
+    "image": "mesosphere/spark:1.0.5-1.6.3-hadoop-2.6"
+  }
+}

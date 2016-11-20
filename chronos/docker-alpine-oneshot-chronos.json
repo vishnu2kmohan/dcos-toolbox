@@ -1,0 +1,25 @@
+{
+  "name": "docker_alpine_oneshot",
+  "schedule": "R1//PT24H",
+  "command": "env | sort",
+  "cpus": "0.01",
+  "mem": "32",
+  "runAsUser": "nobody",
+  "environmentVariables": [
+    {
+      "name": "FOO",
+      "value": "BAR"
+    }
+  ],
+  "container": {
+    "type": "DOCKER",
+    "image": "alpine:edge",
+    "volumes": [
+      {
+        "containerPath": "/opt/mesosphere",
+        "hostPath": "/opt/mesosphere",
+        "mode": "RO"
+      }
+    ]
+  }
+}

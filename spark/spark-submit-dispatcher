@@ -1,0 +1,30 @@
+# https://issues.apache.org/jira/browse/SPARK-13258 <- (future)
+# Test SparkPi with default 1.6.1 Spark distribution (future)
+dcos spark run --submit-args='--conf spark.mesos.coarse=true --conf spark.cores.max=4 --conf spark.executor.memory=1g --driver-cores 1 --driver-memory 1g --class org.apache.spark.examples.SparkPi https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar 30000'
+
+# Test SparkPi with 1.5.0 Spark distribution (future)
+dcos spark run --submit-args='--conf spark.mesos.executor.docker.image=mesosphere/spark:1.5.0-multi-roles-v2-bin-2.4.0 --conf spark.mesos.coarse=true --conf spark.cores.max=4 --conf spark.executor.memory=1g --driver-cores 1 --driver-memory 1g --class org.apache.spark.examples.SparkPi https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar 30000'
+
+# Test SparkPi with History Server Enabled and default 1.6.1 Spark distribution (future)
+dcos spark run --submit-args='--conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hdfs/history --conf spark.mesos.coarse=true --conf spark.cores.max=4 --conf spark.executor.memory=1g --driver-cores 1 --driver-memory 1g --class org.apache.spark.examples.SparkPi https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar 30000'
+
+# Test SparkPi with History Server Enabled and 1.5.0 Spark distribution (future)
+dcos spark run --submit-args='--conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hdfs/history --conf spark.mesos.executor.docker.image=mesosphere/spark:1.5.0-multi-roles-v2-bin-2.4.0 --conf spark.mesos.coarse=true --conf spark.cores.max=4 --conf spark.executor.memory=1g --driver-cores 1 --driver-memory 1g --class org.apache.spark.examples.SparkPi https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar 30000'
+
+# Test SparkPi with default 1.6.1 Spark distribution
+dcos spark run --submit-args='-Dspark.mesos.coarse=true -Dspark.cores.max=4 -Dspark.executor.memory=1g --driver-cores 1 --driver-memory 1g --class org.apache.spark.examples.SparkPi https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar 30000'
+
+# Test SparkPi with 1.5.0 Spark distribution
+dcos spark run --submit-args='-Dspark.mesos.executor.docker.image=mesosphere/spark:1.5.0-multi-roles-v2-bin-2.4.0 -Dspark.mesos.coarse=true -Dspark.cores.max=4 -Dspark.executor.memory=1g --driver-cores 1 --driver-memory 1g --class org.apache.spark.examples.SparkPi https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar 30000'
+
+# Test SparkPi with History Server Enabled and default 1.6.1 Spark distribution
+dcos spark run --submit-args='-Dspark.eventLog.enabled=true -Dspark.eventLog.dir=hdfs://hdfs/history -Dspark.eventLog.compress=false -Dspark.mesos.coarse=true -Dspark.cores.max=4 -Dspark.executor.memory=1g --driver-cores 1 --driver-memory 1g --class org.apache.spark.examples.SparkPi https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar 30000'
+
+# Test SparkPi with History Server Enabled and 1.5.0 Spark distribution
+dcos spark run --submit-args='-Dspark.eventLog.enabled=true -Dspark.eventLog.dir=hdfs://hdfs/history -Dspark.eventLog.compress=false -Dspark.mesos.executor.docker.image=mesosphere/spark:1.5.0-multi-roles-v2-bin-2.4.0 -Dspark.mesos.coarse=true -Dspark.cores.max=4 -Dspark.executor.memory=1g --driver-cores 1 --driver-memory 1g --class org.apache.spark.examples.SparkPi https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar 30000'
+
+# Test SparkPi with History Server Enabled and default 1.6.1 Spark distribution to Mesos Sandbox
+dcos spark run --submit-args='-Dspark.eventLog.enabled=true -Dspark.eventLog.dir=file:///mnt/mesos/sandbox -Dspark.eventLog.compress=false -Dspark.mesos.coarse=true -Dspark.cores.max=4 -Dspark.executor.memory=1g --driver-cores 1 --driver-memory 1g --class org.apache.spark.examples.SparkPi https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar 30000'
+
+# Test SparkPi with History Server Enabled and 1.5.0 Spark distribution to Mesos Sandbox
+dcos spark run --submit-args='-Dspark.eventLog.enabled=true -Dspark.eventLog.dir=file:///mnt/mesos/sandbox -Dspark.eventLog.compress=false -Dspark.mesos.executor.docker.image=mesosphere/spark:1.5.0-multi-roles-v2-bin-2.4.0 -Dspark.mesos.coarse=true -Dspark.cores.max=4 -Dspark.executor.memory=1g --driver-cores 1 --driver-memory 1g --class org.apache.spark.examples.SparkPi https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar 30000'

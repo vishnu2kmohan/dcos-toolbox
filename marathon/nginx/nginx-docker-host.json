@@ -1,0 +1,38 @@
+{
+  "id": "/nginx-docker-host",
+  "instances": 1,
+  "cpus": 0.01,
+  "mem": 32,
+  "cmd": "sed -i \"s/80/$PORT0/g\" /etc/nginx/conf.d/default.conf && nginx -g \"daemon off;\"",
+  "container": {
+    "docker": {
+      "image": "nginx",
+      "network": "HOST"
+    },
+    "type": "DOCKER"
+  },
+  "portDefinitions": [
+    {
+      "port": 0,
+      "protocol": "tcp",
+      "name": "nginx",
+      "labels": { "vip": "1.2.3.4:80" }
+    }
+  ],
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 15,
+      "ignoreHttp1xx": false,
+      "intervalSeconds": 60,
+      "maxConsecutiveFailures": 3,
+      "path": "/",
+      "portIndex": 0,
+      "protocol": "HTTP",
+      "timeoutSeconds": 20
+    }
+  ],
+  "labels": {
+    "HAPROXY_0_VHOST": "vishnu-r9-publicsl-17wsnigwzapp7-626110687.us-west-2.elb.amazonaws.com",
+    "HAPROXY_GROUP": "external"
+  }
+}

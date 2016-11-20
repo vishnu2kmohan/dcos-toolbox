@@ -1,0 +1,34 @@
+{
+  "id": "/pyweb-docker-bridged-dynport",
+  "cmd": "env | sort && python3 -m http.server",
+  "cpus": 0.01,
+  "mem": 32.0,
+  "instances": 2,
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "python:3-alpine",
+      "network": "BRIDGE",
+      "portMappings": [
+        { 
+            "containerPort": 8000, 
+            "hostPort": 0,
+            "name": "pyweb",
+            "protocol": "tcp",
+            "labels": { "VIP_0": "/pyweb-docker-bridged-dynport:8000" }
+        }
+      ]
+    }
+  },
+  "healthChecks": [
+    {
+      "portIndex": 0,
+      "protocol": "HTTP",
+      "path": "/",
+      "gracePeriodSeconds": 20,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3
+    }
+  ]
+}

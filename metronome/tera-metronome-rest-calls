@@ -1,0 +1,18 @@
+# Create the TeraGen, TeraSort and TeraValidate jobs
+curl -skSL -X POST -d @teragen.json -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs | python -m json.tool
+curl -skSL -X POST -d @terasort.json -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs | python -m json.tool
+curl -skSL -X POST -d @teravalidate.json -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs | python -m json.tool
+
+# Run the TeraGen Job
+curl -skSL -X POST -d '{"jobId": "tera.gen"}' -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/tera.gen/runs | python -m json.tool
+
+# Run the TeraSort Job
+curl -skSL -X POST -d '{"jobId": "tera.sort"}' -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/tera.sort/runs | python -m json.tool
+
+# Run the TeraValidate Job
+curl -skSL -X POST -d '{"jobId": "tera.validate"}' -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/tera.validate/runs | python -m json.tool
+
+# Delete the TeraGen, TeraSort and TeraValidate jobs
+curl -skSL -X DELETE -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/tera.gen | python -m json.tool
+curl -skSL -X DELETE -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/tera.sort | python -m json.tool
+curl -skSL -X DELETE -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/tera.validate | python -m json.tool

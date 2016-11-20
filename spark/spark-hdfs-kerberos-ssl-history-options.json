@@ -1,0 +1,34 @@
+{
+ "service": {
+   "name": "spark-hdfs-kerberos-ssl-history",
+   "user": "root",
+   "log-level": "INFO"
+ },
+ "security": {
+   "kerberos": {
+     "krb5conf": "<cat krb5.conf | base64 | tr -d '\n'>"
+   }
+ },
+ "ssl": {
+   "enabled": false,
+   "keyStoreBase64": "<cat keyStore | base64 | tr -d '\n'>",
+   "trustStoreBase64": "<cat trustStore | base64 | tr -d '\n'>",
+   "keyPassword": "<optional password for the private key in the keystore> Note: Use DC/OS Secrets Store (1.8 or newer)",
+   "keyStorePassword": "<optional password for the keystore (and the key if keyPassword is not given)> Note: Use DC/OS Secrets Store",
+   "trustStorePassword": "<optional password for the truststore> Note: Use DC/OS Secrets Store"
+ },
+ "hdfs": {
+   "config-url": "http://hdfs.marathon.mesos:9000/v1/connection"
+ },
+ "history-server": {
+   "enabled": false,
+   "cleaner-enabled": true,
+   "log-dir": "hdfs://hdfs/history",
+   "kerberos": {
+     "properties": {
+       "principal": "<principal@REALM>",
+       "keytab": "<cat keytab | base64 | tr -d '\n'>"
+     }
+   }
+ }
+}

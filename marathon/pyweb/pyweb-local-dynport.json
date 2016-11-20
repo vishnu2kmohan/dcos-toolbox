@@ -1,0 +1,26 @@
+{
+  "id": "/pyweb-local-dynport",
+  "cmd": "env | sort && /opt/mesosphere/bin/python3 -m http.server $PORT0",
+  "cpus": 0.01,
+  "mem": 32.0,
+  "instances": 2,
+  "portDefinitions": [
+    {
+      "port": 0,
+      "name": "web",
+      "protocol": "tcp",
+      "labels": { "VIP_0": "/pyweb-local-dynport:80" }
+    }
+  ],
+  "healthChecks": [
+    {
+      "portIndex": 0,
+      "protocol": "HTTP",
+      "path": "/",
+      "gracePeriodSeconds": 20,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "name": "TeraSort",
+  "parents": [
+      "TeraGen"
+  ],
+  "command": "env | sort && /opt/spark/dist/bin/spark-submit --master mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos --name TeraSort --conf spark.mesos.coarse=true --conf spark.driver.cores=1 --conf spark.driver.memory=4g --conf spark.driver.supervise=false --conf spark.executor.memory=6g --conf spark.executor.home=/opt/spark/dist --conf spark.mesos.executor.docker.image=mesosphere/spark:1.0.6-2.0.2-hadoop-2.6 --conf spark.ssl.noCertVerification=true --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hdfs/history --conf spark.mesos.uris=http://hdfs.marathon.mesos:9000/v1/connection/hdfs-site.xml,http://hdfs.marathon.mesos:9000/v1/connection/core-site.xml,https://downloads.mesosphere.io/spark/test/spark-terasort-1.0-SNAPSHOT-jar-with-dependencies.jar --class com.github.ehiggs.spark.terasort.TeraSort /mnt/mesos/sandbox/spark-terasort-1.0-SNAPSHOT-jar-with-dependencies.jar ${TERASORT_INPUT_DIR} ${TERASORT_OUTPUT_DIR}",
+  "cpus": "1",
+  "mem": "1024",
+  "runAsUser": "root",
+  "environmentVariables": [
+    {
+      "name": "TERASORT_INPUT_DIR",
+      "value": "hdfs://hdfs/terasort/terasort_in"
+    },
+    {
+      "name": "TERASORT_OUTPUT_DIR",
+      "value": "hdfs://hdfs/terasort/terasort_out"
+    }
+  ],
+  "uris": [
+    "https://downloads.mesosphere.io/spark/test/spark-terasort-1.0-SNAPSHOT-jar-with-dependencies.jar",
+    "http://hdfs.marathon.mesos:9000/v1/connection/hdfs-site.xml",
+    "http://hdfs.marathon.mesos:9000/v1/connection/core-site.xml"
+  ],
+  "container": {
+    "type": "DOCKER",
+    "image": "mesosphere/spark:1.0.6-2.0.2-hadoop-2.6"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "id": "/pyweb-local-unique",
+  "cmd": "env | sort && /opt/mesosphere/bin/python3 -m http.server",
+  "cpus": 0.01,
+  "mem": 32.0,
+  "instances": 2,
+  "constraints": [["hostname", "UNIQUE"]],
+  "portDefinitions": [                                                          
+    {                                                                           
+      "port": 0,                                                                
+      "name": "web",                                                            
+      "protocol": "tcp",                                                        
+      "labels": { "VIP_0": "/pyweb-local-unique:80" }                          
+    }                                                                           
+  ],
+  "healthChecks": [
+    {
+      "portIndex": 0,
+      "protocol": "HTTP",
+      "path": "/",
+      "gracePeriodSeconds": 15,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+curl -skSL -X POST -d @dev-spark-pi-hdfs-eventlog-2-0-0-metronome.json -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs | python -m json.tool
+curl -skSL -X POST -d @test-spark-pi-hdfs-eventlog-2-0-0-metronome.json -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs | python -m json.tool
+curl -skSL -X POST -d @prod-spark-pi-hdfs-eventlog-2-0-0-metronome.json -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs | python -m json.tool
+
+curl -skSL -X POST -d '{"jobId": "dev.spark-pi-hdfs-eventlog-2-0-0"}' -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/dev.spark-pi-hdfs-eventlog-2-0-0/runs | python -m json.tool
+curl -skSL -X POST -d '{"jobId": "test.spark-pi-hdfs-eventlog-2-0-0"}' -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/test.spark-pi-hdfs-eventlog-2-0-0/runs | python -m json.tool
+curl -skSL -X POST -d '{"jobId": "prod.spark-pi-hdfs-eventlog-2-0-0"}' -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/prod.spark-pi-hdfs-eventlog-2-0-0/runs | python -m json.tool
+
+curl -skSL -X DELETE -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/dev.spark-pi-hdfs-eventlog-2-0-0 | python -m json.tool
+curl -skSL -X DELETE -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/test.spark-pi-hdfs-eventlog-2-0-0 | python -m json.tool
+curl -skSL -X DELETE -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" $(dcos config show core.dcos_url)/service/metronome/v1/jobs/prod.spark-pi-hdfs-eventlog-2-0-0 | python -m json.tool

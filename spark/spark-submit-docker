@@ -1,0 +1,66 @@
+docker run --net host -it mesosphere/spark:1.0.2-2.0.0 \
+/opt/spark/dist/bin/spark-submit \
+--master mesos://leader.mesos:5050 \
+--name org.apache.spark.examples.SparkPi \
+--conf spark.mesos.coarse=true \
+--conf spark.mesos.executor.docker.image=mesosphere/spark:1.0.2-2.0.0 \
+--conf spark.cores.max=4 \
+--conf spark.driver.cores=1 \
+--conf spark.driver.memory=1g \
+--conf spark.driver.supervise=false \
+--conf spark.executor.cores=2 \
+--conf spark.executor.memory=1g \
+--conf spark.executor.home=/opt/spark/dist \
+--conf spark.ssl.noCertVerification=true \
+--class org.apache.spark.examples.SparkPi \
+/opt/spark/dist/examples/jars/spark-examples_2.11-2.0.0.jar \
+30
+
+docker run --net host -it mesosphere/spark:1.0.2-2.0.0 \
+/opt/spark/dist/bin/spark-submit \
+--master mesos://leader.mesos:5050 \
+--name org.apache.spark.examples.SparkPi \
+--conf spark.mesos.coarse=true \
+--conf spark.mesos.executor.docker.image=mesosphere/spark:1.0.2-2.0.0 \
+--conf spark.mesos.uris=http://hdfs.marathon.mesos:9000/v1/connect/hdfs-site.xml,http://hdfs.marathon.mesos:9000/v1/connect/core-site.xml \
+--conf spark.cores.max=4 \
+--conf spark.driver.cores=1 \
+--conf spark.driver.memory=1g \
+--conf spark.driver.supervise=false \
+--conf spark.executor.cores=2 \
+--conf spark.executor.memory=1g \
+--conf spark.executor.home=/opt/spark/dist \
+--conf spark.eventLog.enabled=true \
+--conf spark.eventLog.dir=hdfs://hdfs/history \
+--conf spark.eventLog.compress=false \
+--conf spark.ssl.noCertVerification=true \
+--conf spark.jars=https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar \
+--class org.apache.spark.examples.SparkPi \
+/opt/spark/dist/examples/jars/spark-examples_2.11-2.0.0.jar \
+30
+
+docker run --net host \
+-e SPARK_EXECUTOR_OPTS='Dspark.eventLog.enabled=true -Dspark.eventLog.dir=hdfs://hdfs/history -Dspark.jars=https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar -Dspark.ssl.noCertVerification=true -Dspark.driver.memory=1g -Dspark.executor.cores=2 -Dspark.mesos.coarse=true -Dspark.cores.max=4 -Dspark.mesos.executor.docker.image=mesosphere/spark:1.0.2-2.0.0 -Dspark.eventLog.compress=false -Dspark.driver.supervise=false -Dspark.mesos.uris=http://hdfs.marathon.mesos:9000/v1/connect/hdfs-site.xml,http://hdfs.marathon.mesos:9000/v1/connect/core-site.xml -Dspark.app.name=org.apache.spark.examples.SparkPi -Dspark.executor.memory=1g -Dspark.master=mesos://leader.mesos:5050 -Dspark.driver.cores=1' \
+-e SPARK_JAVA_OPTS='-Dspark.eventLog.enabled=true -Dspark.eventLog.dir=hdfs://hdfs/history -Dspark.eventLog.compress=false -Dspark.mesos.coarse=true -Dspark.cores.max=4 -Dspark.executor.memory=1g -Dspark.mesos.executor.docker.image=mesosphere/spark:1.0.2-2.0.0 -Dspark.mesos.uris=http://hdfs.marathon.mesos:9000/v1/connect/hdfs-site.xml,http://hdfs.marathon.mesos:9000/v1/connect/core-site.xml' \
+-it mesosphere/spark:1.0.2-2.0.0 \
+/opt/spark/dist/bin/spark-submit \
+--master mesos://leader.mesos:5050 \
+--name org.apache.spark.examples.SparkPi \
+--conf spark.mesos.coarse=true \
+--conf spark.mesos.executor.docker.image=mesosphere/spark:1.0.2-2.0.0 \
+--conf spark.mesos.uris=http://hdfs.marathon.mesos:9000/v1/connect/hdfs-site.xml,http://hdfs.marathon.mesos:9000/v1/connect/core-site.xml \
+--conf spark.cores.max=4 \
+--conf spark.driver.cores=1 \
+--conf spark.driver.memory=1g \
+--conf spark.driver.supervise=false \
+--conf spark.executor.cores=2 \
+--conf spark.executor.memory=1g \
+--conf spark.executor.home=/opt/spark/dist \
+--conf spark.eventLog.enabled=true \
+--conf spark.eventLog.dir=hdfs://hdfs/history \
+--conf spark.eventLog.compress=false \
+--conf spark.ssl.noCertVerification=true \
+--conf spark.jars=https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar \
+--class org.apache.spark.examples.SparkPi \
+/opt/spark/dist/examples/jars/spark-examples_2.11-2.0.0.jar \
+30
