@@ -245,8 +245,8 @@ def delete_self_if_marathon(marathon_url, req_headers={}):
         return
 
     print('Deleting self from Marathon to avoid run loop: {}'.format(marathon_task_id))
-    url = marathon_url + marathon_task_id
-    response = request_url('DELETE', url, req_headers)
+    marathon_app_url = urljoin(marathon_url, '{}'.format(marathon_task_id.strip('/')))
+    response = request_url('DELETE', marathon_app_url, req_headers)
     if 200 <= response.status_code < 300:
         print('Successfully deleted self from marathon (code={}): {}'.format(
             response.status_code, marathon_task_id))
