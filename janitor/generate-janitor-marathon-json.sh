@@ -2,6 +2,11 @@
 
 set -o errexit -o nounset -o pipefail
 
+# frameworks_json is a file that needs to be generated using something like:
+# sh list-completed-non-star-frameworks.sh | jq -er '[.[] | select(.name | match("confluent-kafka"))]' > frameworks.json
+# to only cleanup frameworks that match the name "confluent-kafka" but check the file and manually edit it to be safe
+# e.g., sh generate-janitor-marathon-json.sh frameworks.json
+
 frameworks_json=$1
 
 jq -er '. | keys[]' "${frameworks_json}" | while read -r key ; do

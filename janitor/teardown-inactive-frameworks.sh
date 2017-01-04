@@ -2,6 +2,11 @@
 
 set -o nounset -o pipefail
 
+# frameworks_json is a file that needs to be generated using something like:
+# sh list-inactive-non-star-frameworks.sh | jq -er '[.[] | select(.name | match("confluent-kafka"))]' > frameworks.json
+# to only teardown frameworks that match the name "confluent-kafka" but check the file and manually edit it to be safe
+# e.g., sh teardown-inactive-frameworks.sh frameworks.json
+
 frameworks_json=$1
 
 master_url=$(dcos config show core.dcos_url)/mesos/
