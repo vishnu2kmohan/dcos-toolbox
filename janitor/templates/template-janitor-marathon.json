@@ -1,0 +1,14 @@
+{
+  "id": "/janitor-__NAME__",
+  "cmd": "/janitor.py -v -r __ROLE__ -p __PRINCIPAL__ -z __ZNODE__ --auth_token=__TOKEN__",
+  "cpus": 0.01,
+  "mem": 64,
+  "instances": 1,
+  "container": {
+    "docker": {
+      "image": "mesosphere/janitor",
+      "network": "HOST"
+    },
+    "type": "DOCKER"
+  }
+}
