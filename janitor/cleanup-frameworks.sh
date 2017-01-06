@@ -2,10 +2,15 @@
 
 set -o nounset -o pipefail
 
-# frameworks_json is a file that needs to be generated using something like:
-# sh list-completed-non-star-frameworks.sh | jq -er '[.[] | select(.name | match("confluent-kafka"))]' > frameworks.json
-# to only cleanup frameworks that match the name "confluent-kafka" but check the file and manually edit it to be safe
-# e.g., sh cleanup-frameworks.sh frameworks.json
+# frameworks_json is a JSON file with a list of (carefully filtered) frameworks to cleanup
+
+# e.g., to filter completed frameworks based on a particular frameworkId:
+# sh list-completed-non-star-frameworks.sh | jq -er '[.[] | select(.id | match("f24b4210-d154-4868-b97d-5c36d585b7db-0252"))]' > filtered-completed-non-star-frameworks.json
+
+# e.g., to filter completed frameworks based on a particular framework name:
+# sh list-completed-non-star-frameworks.sh | jq -er '[.[] | select(.name | match("confluent-kafka"))]' > filtered-completed-non-star-frameworks.json
+
+# sh cleanup-frameworks.sh filtered-completed-non-star-frameworks.json
 
 frameworks_json=$1
 

@@ -2,6 +2,12 @@
 
 set -o errexit -o nounset -o pipefail
 
+# To filter completed frameworks based on a particular framework name:
+# sh list-completed-non-star-frameworks.sh | jq -er '[.[] | select(.name | match("confluent-kafka"))]' > filtered-completed-non-star-frameworks.json
+#
+# To filter completed frameworks based on  a particular frameworkId:
+# sh list-completed-non-star-frameworks.sh | jq -er '[.[] | select(.id | match("f24b4210-d154-4868-b97d-5c36d585b7db-0252"))]' > filtered-completed-non-star-frameworks.json
+
 curl -skSL \
     -H "Authorization: token=$(dcos config show core.dcos_acs_token)" \
     -H "Content-Type: application/json" \
