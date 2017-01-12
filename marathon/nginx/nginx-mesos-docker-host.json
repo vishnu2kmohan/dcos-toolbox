@@ -16,7 +16,7 @@
       "port": 0,
       "protocol": "tcp",
       "name": "nginx",
-      "labels": { "vip": "/nginx-docker-host:80" }
+      "labels": { "VIP_0": "/nginx-docker-host:80" }
     }
   ],
   "healthChecks": [
