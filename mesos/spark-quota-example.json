@@ -1,0 +1,20 @@
+{
+  "role": "spark-role",
+  "principal": "spark-principal",
+  "guarantee": [
+    {
+      "name": "cpus",
+      "type": "SCALAR",
+      "scalar": {
+        "value": 2
+      }
+    },
+    {
+      "name": "mem",
+      "type": "SCALAR",
+      "scalar": {
+        "value": 6144
+      }
+    }
+  ]
+}
