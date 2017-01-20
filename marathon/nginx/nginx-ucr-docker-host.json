@@ -1,5 +1,5 @@
 {
-  "id": "/nginx-docker-host",
+  "id": "/nginx-ucr-docker-host",
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
@@ -16,7 +16,7 @@
       "port": 0,
       "protocol": "tcp",
       "name": "nginx",
-      "labels": { "VIP_0": "/nginx-docker-host:80" }
+      "labels": { "VIP_0": "/nginx-ucr-docker-host:80" }
     }
   ],
   "healthChecks": [
