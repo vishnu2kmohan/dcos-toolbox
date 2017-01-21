@@ -3,12 +3,13 @@
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
+  "cmd": "env | sort && nginx -g \"daemon off;\"",
   "container": {
+    "type": "MESOS",
     "docker": {
       "image": "nginx:alpine",
       "network": "HOST"
-    },
-    "type": "MESOS"
+    }
   },
   "ipAddress": {
     "networkName": "dcos",
@@ -34,7 +35,7 @@
     }
   ],
   "labels": {
-    "HAPROXY_0_VHOST": "<vhost.company.com>",
+    "HAPROXY_0_VHOST": "<vhost.example.com>",
     "HAPROXY_GROUP": "external"
   }
 }

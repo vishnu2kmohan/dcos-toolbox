@@ -3,13 +3,13 @@
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
-  "cmd": "sed -i \"s/80/$PORT0/g\" /etc/nginx/conf.d/default.conf && nginx -g \"daemon off;\"",
+  "cmd": "env | sort && sed -i \"s/80/$PORT0/g\" /etc/nginx/conf.d/default.conf && nginx -g \"daemon off;\"",
   "container": {
+    "type": "DOCKER",
     "docker": {
       "image": "nginx:alpine",
       "network": "HOST"
-    },
-    "type": "DOCKER"
+    }
   },
   "portDefinitions": [
     {
@@ -32,7 +32,7 @@
     }
   ],
   "labels": {
-    "HAPROXY_0_VHOST": "<vhost.company.com>",
+    "HAPROXY_0_VHOST": "<vhost.example.com>",
     "HAPROXY_GROUP": "external"
   }
 }
