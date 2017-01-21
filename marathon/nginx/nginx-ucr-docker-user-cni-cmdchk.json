@@ -1,0 +1,47 @@
+{
+  "id": "/nginx-ucr-docker-user-cni-cmdchk",
+  "instances": 2,
+  "cpus": 0.01,
+  "mem": 32,
+  "cmd": "env | sort && apk --no-cache add curl && nginx -g \"daemon off;\"",
+  "container": {
+    "type": "MESOS",
+    "docker": {
+      "image": "nginx:alpine",
+      "network": "USER"
+    },
+    "portMapping": [
+      {
+        "containerPort": 80,
+        "name": "http",
+        "protocol": "tcp"
+      }
+    ]
+  },
+  "ipAddress": {
+    "networkName": "dcos",
+    "discovery": {
+      "ports": [
+        {
+          "number": 80,
+          "name": "http",
+          "protocol": "tcp"
+        }
+      ]
+    }
+  },
+  "healthChecks": [
+    {
+      "protocol": "COMMAND",
+      "command": { "value": "curl -fsS -X GET http://$(hostname)/" },
+      "gracePeriodSeconds": 10,
+      "intervalSeconds": 10,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "labels": {
+    "HAPROXY_0_VHOST": "<vhost.example.com>",
+    "HAPROXY_GROUP": "external"
+  }
+}
