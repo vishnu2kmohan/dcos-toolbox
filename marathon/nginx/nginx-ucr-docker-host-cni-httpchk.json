@@ -1,0 +1,41 @@
+{
+  "id": "/nginx-ucr-docker-host-cni",
+  "instances": 2,
+  "cpus": 0.01,
+  "mem": 32,
+  "container": {
+    "docker": {
+      "image": "nginx:alpine",
+      "network": "HOST"
+    },
+    "type": "MESOS"
+  },
+  "ipAddress": {
+    "networkName": "dcos",
+    "discovery": {
+      "ports": [
+        {
+          "number": 80,
+          "name": "http",
+          "protocol": "tcp"
+        }
+      ]
+    }
+  },
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "port": 80,
+      "command": { "value": "curl -fsS -X GET http://$(hostname)/" },
+      "gracePeriodSeconds": 10,
+      "intervalSeconds": 10,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "labels": {
+    "HAPROXY_0_VHOST": "<vhost.company.com>",
+    "HAPROXY_GROUP": "external"
+  }
+}
