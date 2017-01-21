@@ -2,6 +2,13 @@
 
 set -o errexit -o nounset -o pipefail
 
-echo "Adding Dependent Chronos Job: $(jq '.name' ${1})"
+chronos_json_file=$1
 
-curl -skSL -X POST -d "@${1}" -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" "$(dcos config show core.dcos_url)/service/chronos/scheduler/dependency"
+echo "Adding Dependent Chronos Job: $(jq '.name' ${chronos_json_file})"
+
+curl -skSL \
+    -X POST \
+    -d "@${chronos_json_file}" \
+    -H "Authorization: token=$(dcos config show core.dcos_acs_token)" \
+    -H "Content-Type: application/json" \
+    "$(dcos config show core.dcos_url)/service/chronos/scheduler/dependency"

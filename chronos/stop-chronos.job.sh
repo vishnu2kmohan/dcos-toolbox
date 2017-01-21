@@ -2,6 +2,12 @@
 
 set -o errexit -o nounset -o pipefail
 
-echo "Stopping Chronos Job: ${1}"
+chronos_job_id=$1
 
-curl -skSL -X DELETE -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" "$(dcos config show core.dcos_url)/service/chronos/scheduler/task/kill/${1}"
+echo "Stopping Chronos JobID: ${chronos_job_id}"
+
+curl -skSL \
+    -X DELETE \
+    -H "Authorization: token=$(dcos config show core.dcos_acs_token)" \
+    -H "Content-Type: application/json" \
+    "$(dcos config show core.dcos_url)/service/chronos/scheduler/task/kill/${chronos_job_id}"

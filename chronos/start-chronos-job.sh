@@ -2,6 +2,12 @@
 
 set -o errexit -o nounset -o pipefail
 
-echo "Starting Chronos Job: ${1}"
+chronos_job_id=$1
 
-curl -skSL -X PUT -H "Authorization: token=$(dcos config show core.dcos_acs_token)" -H "Content-Type: application/json" "$(dcos config show core.dcos_url)/service/chronos/v1/scheduler/job/${1}"
+echo "Starting Chronos JobID: ${chronos_job_id}"
+
+curl -skSL \
+    -X PUT \
+    -H "Authorization: token=$(dcos config show core.dcos_acs_token)" \
+    -H "Content-Type: application/json" \
+    "$(dcos config show core.dcos_url)/service/chronos/v1/scheduler/job/${chronos_job_id}"
