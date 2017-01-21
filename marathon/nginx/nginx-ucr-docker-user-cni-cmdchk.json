@@ -34,9 +34,9 @@
     {
       "protocol": "COMMAND",
       "command": { "value": "curl -fsS -X GET http://$(hostname)/" },
-      "gracePeriodSeconds": 10,
-      "intervalSeconds": 10,
-      "timeoutSeconds": 10,
+      "gracePeriodSeconds": 20,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 20,
       "maxConsecutiveFailures": 3
     }
   ],

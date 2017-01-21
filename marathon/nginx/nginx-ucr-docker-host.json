@@ -21,14 +21,13 @@
   ],
   "healthChecks": [
     {
-      "gracePeriodSeconds": 15,
-      "ignoreHttp1xx": false,
-      "intervalSeconds": 60,
-      "maxConsecutiveFailures": 3,
+      "protocol": "HTTP",
       "path": "/",
       "portIndex": 0,
-      "protocol": "HTTP",
-      "timeoutSeconds": 20
+      "gracePeriodSeconds": 20,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3
     }
   ],
   "labels": {
