@@ -56,8 +56,7 @@ tee marathon-lb-secret-options.json <<'EOF'
     "marathon-lb": {
         "name": "/dcos/root/marathon-lb",
         "secret_name": "dcos/root/marathon-lb/serviceCredential",
-        "marathon-uri": "https://master.mesos:8443"
-        "secret_name": "marathon-lb"
+        "marathon-uri": "https://marathon.mesos:8443"
     }
 }
 EOF
