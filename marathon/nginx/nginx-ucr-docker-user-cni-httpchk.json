@@ -10,7 +10,7 @@
       "image": "nginx:alpine",
       "network": "USER"
     },
-    "portMapping": [
+    "portMappings": [
       {
         "containerPort": 80,
         "name": "http",
