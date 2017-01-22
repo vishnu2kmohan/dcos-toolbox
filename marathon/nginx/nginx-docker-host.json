@@ -15,7 +15,7 @@
     {
       "port": 0,
       "protocol": "tcp",
-      "name": "nginx",
+      "name": "http",
       "labels": {
         "VIP_0": "/nginx-docker-host:80"
       }

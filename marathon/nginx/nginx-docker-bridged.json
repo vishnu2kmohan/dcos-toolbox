@@ -12,7 +12,7 @@
       "portMappings": [
         {
           "containerPort": 80,
-          "name": "nginx",
+          "name": "http",
           "protocol": "tcp",
           "labels": {
             "VIP_0": "/nginx-docker-bridged:80"
