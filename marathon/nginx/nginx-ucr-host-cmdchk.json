@@ -1,0 +1,40 @@
+{
+  "id": "/nginx-ucr-host-cmdchk",
+  "instances": 2,
+  "cpus": 0.01,
+  "mem": 32,
+  "cmd": "env | sort && apk --no-cache add curl && sed -i \"s/80/$PORT0/g\" /etc/nginx/conf.d/default.conf && nginx -g \"daemon off;\"",
+  "container": {
+    "docker": {
+      "type": "MESOS",
+      "image": "nginx:alpine",
+      "network": "HOST"
+    }
+  },
+  "portDefinitions": [
+    {
+      "port": 0,
+      "protocol": "tcp",
+      "name": "http",
+      "labels": {
+        "VIP_0": "/nginx-ucr-host-cmdchk:80"
+      }
+    }
+  ],
+  "healthChecks": [
+    {
+      "protocol": "COMMAND",
+      "command": {
+        "value": "curl -fsSL -X GET http://$HOST:$PORT0/ > /dev/null 2>&1"
+      },
+      "gracePeriodSeconds": 20,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "labels": {
+    "HAPROXY_0_VHOST": "<vhost.example.com>",
+    "HAPROXY_GROUP": "external"
+  }
+}
