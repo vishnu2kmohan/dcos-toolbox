@@ -22,9 +22,9 @@
   },
   "healthChecks": [
     {
-      "portIndex": 0,
       "protocol": "HTTP",
       "path": "/",
+      "portIndex": 0,
       "gracePeriodSeconds": 20,
       "intervalSeconds": 20,
       "timeoutSeconds": 20,

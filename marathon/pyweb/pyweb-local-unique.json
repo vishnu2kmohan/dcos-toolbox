@@ -15,12 +15,12 @@
   ],
   "healthChecks": [
     {
-      "portIndex": 0,
       "protocol": "HTTP",
       "path": "/",
-      "gracePeriodSeconds": 15,
-      "intervalSeconds": 60,
-      "timeoutSeconds": 10,
+      "portIndex": 0,
+      "gracePeriodSeconds": 20,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 20,
       "maxConsecutiveFailures": 3
     }
   ]

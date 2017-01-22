@@ -24,20 +24,15 @@
       ],
       "healthChecks": [
         {
-          "portIndex": 0,
           "protocol": "HTTP",
           "path": "/",
-          "gracePeriodSeconds": 30,
-          "intervalSeconds": 60,
+          "portIndex": 0,
+          "gracePeriodSeconds": 20,
+          "intervalSeconds": 20,
           "timeoutSeconds": 20,
-          "maxConsecutiveFailures": 3,
-          "ignoreHttp1xx": false
+          "maxConsecutiveFailures": 3
         }
-      ],
-      "requirePorts": false,
-      "backoffSeconds": 1,
-      "backoffFactor": 1.15,
-      "maxLaunchDelaySeconds": 3600
+      ]
     },
     {
       "id": "/pyweb-docker-host-group/agent",
@@ -62,20 +57,15 @@
       ],
       "healthChecks": [
         {
-          "portIndex": 0,
           "protocol": "HTTP",
           "path": "/",
+          "portIndex": 0,
           "gracePeriodSeconds": 20,
           "intervalSeconds": 20,
           "timeoutSeconds": 20,
-          "maxConsecutiveFailures": 3,
-          "ignoreHttp1xx": false
+          "maxConsecutiveFailures": 3
         }
       ],
-      "requirePorts": false,
-      "backoffSeconds": 1,
-      "backoffFactor": 1.15,
-      "maxLaunchDelaySeconds": 3600,
       "dependencies": [
         "/pyweb-docker-host-group/controller"
       ]
