@@ -8,21 +8,26 @@
     "type": "DOCKER",
     "docker": {
       "image": "nginx:alpine",
-      "network": "USER"
-    },
-    "portMappings": [
-      {
-        "containerPort": 80,
-        "name": "http",
-        "protocol": "tcp",
-        "labels": { "VIP_0": "/nginx-docker-user-cni-cmdchk:80" }
-      }
-    ]
+      "network": "USER",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 0,
+          "name": "http",
+          "protocol": "tcp"
+        }
+      ]
+    }
+  },
+  "ipAddress": {
+    "networkName": "dcos"
   },
   "healthChecks": [
     {
       "protocol": "COMMAND",
-      "command": { "value": "curl -fsS -X GET http://$(hostname)/" },
+      "command": {
+        "value": "curl -fsS -X GET http://$HOST:$PORT0/"
+      },
       "gracePeriodSeconds": 20,
       "intervalSeconds": 20,
       "timeoutSeconds": 20,
