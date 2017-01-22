@@ -1,0 +1,36 @@
+{
+  "id": "/nginx-docker-user-cni-cmdchk",
+  "instances": 2,
+  "cpus": 0.01,
+  "mem": 32,
+  "cmd": "env | sort && apk --no-cache add curl && nginx -g \"daemon off;\"",
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "nginx:alpine",
+      "network": "USER"
+    },
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "name": "http",
+        "protocol": "tcp",
+        "labels": { "VIP_0": "/nginx-docker-user-cni-cmdchk:80" }
+      }
+    ]
+  },
+  "healthChecks": [
+    {
+      "protocol": "COMMAND",
+      "command": { "value": "curl -fsS -X GET http://$(hostname)/" },
+      "gracePeriodSeconds": 20,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "labels": {
+    "HAPROXY_0_VHOST": "<vhost.example.com>",
+    "HAPROXY_GROUP": "external"
+  }
+}
