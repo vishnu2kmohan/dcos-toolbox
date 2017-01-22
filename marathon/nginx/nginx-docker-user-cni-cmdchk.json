@@ -28,7 +28,7 @@
     {
       "protocol": "COMMAND",
       "command": {
-        "value": "curl -fsSL -X GET http://localhost/ > /dev/null 2>&1"
+        "value": "curl -fsSL -X GET http://localhost:$PORT0/ > /dev/null 2>&1"
       },
       "gracePeriodSeconds": 20,
       "intervalSeconds": 20,
