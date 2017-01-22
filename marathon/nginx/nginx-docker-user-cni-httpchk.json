@@ -13,9 +13,9 @@
     "portMappings": [
       {
         "containerPort": 80,
+        "hostPort": 0,
         "name": "http",
-        "protocol": "tcp",
-        "labels": { "VIP_0": "/nginx-docker-user-cni-httpchk:80" }
+        "protocol": "tcp"
       }
     ]
   },
