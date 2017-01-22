@@ -6,7 +6,7 @@
   "cmd": "env | sort && sed -i \"s/80/$PORT0/g\" /etc/nginx/conf.d/default.conf && nginx -g \"daemon off;\"",
   "container": {
     "docker": {
-    "type": "MESOS",
+      "type": "MESOS",
       "image": "nginx:alpine",
       "network": "HOST"
     }
@@ -16,7 +16,9 @@
       "port": 0,
       "protocol": "tcp",
       "name": "nginx",
-      "labels": { "VIP_0": "/nginx-ucr-docker-host:80" }
+      "labels": {
+        "VIP_0": "/nginx-ucr-docker-host:80"
+      }
     }
   ],
   "healthChecks": [
