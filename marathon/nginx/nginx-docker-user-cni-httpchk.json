@@ -8,16 +8,19 @@
     "type": "DOCKER",
     "docker": {
       "image": "nginx:alpine",
-      "network": "USER"
-    },
-    "portMappings": [
-      {
-        "containerPort": 80,
-        "hostPort": 0,
-        "name": "http",
-        "protocol": "tcp"
-      }
-    ]
+      "network": "USER",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 0,
+          "name": "http",
+          "protocol": "tcp",
+          "labels": {
+            "VIP_0": "/nginx-docker-user-cni-httpchk:80"
+          }
+        }
+      ]
+    }
   },
   "ipAddress": {
     "networkName": "dcos"
@@ -25,8 +28,7 @@
   "healthChecks": [
     {
       "protocol": "MESOS_HTTP",
-      "path": "/",
-      "port": 80,
+      "portIndex": 0,
       "gracePeriodSeconds": 20,
       "intervalSeconds": 20,
       "timeoutSeconds": 20,
