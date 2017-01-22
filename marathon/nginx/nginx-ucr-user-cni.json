@@ -1,5 +1,5 @@
 {
-  "id": "/nginx-ucr-docker-host-cni-httpchk",
+  "id": "/nginx-ucr-docker-user-cni",
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
@@ -8,7 +8,14 @@
     "type": "MESOS",
     "docker": {
       "image": "nginx:alpine",
-      "network": "HOST"
+      "network": "USER",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "name": "http",
+          "protocol": "tcp"
+        }
+      ]
     }
   },
   "ipAddress": {

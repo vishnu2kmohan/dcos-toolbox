@@ -1,11 +1,11 @@
 {
-  "id": "/nginx-ucr-docker-user-cni-httpchk",
+  "id": "/nginx-docker-user-cni",
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
   "cmd": "env | sort && nginx -g \"daemon off;\"",
   "container": {
-    "type": "MESOS",
+    "type": "DOCKER",
     "docker": {
       "image": "nginx:alpine",
       "network": "USER",
@@ -13,28 +13,22 @@
         {
           "containerPort": 80,
           "name": "http",
-          "protocol": "tcp"
+          "protocol": "tcp",
+          "labels": {
+            "VIP_0": "/nginx-docker-user-cni:80"
+          }
         }
       ]
     }
   },
   "ipAddress": {
-    "networkName": "dcos",
-    "discovery": {
-      "ports": [
-        {
-          "number": 80,
-          "name": "http",
-          "protocol": "tcp"
-        }
-      ]
-    }
+    "networkName": "dcos"
   },
   "healthChecks": [
     {
       "protocol": "MESOS_HTTP",
       "path": "/",
-      "port": 80,
+      "portIndex": 0,
       "gracePeriodSeconds": 20,
       "intervalSeconds": 20,
       "timeoutSeconds": 20,
