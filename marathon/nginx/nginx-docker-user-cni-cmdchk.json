@@ -15,7 +15,7 @@
           "name": "http",
           "protocol": "tcp",
           "labels": {
-            "VIP_0": "/nginx-docker-user-cni-httpchk:80"
+            "VIP_0": "/nginx-docker-user-cni-cmdchk:80"
           }
         }
       ]
