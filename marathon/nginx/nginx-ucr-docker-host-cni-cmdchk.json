@@ -26,7 +26,9 @@
   "healthChecks": [
     {
       "protocol": "COMMAND",
-      "command": { "value": "curl -fsS -X GET http://$(hostname)/" },
+      "command": {
+        "value": "curl -fsS -X GET http://$(hostname)/"
+      },
       "gracePeriodSeconds": 20,
       "intervalSeconds": 20,
       "timeoutSeconds": 20,
