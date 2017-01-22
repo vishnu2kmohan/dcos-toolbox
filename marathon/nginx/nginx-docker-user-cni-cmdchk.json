@@ -12,7 +12,6 @@
       "portMappings": [
         {
           "containerPort": 80,
-          "hostPort": 0,
           "name": "http",
           "protocol": "tcp",
           "labels": {
@@ -29,7 +28,7 @@
     {
       "protocol": "COMMAND",
       "command": {
-        "value": "curl -fsS -X GET http://$HOST:$PORT0/"
+        "value": "curl -fsS -X GET http://localhost/"
       },
       "gracePeriodSeconds": 20,
       "intervalSeconds": 20,
