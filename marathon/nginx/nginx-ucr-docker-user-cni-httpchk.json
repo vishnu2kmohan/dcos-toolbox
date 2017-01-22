@@ -8,15 +8,15 @@
     "type": "MESOS",
     "docker": {
       "image": "nginx:alpine",
-      "network": "USER"
-    },
-    "portMappings": [
-      {
-        "containerPort": 80,
-        "name": "http",
-        "protocol": "tcp"
-      }
-    ]
+      "network": "USER",
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "name": "http",
+          "protocol": "tcp"
+        }
+      ]
+    }
   },
   "ipAddress": {
     "networkName": "dcos",
