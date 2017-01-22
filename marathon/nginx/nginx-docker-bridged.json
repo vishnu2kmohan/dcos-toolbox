@@ -10,11 +10,13 @@
       "image": "nginx:alpine",
       "network": "BRIDGE",
       "portMappings": [
-        { 
-            "containerPort": 80, 
-            "name": "nginx",
-            "protocol": "tcp",
-            "labels": { "VIP_0": "/nginx-docker-bridged:80" }
+        {
+          "containerPort": 80,
+          "name": "nginx",
+          "protocol": "tcp",
+          "labels": {
+            "VIP_0": "/nginx-docker-bridged:80"
+          }
         }
       ]
     }
