@@ -1,0 +1,38 @@
+{
+  "id": "/nginx-docker-bridged",
+  "instances": 2,
+  "cpus": 0.01,
+  "mem": 32,
+  "cmd": "env | sort && nginx -g \"daemon off;\"",
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "nginx:alpine",
+      "network": "BRIDGE",
+      "portMappings": [
+        { 
+            "containerPort": 80, 
+            "hostPort": 0,
+            "name": "nginx",
+            "protocol": "tcp",
+            "labels": { "VIP_0": "/nginx-docker-bridged:80" }
+        }
+      ]
+    }
+  },
+  "healthChecks": [
+    {
+      "protocol": "HTTP",
+      "path": "/",
+      "portIndex": 0,
+      "gracePeriodSeconds": 20,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "labels": {
+    "HAPROXY_0_VHOST": "<vhost.example.com>",
+    "HAPROXY_GROUP": "external"
+  }
+}
