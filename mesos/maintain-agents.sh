@@ -10,7 +10,7 @@ unavailability_start=$(python -c \
 
 machines=$(jq -e '[.windows[].machine_ids[].ip]' \
     "${maintenance_json_file}")
-echo "Setting maintenance schedule for the following machines: ${machines}"
+echo "Setting a Maintenance Schedule for the following machines: ${machines}"
 
 # Substitute unavailability.start.nanoseconds to currrent time in nanoseconds
 maintenance_json=$(jq -er \
@@ -26,6 +26,7 @@ curl -fskSL \
     "$(dcos config show core.dcos_url)/mesos/maintenance/schedule" | \
     jq -er '.'
 
+echo "Maintenance Status:"
 curl -fskSL \
     -X GET \
     -H "Authorization: token=$(dcos config show core.dcos_acs_token)" \
