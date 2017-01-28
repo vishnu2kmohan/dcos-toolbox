@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#set -o errexit -o nounset -o pipefail
+set -o errexit -o nounset -o pipefail
 
 maintenance_json_file=$1
 
@@ -12,7 +12,7 @@ machines=$(jq -e '[.windows[].machine_ids[].ip]' \
     "${maintenance_json_file}")
 echo "Setting a Maintenance Schedule for the following machines: ${machines}"
 
-# Substitute unavailability.start.nanoseconds to currrent time in nanoseconds
+# Substitute unavailability.start.nanoseconds from 1 to unavailability_start
 maintenance_json=$(jq -er \
     ".windows[].unavailability.start.nanoseconds=$unavailability_start" \
     "${maintenance_json_file}")
