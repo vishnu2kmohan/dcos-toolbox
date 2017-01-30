@@ -1,0 +1,37 @@
+{
+  "id": "/tomcat-local-host-dynport-vip-external",
+  "cmd": "env | sort && rm *.tar.gz && mv apache* apache-tomcat && export CATALINA_HOME=${MESOS_SANDBOX}/apache-tomcat && sed -i -e \"s/8080/${PORT0}/g\" $CATALINA_HOME/conf/server.xml && $CATALINA_HOME/bin/catalina.sh run",
+  "cpus": 0.01,
+  "mem": 256.0,
+  "user": "nobody",
+  "instances": 1,
+  "env": {
+    "JAVA_HOME": "/opt/mesosphere/active/java"
+  },
+  "uris": [
+      "http://mirror.metrocast.net/apache/tomcat/tomcat-8/v8.5.11/bin/apache-tomcat-8.5.11.tar.gz"
+  ],
+  "portDefinitions": [
+    {
+      "port": 0,
+      "name": "http",
+      "protocol": "tcp",
+      "labels": { "VIP_0": "/tomcat-local-host-dynport-vip-external:8080" }
+    }
+  ],
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "portIndex": 0,
+      "gracePeriodSeconds": 30,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "labels": {
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_VHOST": "<vhost.example.com>"
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "id": "/tomcat-ucr-host-dynport-vip-external",
+  "cmd": "env | sort && sed -i -e \"s/8080/${PORT0}/g\" $CATALINA_HOME/conf/server.xml && $CATALINA_HOME/bin/catalina.sh run",
+  "cpus": 0.01,
+  "mem": 256,
+  "instances": 1,
+  "container": {
+    "type": "MESOS",
+    "docker": {
+      "image": "tomcat:8.5-jre8-alpine",
+      "network": "HOST"
+    }
+  },
+  "portDefinitions": [
+    {
+      "port": 0,
+      "name": "http",
+      "protocol": "tcp",
+      "labels": { "VIP_0": "/tomcat-ucr-host-dynport-vip-external:8080" }
+    }
+  ],
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "portIndex": 0,
+      "gracePeriodSeconds": 30,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "labels": {
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_VHOST": "<vhost.example.com>"
+  }
+}
