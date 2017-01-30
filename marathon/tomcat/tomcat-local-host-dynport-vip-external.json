@@ -1,6 +1,6 @@
 {
   "id": "/tomcat-local-host-dynport-vip-external",
-  "cmd": "env | sort && rm *.tar.gz && mv apache* apache-tomcat && export CATALINA_HOME=${MESOS_SANDBOX}/apache-tomcat && sed -i -e \"s/8080/${PORT0}/g\" $CATALINA_HOME/conf/server.xml && $CATALINA_HOME/bin/catalina.sh run",
+  "cmd": "env | sort && rm *.tar.gz && mv apache* apache-tomcat && export CATALINA_HOME=${MESOS_SANDBOX}/apache-tomcat && sed -i -e \"s/8080/${PORT0}/g\" -e \"s/8005/${PORT1}/g\" -e \"s/8009/${PORT2}/g\" $CATALINA_HOME/conf/server.xml && $CATALINA_HOME/bin/catalina.sh run",
   "cpus": 0.01,
   "mem": 256.0,
   "user": "nobody",
@@ -17,6 +17,18 @@
       "name": "http",
       "protocol": "tcp",
       "labels": { "VIP_0": "/tomcat-local-host-dynport-vip-external:8080" }
+    },
+    {
+      "port": 0,
+      "name": "shutdown",
+      "protocol": "tcp",
+      "labels": { "VIP_1": "/tomcat-local-host-dynport-vip-external:8005" }
+    },
+    {
+      "port": 0,
+      "name": "ajp",
+      "protocol": "tcp",
+      "labels": { "VIP_2": "/tomcat-local-host-dynport-vip-external:8009" }
     }
   ],
   "healthChecks": [
