@@ -9,7 +9,7 @@ machines=$(jq -e '[.[].ip]' \
 
 echo "Taking down the following machines for maintenance: ${machines}"
 
-curl -fskSL \
+curl -skSL \
     -X POST \
     -d "@${machines_json_file}" \
     -H "Authorization: token=$(dcos config show core.dcos_acs_token)" \

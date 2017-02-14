@@ -10,7 +10,7 @@ duration=$2
 
 echo "Toggling Apache Mesos GLOG_v to: ${glog_level} for ${duration}"
 
-curl -fskSL \
+curl -skSL \
     -X GET \
     -H "Authorization: token=$(dcos config show core.dcos_acs_token)" \
     -H "Content-Type: application/json" \

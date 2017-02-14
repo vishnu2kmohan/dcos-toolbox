@@ -18,7 +18,7 @@ maintenance_json=$(jq -er \
     "${maintenance_json_file}")
 echo "Maintenance Schedule: $maintenance_json"
 
-curl -fskSL \
+curl -skSL \
     -X POST \
     -d "${maintenance_json}" \
     -H "Authorization: token=$(dcos config show core.dcos_acs_token)" \
@@ -27,7 +27,7 @@ curl -fskSL \
     jq -er '.'
 
 echo "Maintenance Status:"
-curl -fskSL \
+curl -skSL \
     -X GET \
     -H "Authorization: token=$(dcos config show core.dcos_acs_token)" \
     -H "Content-Type: application/json" \
