@@ -3,11 +3,10 @@
 set -o errexit -o nounset -o pipefail
 
 docker run -it mesosphere/hdfs-client bash
-sed -i s/hdfs\.marathon\.mesos/marathon\.mesos/g configure-hdfs.sh
-sed -i s/connect/connection/g configure-hdfs.sh
-chmod +x configure-hdfs.sh
-HDFS_SERVICE_NAME=hdfs ./configure-hdfs.sh 
+wget http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml
+wget http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml
+cp core-site.xml hadoop-2.6.4/etc/hadoop
+cp hdfs-site.xml hadoop-2.6.4/etc/hadoop
 export PATH=$PATH:/hadoop-2.6.4/bin
-hdfs dfs -mkdir /history
+hdfs dfs mkdir -p history
 hdfs dfs -ls -R /
-exit
