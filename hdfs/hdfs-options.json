@@ -1,0 +1,24 @@
+{
+  "service": {
+    "name": "hdfs",
+    "principal": "hdfs-principal"
+  },
+  "journal_node": {
+    "cpus": 1,
+    "mem": 1024
+  },
+  "name_node": {
+    "cpus": 2,
+    "mem": 8192
+  },
+  "zkfc_node": {
+    "cpus": 1,
+    "mem": 1024
+  },
+  "data_node": {
+    "count": 10,
+    "cpus": 2,
+    "mem": 4096,
+    "disk": 20480
+  }
+}
