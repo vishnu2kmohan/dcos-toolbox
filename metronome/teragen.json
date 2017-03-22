@@ -6,29 +6,42 @@
     "mem": 1024,
     "disk": 0,
     "user": "root",
-    "cmd": "/opt/spark/dist/bin/spark-submit --name TeraGen --master mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos --conf spark.mesos.coarse=true --conf spark.driver.cores=1 --conf spark.driver.memory=1g --conf spark.driver.supervise=false --conf spark.executor.home=/opt/spark/dist --conf spark.mesos.executor.docker.image=mesosphere/spark:1.0.6-2.0.2-hadoop-2.6 --conf spark.ssl.noCertVerification=true --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hdfs/history --conf spark.mesos.uris=http://hdfs.marathon.mesos:9000/v1/connection/hdfs-site.xml,http://hdfs.marathon.mesos:9000/v1/connection/core-site.xml,https://downloads.mesosphere.io/spark/test/spark-terasort-1.0-SNAPSHOT-jar-with-dependencies.jar --class com.github.ehiggs.spark.terasort.TeraGen /mnt/mesos/sandbox/spark-terasort-1.0-SNAPSHOT-jar-with-dependencies.jar ${TERAGEN_FILE_SIZE} ${TERAGEN_OUTPUT_DIR}",
+    "cmd": "/opt/spark/dist/bin/spark-submit --name ${SPARK_NAME} --master ${SPARK_MASTER} --conf spark.driver.cores=${SPARK_DRIVER_CORES} --conf spark.driver.memory=${SPARK_DRIVER_MEM} --conf spark.executor.home=${SPARK_EXECUTOR_HOME} --conf spark.mesos.executor.docker.image=${SPARK_DOCKER_IMAGE} --conf spark.eventLog.enabled=${SPARK_EVENT_LOG_ENABLED} --conf spark.eventLog.dir=${SPARK_EVENT_LOG_DIR} --conf spark.mesos.uris=${SPARK_URIS} --class ${SPARK_CLASS} ${MESOS_SANDBOX}/${SPARK_JAR} ${SPARK_ARGS}",
     "env": {
-      "TERAGEN_FILE_SIZE": "10G",
-      "TERAGEN_OUTPUT_DIR": "hdfs://hdfs/terasort/terasort_in"
+      "SPARK_NAME": "TeraGen",
+      "SPARK_DOCKER_IMAGE": "mesosphere/spark:1.0.6-2.0.2-hadoop-2.6",
+      "SPARK_MASTER": "mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos",
+      "SPARK_CORES_MAX": "10",
+      "SPARK_DRIVER_CORES": "1",
+      "SPARK_DRIVER_MEM": "4g",
+      "SPARK_EXECUTOR_CORES": "2",
+      "SPARK_EXECUTOR_MEM": "6g",
+      "SPARK_EXECUTOR_HOME": "/opt/spark/dist",
+      "SPARK_EVENT_LOG_ENABLED": "true",
+      "SPARK_EVENT_LOG_DIR": "hdfs://hdfs/history",
+      "SPARK_URIS": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml,http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml,https://s3.amazonaws.com/vishnu-mohan/spark-terasort-2.0.2-2.11.8-jar-with-dependencies.jar",
+      "SPARK_CLASS": "com.github.ehiggs.spark.terasort.TeraGen",
+      "SPARK_JAR": "spark-terasort-2.0.2-2.11.8-jar-with-dependencies.jar",
+      "SPARK_ARGS": "10G hdfs://hdfs/terasort/terasort_in"
     },
     "docker": {
       "image": "mesosphere/spark:1.0.6-2.0.2-hadoop-2.6"
     },
     "artifacts": [
       {
-        "uri": "http://hdfs.marathon.mesos:9000/v1/connection/hdfs-site.xml",
+        "uri": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml",
         "extract": false,
         "executable": false,
-        "cache": true
+        "cache": false
       },
       {
-        "uri": "http://hdfs.marathon.mesos:9000/v1/connection/core-site.xml",
+        "uri": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml",
         "extract": false,
         "executable": false,
-        "cache": true
+        "cache": false
       },
       {
-        "uri": "https://downloads.mesosphere.io/spark/test/spark-terasort-1.0-SNAPSHOT-jar-with-dependencies.jar",
+        "uri": "https://s3.amazonaws.com/vishnu-mohan/spark-terasort-2.0.2-2.11.8-jar-with-dependencies.jar",
         "extract": false,
         "executable": false,
         "cache": true
