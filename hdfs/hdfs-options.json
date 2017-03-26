@@ -16,7 +16,7 @@
     "mem": 1024
   },
   "data_node": {
-    "count": 10,
+    "count": 3,
     "cpus": 2,
     "mem": 4096,
     "disk": 20480
