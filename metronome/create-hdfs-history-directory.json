@@ -1,0 +1,39 @@
+{
+  "description": "hdfs dfs -mkdir -p /history",
+  "id": "create-hdfs-history",
+  "run": {
+    "cpus": 1,
+    "mem": 1024,
+    "disk": 0,
+    "user": "root",
+    "cmd": "bash ${MESOS_SANDBOX}/create-hdfs-history-dir.sh" ,
+    "docker": {
+      "image": "mesosphere/hdfs-client"
+    },
+    "artifacts": [
+      {
+        "uri": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml",
+        "extract": false,
+        "executable": false,
+        "cache": false
+      },
+      {
+        "uri": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml",
+        "extract": false,
+        "executable": false,
+        "cache": false
+      },
+      {
+        "uri": "https://github.com/vishnu2kmohan/dcos-toolbox/raw/master/hdfs/create-hdfs-history-dir.sh",
+        "extract": false,
+        "executable": false,
+        "cache": false
+      }
+
+    ]
+  },
+  "labels": {
+    "location": "olympus",
+    "owner": "zeus"
+  }
+}
