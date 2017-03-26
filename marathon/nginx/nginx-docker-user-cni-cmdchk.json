@@ -1,5 +1,5 @@
 {
-  "id": "/nginx-docker-user-cni-cmdchk",
+  "id": "/nginx/docker/user/cni/cmdchk",
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
@@ -15,7 +15,7 @@
           "name": "http",
           "protocol": "tcp",
           "labels": {
-            "VIP_0": "/nginx-docker-user-cni-cmdchk:80"
+            "VIP_0": "/nginx.docker.user.cni.cmdchk:80"
           }
         }
       ]
@@ -30,14 +30,17 @@
       "command": {
         "value": "curl -fsSL -X GET http://localhost:$PORT0/ > /dev/null 2>&1"
       },
-      "gracePeriodSeconds": 20,
+      "gracePeriodSeconds": 30,
       "intervalSeconds": 20,
-      "timeoutSeconds": 20,
+      "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
     }
   ],
   "labels": {
-    "HAPROXY_0_VHOST": "<vhost.example.com>",
-    "HAPROXY_GROUP": "external"
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "vhost.example.com",
+    "HAPROXY_0_PATH": "/nginx/docker/user/cni/cmdchk",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/docker/user/cni/cmdchk"
   }
 }

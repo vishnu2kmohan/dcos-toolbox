@@ -1,9 +1,9 @@
 {
-  "id": "/nginx/ucr/user/cni/cmdchk",
+  "id": "/nginx/ucr/host/cni/httpchk",
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
-  "cmd": "env | sort && apk --no-cache add curl && nginx -g \"daemon off;\"",
+  "cmd": "env | sort && nginx -g \"daemon off;\"",
   "container": {
     "type": "MESOS",
     "docker": {
@@ -19,7 +19,7 @@
           "name": "http",
           "protocol": "tcp",
           "labels": {
-            "VIP_0": "/nginx.ucr.user.cni.cmdchk:80"
+            "VIP_0": "/nginx.ucr.host.cni.httpchk:80"
           }
         }
       ]
@@ -27,10 +27,9 @@
   },
   "healthChecks": [
     {
-      "protocol": "COMMAND",
-      "command": {
-        "value": "curl -fsSL -X GET http://$(hostname):$PORT0/ > /dev/null 2>&1"
-      },
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "port": 80,
       "gracePeriodSeconds": 30,
       "intervalSeconds": 20,
       "timeoutSeconds": 10,
@@ -41,7 +40,7 @@
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
     "HAPROXY_0_VHOST": "vhost.example.com",
-    "HAPROXY_0_PATH": "/nginx/ucr/user/cni/cmdchk",
-    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/ucr/user/cni/cmdchk"
+    "HAPROXY_0_PATH": "/nginx/ucr/host/cni/httpchk",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/ucr/host/cni/httpchk"
   }
 }
