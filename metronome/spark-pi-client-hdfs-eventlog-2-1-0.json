@@ -19,7 +19,7 @@
       "SPARK_EXECUTOR_HOME": "/opt/spark/dist",
       "SPARK_EVENT_LOG_ENABLED": "true",
       "SPARK_EVENT_LOG_DIR": "hdfs://hdfs/history",
-      "SPARK_URIS": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml,http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml,https://downloads.mesosphere.com/spark/assets/spark-examples_2.11-2.0.1.jar",
+      "SPARK_URIS": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml,http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml",
       "SPARK_CLASS": "org.apache.spark.examples.SparkPi",
       "SPARK_JAR": "/opt/spark/dist/examples/jars/spark-examples_2.11-2.1.0.jar",
       "SPARK_ARGS": "100"
