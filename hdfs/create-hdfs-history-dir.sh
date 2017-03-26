@@ -12,5 +12,5 @@ export PATH=$PATH:/hadoop-2.6.4/bin
 #cp core-site.xml hadoop-2.6.4/etc/hadoop
 #cp hdfs-site.xml hadoop-2.6.4/etc/hadoop
 
-hdfs dfs -mkdir -p history
+hdfs dfs -mkdir -p /history
 hdfs dfs -ls /
