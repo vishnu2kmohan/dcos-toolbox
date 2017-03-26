@@ -5,7 +5,7 @@
    "log-level": "INFO"
  },
  "hdfs": {
-   "config-url": "http://hdfs.marathon.mesos:9000/v1/connection"
+   "config-url": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints"
  },
  "history-server": {
    "enabled": true,
