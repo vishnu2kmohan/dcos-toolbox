@@ -36,31 +36,31 @@
     "SPARK_HDFS_CONFIG_URL": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints",
     "SPARK_URI": "https://downloads.mesosphere.com/spark/assets/spark-2.1.0-1-bin-2.6.tgz"
   },
-  "portDefinitions": [                                                          
-    {                                                                           
-      "protocol": "tcp",                                                        
-      "port": 0,                                                                
-      "labels": {                                                               
-        "VIP_0": "spark:4040"                                     
-      },                                                                        
-      "name": "dispatcher-ui"                                                   
-    },                                                                          
-    {                                                                           
-      "protocol": "tcp",                                                        
-      "port": 0,                                                                
-      "labels": {                                                               
-        "VIP_1": "spark:18080"                                    
-      },                                                                        
-      "name": "history-server"                                                  
-    },                                                                          
-    {                                                                           
-      "protocol": "tcp",                                                        
-      "port": 0,                                                                
-      "labels": {                                                               
-        "VIP_2": "spark:80"                                     
-      },                                                                        
-      "name": "dispatcher-proxy"                                                
-    }                                                                           
+  "portDefinitions": [
+    {
+      "protocol": "tcp",
+      "port": 0,
+      "labels": {
+        "VIP_0": "spark:7077"
+      },
+      "name": "dispatcher"
+    },
+    {
+      "protocol": "tcp",
+      "port": 0,
+      "labels": {
+        "VIP_1": "spark:4040"
+      },
+      "name": "dispatcher-ui"
+    },
+    {
+      "protocol": "tcp",
+      "port": 0,
+      "labels": {
+        "VIP_2": "spark:80"
+      },
+      "name": "dispatcher-proxy"
+    }
   ],
   "healthChecks": [
     {
