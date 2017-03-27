@@ -1,5 +1,5 @@
 {
-  "id": "/nginx/ucr/user/cni/cmdchk",
+  "id": "/nginx/ucr/cni/cmdchk",
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
@@ -19,7 +19,7 @@
           "name": "http",
           "protocol": "tcp",
           "labels": {
-            "VIP_0": "/nginx.ucr.user.cni.cmdchk:80"
+            "VIP_0": "/nginx.ucr.cni.cmdchk:80"
           }
         }
       ]
@@ -41,7 +41,7 @@
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
     "HAPROXY_0_VHOST": "vhost.example.com",
-    "HAPROXY_0_PATH": "/nginx/ucr/user/cni/cmdchk",
-    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/ucr/user/cni/cmdchk"
+    "HAPROXY_0_PATH": "/nginx/ucr/cni/cmdchk",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/ucr/cni/cmdchk"
   }
 }

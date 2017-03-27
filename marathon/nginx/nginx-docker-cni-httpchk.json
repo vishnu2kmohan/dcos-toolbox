@@ -1,38 +1,37 @@
 {
-  "id": "/nginx/ucr/user/cni/httpchk",
+  "id": "/nginx/docker/cni/httpchk",
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
   "cmd": "env | sort && nginx -g \"daemon off;\"",
   "container": {
-    "type": "MESOS",
+    "type": "DOCKER",
     "docker": {
-      "image": "nginx:alpine"
-    }
-  },
-  "ipAddress": {
-    "networkName": "dcos",
-    "discovery": {
-      "ports": [
+      "image": "nginx:alpine",
+      "network": "USER",
+      "portMappings": [
         {
-          "number": 80,
+          "containerPort": 80,
           "name": "http",
           "protocol": "tcp",
           "labels": {
-            "VIP_0": "/nginx.ucr.user.cni.httpchk:80"
+            "VIP_0": "/nginx.docker.cni.httpchk:80"
           }
         }
       ]
     }
   },
+  "ipAddress": {
+    "networkName": "dcos"
+  },
   "healthChecks": [
     {
       "protocol": "MESOS_HTTP",
       "path": "/",
-      "port": 80,
-      "gracePeriodSeconds": 20,
+      "portIndex": 0,
+      "gracePeriodSeconds": 30,
       "intervalSeconds": 20,
-      "timeoutSeconds": 20,
+      "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
     }
   ],
@@ -40,7 +39,7 @@
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
     "HAPROXY_0_VHOST": "vhost.example.com",
-    "HAPROXY_0_PATH": "/nginx/ucr/user/cni/httpchk",
-    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/ucr/user/cni/httpchk"
+    "HAPROXY_0_PATH": "/nginx/docker/cni/httpchk",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/docker/cni/httpchk"
   }
 }
