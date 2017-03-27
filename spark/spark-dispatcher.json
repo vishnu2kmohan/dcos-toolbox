@@ -34,7 +34,8 @@
     "DCOS_SERVICE_PORT_INDEX": "2",
     "DCOS_SERVICE_SCHEME": "http",
     "SPARK_HDFS_CONFIG_URL": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints",
-    "SPARK_URI": "https://downloads.mesosphere.com/spark/assets/spark-2.1.0-1-bin-2.6.tgz"
+    "SPARK_URI": "https://downloads.mesosphere.com/spark/assets/spark-2.1.0-1-bin-2.6.tgz",
+    "MARATHON_SINGLE_INSTANCE_APP": "true"
   },
   "portDefinitions": [
     {
@@ -62,6 +63,10 @@
       "name": "dispatcher-proxy"
     }
   ],
+  "upgradeStrategy": {
+    "maximumOverCapacity": 0,
+    "minimumHealthCapacity": 0
+  },
   "healthChecks": [
     {
       "protocol": "HTTP",

@@ -28,7 +28,12 @@
     "DCOS_PACKAGE_VERSION": "2.1.0-1",
     "DCOS_SERVICE_NAME": "spark-history",
     "DCOS_SERVICE_PORT_INDEX": "0",
-    "DCOS_SERVICE_SCHEME": "http"
+    "DCOS_SERVICE_SCHEME": "http",
+    "MARATHON_SINGLE_INSTANCE_APP": "true"
+  },
+  "upgradeStrategy": {
+    "maximumOverCapacity": 0,
+    "minimumHealthCapacity": 0
   },
   "portDefinitions": [
     {
