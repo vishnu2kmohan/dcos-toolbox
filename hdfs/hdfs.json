@@ -12,7 +12,7 @@
   "env": {
     "BOOTSTRAP_URI": "https://downloads.mesosphere.com/hdfs/assets/1.2.0-2.6.0-cdh5.9.1/bootstrap.zip",
     "CONFIG_TEMPLATE_PATH": "hdfs-scheduler",
-    "DATA_COUNT": "3",
+    "DATA_COUNT": "5",
     "DATA_CPUS": "2",
     "DATA_DISK": "20480",
     "DATA_DISK_TYPE": "ROOT",
@@ -108,8 +108,8 @@
       "protocol": "MESOS_HTTP",
       "path": "/v1/plan",
       "portIndex": 0,
-      "gracePeriodSeconds": 30,
-      "intervalSeconds": 20,
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
     }
