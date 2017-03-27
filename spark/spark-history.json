@@ -35,9 +35,9 @@
       "protocol": "tcp",
       "port": 0,
       "labels": {
-        "VIP_0": "spark-hdfs-history:7077"
+        "VIP_0": "spark-hdfs-history:18080"
       },
-      "name": "dispatcher"
+      "name": "history-server"
     }
   ],
   "healthChecks": [
