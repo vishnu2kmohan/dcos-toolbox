@@ -1,6 +1,6 @@
 {
   "description": "hdfs dfs -mkdir -p /history",
-  "id": "create-hdfs-history",
+  "id": "hdfs.dfs.mkdir-history",
   "run": {
     "cpus": 1,
     "mem": 1024,

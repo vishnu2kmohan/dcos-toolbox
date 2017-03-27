@@ -1,6 +1,6 @@
 {
   "description": "hfds dfs -ls -R /",
-  "id": "hdfs-dfs",
+  "id": "hdfs.dfs.ls-r",
   "run": {
     "cpus": 1,
     "mem": 1024,
