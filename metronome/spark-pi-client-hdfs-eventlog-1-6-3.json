@@ -1,0 +1,55 @@
+{
+  "description": "SparkPi v1.6.3 submitted direct to Mesos with EventLog on HDFS",
+  "id": "spark.pi.client.hdfs-eventlog.1-6-3",
+  "run": {
+    "cpus": 1,
+    "mem": 1024,
+    "disk": 0,
+    "user": "root",
+    "cmd": "/opt/spark/dist/bin/spark-submit --name ${SPARK_NAME} --master ${SPARK_MASTER} --conf spark.cores.max=${SPARK_CORES_MAX} --conf spark.driver.cores=${SPARK_DRIVER_CORES} --conf spark.driver.memory=${SPARK_DRIVER_MEM} --conf spark.executor.home=${SPARK_EXECUTOR_HOME} --conf spark.mesos.executor.docker.image=${SPARK_DOCKER_IMAGE} --conf spark.eventLog.enabled=${SPARK_EVENT_LOG_ENABLED} --conf spark.eventLog.dir=${SPARK_EVENT_LOG_DIR} --conf spark.mesos.uris=${SPARK_URIS} --class ${SPARK_CLASS} ${MESOS_SANDBOX}/${SPARK_JAR} ${SPARK_ARGS}",
+    "env": {
+      "SPARK_NAME": "SparkPi-1.6.3",
+      "SPARK_DOCKER_IMAGE": "mesosphere/spark:1.0.9-1.6.3-1-hadoop-2.6",
+      "SPARK_MASTER": "mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos",
+      "SPARK_CORES_MAX": "4",
+      "SPARK_DRIVER_CORES": "1",
+      "SPARK_DRIVER_MEM": "1g",
+      "SPARK_EXECUTOR_CORES": "2",
+      "SPARK_EXECUTOR_MEM": "1g",
+      "SPARK_EXECUTOR_HOME": "/opt/spark/dist",
+      "SPARK_EVENT_LOG_ENABLED": "true",
+      "SPARK_EVENT_LOG_DIR": "hdfs://hdfs/history",
+      "SPARK_URIS": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml,http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml,https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar",
+      "SPARK_CLASS": "org.apache.spark.examples.SparkPi",
+      "SPARK_JAR": "spark-examples_2.10-1.4.0-SNAPSHOT.jar",
+      "SPARK_ARGS": "100"
+    },
+    "docker": {
+      "image": "mesosphere/spark:1.0.9-1.6.3-1-hadoop-2.6"
+    },
+    "artifacts": [
+      {
+        "uri": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml",
+        "extract": false,
+        "executable": false,
+        "cache": false
+      },
+      {
+        "uri": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml",
+        "extract": false,
+        "executable": false,
+        "cache": false
+      },
+      {
+        "uri": "https://downloads.mesosphere.com/spark/assets/spark-examples_2.10-1.4.0-SNAPSHOT.jar",
+        "extract": false,
+        "executable": false,
+        "cache": true
+      }
+    ]
+  },
+  "labels": {
+    "location": "olympus",
+    "owner": "zeus"
+  }
+}
