@@ -1,6 +1,6 @@
 {
   "description": "SparkPi v2.0.2 submitted to Dispatcher with EventLog on HDFS",
-  "id": "spark.pi.dispatcher.hdfs-eventlog.2.0.2",
+  "id": "spark.pi.dispatcher.hdfs-eventlog.2-0-2",
   "run": {
     "cpus": 1,
     "mem": 1024,

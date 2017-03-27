@@ -1,6 +1,6 @@
 {
   "description": "SparkPi v2.0.2 submitted direct to Mesos with EventLog on HDFS",
-  "id": "spark.pi.client.hdfs-eventlog.2.0.2",
+  "id": "spark.pi.client.hdfs-eventlog.2-0-2",
   "run": {
     "cpus": 1,
     "mem": 1024,
