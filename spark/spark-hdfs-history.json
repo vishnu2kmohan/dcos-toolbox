@@ -5,22 +5,15 @@
   "mem": 1024,
   "user": "root",
   "container": {
+    "type": "DOCKER",
     "docker": {
       "forcePullImage": false,
-      "image": "mesosphere/spark:1.0.6-2.0.2-hadoop-2.6",
-      "network": "HOST",
-      "parameters": [
-        {
-          "key": "user",
-          "value": "root"
-        }
-      ]
-    },
-    "type": "DOCKER"
+      "image": "mesosphere/spark:1.0.6-2.0.2-hadoop-2.6"
+    }
   },
   "uris": [
-    "http://hdfs.marathon.mesos:9000/v1/connection/hdfs-site.xml",
-    "http://hdfs.marathon.mesos:9000/v1/connection/core-site.xml"
+    "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml",
+    "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml"
   ],
   "env": {
     "DCOS_SERVICE_NAME": "spark-hdfs-history",
@@ -34,7 +27,7 @@
     "SPARK_DISPATCHER_MESOS_PRINCIPAL": "",
     "SPARK_DISPATCHER_MESOS_ROLE": "*",
     "SPARK_DISPATCHER_MESOS_SECRET": "",
-    "SPARK_HDFS_CONFIG_URL": "http://hdfs.marathon.mesos:9000/v1/connection",
+    "SPARK_HDFS_CONFIG_URL": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints",
     "SPARK_LOG_LEVEL": "INFO",
     "SPARK_USER": "root"
   },
@@ -51,7 +44,7 @@
     "DCOS_SERVICE_NAME": "spark-hdfs-history",
     "DCOS_SERVICE_PORT_INDEX": "3",
     "DCOS_SERVICE_SCHEME": "http",
-    "SPARK_HDFS_CONFIG_URL": "http://hdfs.marathon.mesos:9000/v1/connection",
+    "SPARK_HDFS_CONFIG_URL": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints",
     "SPARK_URI": "https://downloads.mesosphere.com/spark/assets/spark-2.0.2-bin-2.6.tgz"
   },
   "portDefinitions": [                                                          
@@ -90,13 +83,13 @@
   ],
   "healthChecks": [
     {
-      "gracePeriodSeconds": 5,
-      "intervalSeconds": 60,
-      "maxConsecutiveFailures": 3,
+      "protocol": "HTTP",
       "path": "/",
       "portIndex": 3,
-      "protocol": "HTTP",
-      "timeoutSeconds": 10
+      "gracePeriodSeconds": 30,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
     }
   ]
 }
