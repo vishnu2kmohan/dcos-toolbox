@@ -24,7 +24,7 @@
         "cache": false
       },
       {
-        "uri": "https://github.com/vishnu2kmohan/dcos-toolbox/raw/master/hdfs/create-hdfs-history-dir.sh",
+        "uri": "https://github.com/vishnu2kmohan/dcos-toolbox/raw/master/hdfs/hdfs-dfs-mkdir-history.sh",
         "extract": false,
         "executable": false,
         "cache": false

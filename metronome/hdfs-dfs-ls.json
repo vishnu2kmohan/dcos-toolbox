@@ -1,6 +1,6 @@
 {
   "description": "hfds dfs -ls -R /",
-  "id": "hdfs.dfs.ls-r",
+  "id": "hdfs.dfs.ls",
   "run": {
     "cpus": 1,
     "mem": 1024,
@@ -24,7 +24,7 @@
         "cache": false
       },
       {
-        "uri": "https://github.com/vishnu2kmohan/dcos-toolbox/raw/master/hdfs/hdfs-dfs.sh",
+        "uri": "https://github.com/vishnu2kmohan/dcos-toolbox/raw/master/hdfs/hdfs-dfs-ls.sh",
         "extract": false,
         "executable": false,
         "cache": false
