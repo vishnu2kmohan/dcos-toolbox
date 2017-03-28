@@ -6,7 +6,7 @@
     "mem": 1024,
     "disk": 0,
     "user": "root",
-    "cmd": "bash ${MESOS_SANDBOX}/create-hdfs-history-dir.sh" ,
+    "cmd": "bash ${MESOS_SANDBOX}/hdfs-dfs-mkdir-history.sh" ,
     "docker": {
       "image": "mesosphere/hdfs-client"
     },
