@@ -106,10 +106,10 @@
   "healthChecks": [
     {
       "protocol": "MESOS_HTTP",
-      "path": "/v1/plan",
+      "path": "/v1/endpoints",
       "portIndex": 0,
-      "gracePeriodSeconds": 300,
-      "intervalSeconds": 60,
+      "gracePeriodSeconds": 30,
+      "intervalSeconds": 20,
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
     }
