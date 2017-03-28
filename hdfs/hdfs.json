@@ -14,7 +14,7 @@
     "CONFIG_TEMPLATE_PATH": "hdfs-scheduler",
     "DATA_COUNT": "5",
     "DATA_CPUS": "2",
-    "DATA_DISK": "20480",
+    "DATA_DISK": "24576",
     "DATA_DISK_TYPE": "ROOT",
     "DATA_MEM": "4096",
     "DEPLOY_STRATEGY": "parallel",
