@@ -39,7 +39,7 @@
   "labels": {
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
-    "HAPROXY_0_VHOST": "vishnu-yp-publicsl-kw8on1le2h0w-1814536101.us-east-1.elb.amazonaws.com",
+    "HAPROXY_0_VHOST": "vhost.example.com",
     "HAPROXY_0_PATH": "/nginx/docker/cnm/cmdchk",
     "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/docker/cnm/cmdchk"
   }
