@@ -1,9 +1,9 @@
 {
-  "id": "/nginx/docker/cni/httpchk",
+  "id": "/nginx/docker/cnm/cmdchk",
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
-  "cmd": "env | sort && nginx -g \"daemon off;\"",
+  "cmd": "env | sort && apk --no-cache add curl && nginx -g \"daemon off;\"",
   "container": {
     "type": "DOCKER",
     "docker": {
@@ -15,7 +15,7 @@
           "name": "http",
           "protocol": "tcp",
           "labels": {
-            "VIP_0": "/nginx.docker.cni.httpchk:80"
+            "VIP_0": "/nginx.docker.cnm.cmdchk:80"
           }
         }
       ]
@@ -26,9 +26,10 @@
   },
   "healthChecks": [
     {
-      "protocol": "MESOS_HTTP",
-      "path": "/",
-      "portIndex": 0,
+      "protocol": "COMMAND",
+      "command": {
+        "value": "curl -fsSL -X GET http://localhost:$PORT0/ > /dev/null 2>&1"
+      },
       "gracePeriodSeconds": 30,
       "intervalSeconds": 20,
       "timeoutSeconds": 10,
@@ -38,8 +39,8 @@
   "labels": {
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
-    "HAPROXY_0_VHOST": "vhost.example.com",
-    "HAPROXY_0_PATH": "/nginx/docker/cni/httpchk",
-    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/docker/cni/httpchk"
+    "HAPROXY_0_VHOST": "vishnu-yp-publicsl-kw8on1le2h0w-1814536101.us-east-1.elb.amazonaws.com",
+    "HAPROXY_0_PATH": "/nginx/docker/cnm/cmdchk",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/docker/cnm/cmdchk"
   }
 }

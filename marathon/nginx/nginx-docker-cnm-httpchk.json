@@ -1,9 +1,9 @@
 {
-  "id": "/nginx/docker/cni/cmdchk",
+  "id": "/nginx/docker/cnm/httpchk",
   "instances": 2,
   "cpus": 0.01,
   "mem": 32,
-  "cmd": "env | sort && apk --no-cache add curl && nginx -g \"daemon off;\"",
+  "cmd": "env | sort && nginx -g \"daemon off;\"",
   "container": {
     "type": "DOCKER",
     "docker": {
@@ -15,7 +15,7 @@
           "name": "http",
           "protocol": "tcp",
           "labels": {
-            "VIP_0": "/nginx.docker.cni.cmdchk:80"
+            "VIP_0": "/nginx.docker.cnm.httpchk:80"
           }
         }
       ]
@@ -26,10 +26,9 @@
   },
   "healthChecks": [
     {
-      "protocol": "COMMAND",
-      "command": {
-        "value": "curl -fsSL -X GET http://localhost:$PORT0/ > /dev/null 2>&1"
-      },
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "portIndex": 0,
       "gracePeriodSeconds": 30,
       "intervalSeconds": 20,
       "timeoutSeconds": 10,
@@ -40,7 +39,7 @@
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
     "HAPROXY_0_VHOST": "vhost.example.com",
-    "HAPROXY_0_PATH": "/nginx/docker/cni/cmdchk",
-    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/docker/cni/cmdchk"
+    "HAPROXY_0_PATH": "/nginx/docker/cnm/httpchk",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/docker/cnm/httpchk"
   }
 }
