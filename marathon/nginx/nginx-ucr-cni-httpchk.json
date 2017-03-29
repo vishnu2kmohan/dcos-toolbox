@@ -30,9 +30,9 @@
       "protocol": "MESOS_HTTP",
       "path": "/",
       "port": 80,
-      "gracePeriodSeconds": 20,
+      "gracePeriodSeconds": 30,
       "intervalSeconds": 20,
-      "timeoutSeconds": 20,
+      "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
     }
   ],
