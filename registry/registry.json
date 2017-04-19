@@ -1,0 +1,61 @@
+{
+  "id": "registry",
+  "cpus": 1,
+  "mem": 4096,
+  "instances": 1,
+  "container": {
+    "docker": {
+      "image": "registry:2.5.1",
+      "network": "BRIDGE",
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "hostPort": 0,
+          "protocol": "tcp",
+          "name": "registry",
+          "labels": {
+            "VIP_0": "/registry:5000"
+          }
+        }
+      ]
+    },
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "var",
+        "mode": "RW",
+        "persistent": {
+          "size": 4096
+        }
+      }
+    ]
+  },
+  "env": {
+    "STORAGE_PATH": "/var/lib/registry"
+  },
+  "labels": {
+    "DCOS_PACKAGE_IS_FRAMEWORK": "false",
+    "DCOS_PACKAGE_METADATA": "eyJwYWNrYWdpbmdWZXJzaW9uIjoiMy4wIiwibmFtZSI6InJlZ2lzdHJ5IiwidmVyc2lvbiI6IjIuNS4xLTAuMSIsIm1haW50YWluZXIiOiJodHRwczovL2Rjb3MuaW8vY29tbXVuaXR5LyIsImRlc2NyaXB0aW9uIjoiVGhlIGRvY2tlciBSZWdpc3RyeSBpcyBhIHN0YXRlbGVzcywgaGlnaGx5IHNjYWxhYmxlIHNlcnZlciBzaWRlIGFwcGxpY2F0aW9uIHRoYXQgc3RvcmVzIGFuZCBsZXRzIHlvdSBkaXN0cmlidXRlIERvY2tlciBpbWFnZXMuIFRoaXMgREMvT1MgcGFja2FnZSBwcm92aWRlcyBhIHByaXZhdGUgcmVnaXN0cnkgdGhhdCBjYW4gYmUgbWFkZSBhdmFpbGFibGUgdG8gYW55IG90aGVyIGNvbXBvbmVudCBpbiB0aGUgc3lzdGVtIHRocm91Z2ggYSB2aXJ0dWFsIElQIChkZWZhdWx0OiByZWdpc3RyeS5tYXJhdGhvbi5sNGxiLnRoaXNkY29zLmRpcmVjdG9yeTo1MDAwKS5cblxuTk9URTogVGhpcyBwYWNrYWdlIHJlcXVpcmVzIGFkZGl0aW9uYWwgY29uZmlndXJhdGlvbiBpbiBvcmRlciB0byBydW4gZWl0aGVyIGluIHNlY3VyZSBvciBpbnNlY3VyZSBtb2RlLiBDaGVjayB0aGUgcGFja2FnZSBkb2N1bWVudGF0aW9uIGF0IGh0dHBzOi8vZ2l0aHViLmNvbS9kY29zL2V4YW1wbGVzL3RyZWUvbWFzdGVyL3JlZ2lzdHJ5IGZvciBkZXRhaWxzLiIsInRhZ3MiOlsiZG9ja2VyIiwicmVnaXN0cnkiXSwic2VsZWN0ZWQiOmZhbHNlLCJzY20iOiJodHRwczovL2dpdGh1Yi5jb20vZG9ja2VyL2Rpc3RyaWJ1dGlvbiIsIndlYnNpdGUiOiJodHRwczovL2RvY3MuZG9ja2VyLmNvbS9yZWdpc3RyeS8iLCJmcmFtZXdvcmsiOmZhbHNlLCJwcmVJbnN0YWxsTm90ZXMiOiJUaGlzIERDL09TIFNlcnZpY2UgaXMgY3VycmVudGx5IGluIHByZXZpZXcuIFRoZXJlIG1heSBiZSBidWdzLCBpbmNvbXBsZXRlIGZlYXR1cmVzLCBpbmNvcnJlY3QgZG9jdW1lbnRhdGlvbiwgb3Igb3RoZXIgZGlzY3JlcGFuY2llcy5cblxuQWR2YW5jZWQgSW5zdGFsbGF0aW9uIG9wdGlvbnMgbm90ZXNcblxucmVnaXN0cnkgLyBodHRwX3Rsc19kb3dubG9hZF9pcDogRm9yIHNlY3VyZSBjb21tdW5pY2F0aW9uLCBJUCBhZGRyZXNzIG9mIHRoZSBob3N0IHRvIGRvd25sb2FkIHRoZSBIVFRQIFRMUyBjZXJ0aWZpY2F0ZSBhbmQga2V5IGZyb20uIFRoaXMgd2lsbCBiZSB1c2VkIHRvIGZvcm0gdGhlIFVSSSBsb2NhdGlvbiBvZiBhIHZhbGlkIEhUVFAgVExTIGNlcnRpZmljYXRlIGFuZCBrZXkgdG8gYmUgdXNlZCBpbiB0aGUgYXV0aGVudGljYXRpb24gcHJvY2VzcyBiZXR3ZWVuIHRoZSBkb2NrZXIgcmVnaXN0cnkgYW5kIHRoZSBhZ2VudHMgcnVubmluZyB0aGUgZG9ja2VyIGVuZ2luZS5cblxucmVnaXN0cnkgLyBodHRwX3Rsc19jZXJ0aWZpY2F0ZV9maWxlbmFtZTogRm9yIHNlY3VyZSBjb21tdW5pY2F0aW9uLCBuYW1lIG9mIHRoZSBmaWxlIGhvbGRpbmcgdGhlIEhUVFAgVExTIGNlcnRpZmljYXRlIHRvIGRvd25sb2FkIGZyb20gdGhlIGhvc3Qgd2l0aCB0aGUgSVAgYWRkcmVzcyBjb25maWd1cmVkIGluIGh0dHBfdGxzX2Rvd25sb2FkX2lwLlxuXG5yZWdpc3RyeSAvIGh0dHBfdGxzX2tleV9maWxlbmFtZTogRm9yIHNlY3VyZSBjb21tdW5pY2F0aW9uLCBuYW1lIG9mIHRoZSBmaWxlIGhvbGRpbmcgdGhlIEhUVFAgVExTIGtleSB0byBkb3dubG9hZCBmcm9tIHRoZSBob3N0IHdpdGggdGhlIElQIGFkZHJlc3MgY29uZmlndXJlZCBpbiBodHRwX3Rsc19kb3dubG9hZF9pcC5cblxuc3RvcmFnZSAvIHBlcnNpc3RlbmNlOiBjcmVhdGUgbG9jYWwgcGVyc2lzdGVudCB2b2x1bWVzIGZvciBpbnRlcm5hbCBzdG9yYWdlIGZpbGVzIHRvIHN1cnZpdmUgYWNyb3NzIHJlc3RhcnRzIG9yIGZhaWx1cmVzLlxuXG5zdG9yYWdlIC8gcGVyc2lzdGVuY2UgLyAqZXh0ZXJuYWwqOiBjcmVhdGUgZXh0ZXJuYWwgcGVyc2lzdGVudCB2b2x1bWVzLiBUaGlzIGFsbG93cyB0byB1c2UgYW4gZXh0ZXJuYWwgc3RvcmFnZSBzeXN0ZW0gc3VjaCBhcyBBbWF6b24gRUJTLCBPcGVuU3RhY2sgQ2luZGVyLCBFTUMgSXNpbG9uLCBFTUMgU2NhbGVJTywgRU1DIFh0cmVtSU8sIEVNQyBWTUFYIGFuZCBHb29nbGUgQ29tcHV0ZSBFbmdpbmUgcGVyc2lzdGVudCBzdG9yYWdlLiBOT1RFOiBUbyB1c2UgZXh0ZXJuYWwgdm9sdW1lcyB3aXRoIERDL09TLCB5b3UgTVVTVCBlbmFibGUgdGhlbSBkdXJpbmcgQ0xJIG9yIEFkdmFuY2VkIGluc3RhbGxhdGlvbi5cblxuc3RvcmFnZSAvIGhvc3Rfdm9sdW1lOiAgaWYgcGVyc2lzdGVuY2UgaXMgbm90IHNlbGVjdGVkLCB0aGlzIHBhY2thZ2UgY2FuIHVzZSBhIGxvY2FsIHZvbHVtZSBpbiB0aGUgaG9zdCBmb3Igc3RvcmFnZSwgbGlrZSBhIGxvY2FsIGRpcmVjdG9yeSBvciBhbiBORlMgbW91bnQuIFRoZSBwYXJhbWV0ZXIgaG9zdF92b2x1bWUgY29udHJvbHMgdGhlIHBhdGggaW4gdGhlIGhvc3QgaW4gd2hpY2ggdGhlc2Ugdm9sdW1lcyB3aWxsIGJlIGNyZWF0ZWQsIHdoaWNoIE1VU1QgYmUgdGhlIHNhbWUgb24gYWxsIG5vZGVzIG9mIHRoZSBjbHVzdGVyLlxuXG5OT1RFOiBJZiB5b3UgZGlkbid0IHNlbGVjdCBwZXJzaXN0ZW5jZSBpbiB0aGUgc3RvcmFnZSBzZWN0aW9uLCBvciBwcm92aWRlZCBhIHZhbGlkIHZhbHVlIGZvciBob3N0X3ZvbHVtZSBvbiBpbnN0YWxsYXRpb24sXG5ZT1VSIERBVEEgV0lMTCBOT1QgQkUgU0FWRUQgSU4gQU5ZIFdBWS5cblxubmV0d29ya2luZyAvIHBvcnQ6IFRoaXMgREMvT1Mgc2VydmljZSBjYW4gYmUgYWNjZXNzZWQgZnJvbSBhbnkgb3RoZXIgYXBwbGljYXRpb24gdGhyb3VnaCBhIE5BTUVEIFZJUCBpbiB0aGUgZm9ybWF0IHNlcnZpY2VfbmFtZS5tYXJhdGhvbi5sNGxiLnRoaXNkY29zLmRpcmVjdG9yeTpwb3J0LiBDaGVjayBzdGF0dXMgb2YgdGhlIFZJUCBpbiB0aGUgTmV0d29yayB0YWIgb2YgdGhlIERDL09TIERhc2hib2FyZCAoRW50ZXJwcmlzZSBEQy9PUyBvbmx5KS5cblxubmV0d29ya2luZyAvIGV4dGVybmFsX2FjY2VzczogY3JlYXRlIGFuIGVudHJ5IGluIE1hcmF0aG9uLUxCIGZvciBhY2Nlc3NpbmcgdGhlIHNlcnZpY2UgZnJvbSBvdXRzaWRlIG9mIHRoZSBjbHVzdGVyXG5cbm5ldHdvcmtpbmcgLyBleHRlcm5hbF9hY2Nlc3NfcG9ydDogcG9ydCB0byBiZSB1c2VkIGluIE1hcmF0aG9uLUxCIGZvciBhY2Nlc3NpbmcgdGhlIHNlcnZpY2UuIiwicG9zdEluc3RhbGxOb3RlcyI6IlNlcnZpY2UgaW5zdGFsbGVkLlxuXG5OT1RFOiBUaGlzIHBhY2thZ2UgUkVRVUlSRVMgcG9zdC1pbnN0YWxsIGNvbmZpZ3VyYXRpb24gaW4geW91ciBjbHVzdGVyIGluIG9yZGVyIHRvIHdvcmsgY29ycmVjdGx5LiBQbGVhc2UgY2hlY2sgdGhlIHBhY2thZ2UgZG9jdW1lbnRhdGlvbiBhdCBodHRwczovL2dpdGh1Yi5jb20vZGNvcy9leGFtcGxlcy90cmVlL21hc3Rlci9yZWdpc3RyeSBmb3IgZGV0YWlscy4iLCJwb3N0VW5pbnN0YWxsTm90ZXMiOiJTZXJ2aWNlIHVuaW5zdGFsbGVkLiBOb3RlIHRoYXQgYW55IHBlcnNpc3RpbmcgZGF0YSBzdGlsbCBleGlzdHMgYW5kIHdpbGwgbmVlZCB0byBiZSBtYW51YWxseSByZW1vdmVkIGZvciB0aGUgYWdlbnQgd2hlcmUgdGhlIHNlcnZpY2Ugd2FzIGRlcGxveWVkLiIsImxpY2Vuc2VzIjpbeyJuYW1lIjoiQXBhY2hlIExpY2Vuc2UiLCJ1cmwiOiJodHRwOi8vZW4ud2lraXBlZGlhLm9yZy93aWtpL0FwYWNoZV9MaWNlbnNlIn1dLCJpbWFnZXMiOnsiaWNvbi1zbWFsbCI6Imh0dHBzOi8vczMuYW1hem9uYXdzLmNvbS9kb3dubG9hZHMubWVzb3NwaGVyZS5pby91bml2ZXJzZS9hc3NldHMvaWNvbi1zZXJ2aWNlLXJlZ2lzdHJ5LXNtYWxsLnBuZyIsImljb24tbWVkaXVtIjoiaHR0cHM6Ly9zMy5hbWF6b25hd3MuY29tL2Rvd25sb2Fkcy5tZXNvc3BoZXJlLmlvL3VuaXZlcnNlL2Fzc2V0cy9pY29uLXNlcnZpY2UtcmVnaXN0cnktbWVkaXVtLnBuZyIsImljb24tbGFyZ2UiOiJodHRwczovL3MzLmFtYXpvbmF3cy5jb20vZG93bmxvYWRzLm1lc29zcGhlcmUuaW8vdW5pdmVyc2UvYXNzZXRzL2ljb24tc2VydmljZS1yZWdpc3RyeS1sYXJnZS5wbmcifX0=",
+    "DCOS_PACKAGE_NAME": "registry",
+    "DCOS_PACKAGE_REGISTRY_VERSION": "3.0",
+    "DCOS_PACKAGE_RELEASE": "0",
+    "DCOS_PACKAGE_SOURCE": "https://universe.mesosphere.com/repo",
+    "DCOS_PACKAGE_VERSION": "5.7.12-0.3",
+    "DCOS_SERVICE_NAME": "registry",
+    "MARATHON_SINGLE_INSTANCE_APP": "true"
+  },
+  "upgradeStrategy": {
+    "maximumOverCapacity": 0,
+    "minimumHealthCapacity": 0
+  },
+  "healthChecks": [
+    {
+      "portIndex": 0,
+      "protocol": "MESOS_TCP",
+      "gracePeriodSeconds": 300,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 20,
+      "maxConsecutiveFailures": 3
+    }
+  ]
+}

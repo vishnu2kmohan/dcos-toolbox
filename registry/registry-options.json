@@ -1,0 +1,12 @@
+{
+  "service": {
+    "cpus": 1,
+    "mem": 4096
+  },
+  "storage": {
+    "persistence": {
+      "enable": true,
+      "volume_size_registry": 4096
+    }
+  }
+}
