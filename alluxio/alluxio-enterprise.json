@@ -4,7 +4,7 @@
   "mem": 1230,
   "instances": 1,
   "uris": [
-    "https://downloads.mesosphere.com/java/jre-8u121-linux-x64.tar.gz",
+    "https://downloads.mesosphere.com/java/jre-8u112-linux-x64.tar.gz",
     "https://downloads.mesosphere.com/libmesos-bundle/libmesos-bundle-1.9-argus-1.1.x-2.tar.gz",
     "https://alluxio-dcos.s3.amazonaws.com/v1.5.0/bootstrap-dcos.sh",
     "https://alluxio-dcos.s3.amazonaws.com/release/1.0.1-1.4.0/bootstrap.zip",
@@ -43,7 +43,7 @@
     "FRAMEWORK_PRINCIPAL": "alluxio-enterprise-principal",
     "HDFS_ENABLE_HA": "true",
     "HDFS_SERVICE_ENDPOINTS": "api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints",
-    "JDK_URI": "https://downloads.mesosphere.com/java/jre-8u121-linux-x64.tar.gz",
+    "JDK_URI": "https://downloads.mesosphere.com/java/jre-8u112-linux-x64.tar.gz",
     "LIBMESOS_URI": "https://downloads.mesosphere.com/libmesos-bundle/libmesos-bundle-1.9-argus-1.1.x-2.tar.gz",
     "MASTER_CPUS": "1",
     "MASTER_DISK": "1000",
