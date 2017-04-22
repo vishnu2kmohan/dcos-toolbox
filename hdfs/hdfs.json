@@ -1,16 +1,16 @@
 {
   "id": "hdfs",
+  "cpus": 1.0,
+  "mem": 2048,
   "instances": 1,
-  "cpus": 2,
-  "mem": 8192,
   "uris": [
     "https://downloads.mesosphere.com/java/jre-8u112-linux-x64-jce-unlimited.tar.gz",
-    "https://downloads.mesosphere.com/hdfs/assets/1.2.0-2.6.0-cdh5.9.1/hdfs-scheduler.zip",
+    "https://downloads.mesosphere.com/hdfs/assets/1.3.0-2.6.0-cdh5.9.1-beta/hdfs-scheduler.zip",
     "https://downloads.mesosphere.com/libmesos-bundle/libmesos-bundle-1.9.0-rc2-1.2.0-rc2-1.tar.gz"
   ],
-  "cmd": "export LD_LIBRARY_PATH=$MESOS_SANDBOX/libmesos-bundle/lib:$LD_LIBRARY_PATH; export MESOS_NATIVE_JAVA_LIBRARY=$(ls $MESOS_SANDBOX/libmesos-bundle/lib/libmesos-*.so); export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jre*/); export JAVA_HOME=${JAVA_HOME%/}; export PATH=$(ls -d $JAVA_HOME/bin):$PATH && ./hdfs-scheduler/bin/hdfs ./hdfs-scheduler/svc.yml",
+  "cmd": "export LD_LIBRARY_PATH=$MESOS_SANDBOX/libmesos-bundle/lib:$LD_LIBRARY_PATH; export MESOS_NATIVE_JAVA_LIBRARY=$(ls $MESOS_SANDBOX/libmesos-bundle/lib/libmesos-*.so); export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jre*/); export JAVA_HOME=${JAVA_HOME%/}; export PATH=$(ls -d $JAVA_HOME/bin):$PATH && export JAVA_OPTS=\"-Xms1024M -Xmx1024M\" && ./hdfs-scheduler/bin/hdfs ./hdfs-scheduler/svc.yml",
   "env": {
-    "BOOTSTRAP_URI": "https://downloads.mesosphere.com/hdfs/assets/1.2.0-2.6.0-cdh5.9.1/bootstrap.zip",
+    "BOOTSTRAP_URI": "https://downloads.mesosphere.com/hdfs/assets/1.3.0-2.6.0-cdh5.9.1-beta/bootstrap.zip",
     "CONFIG_TEMPLATE_PATH": "hdfs-scheduler",
     "DATA_COUNT": "5",
     "DATA_CPUS": "2",
@@ -18,10 +18,11 @@
     "DATA_DISK_TYPE": "ROOT",
     "DATA_MEM": "4096",
     "DEPLOY_STRATEGY": "parallel",
-    "EXECUTOR_URI": "https://downloads.mesosphere.com/hdfs/assets/1.2.0-2.6.0-cdh5.9.1/executor.zip",
+    "EXECUTOR_URI": "https://downloads.mesosphere.com/hdfs/assets/1.3.0-2.6.0-cdh5.9.1-beta/executor.zip",
     "FRAMEWORK_NAME": "hdfs",
     "HDFS_URI": "https://downloads.mesosphere.com/hdfs/assets/hadoop-2.6.0-cdh5.9.1-dcos.tar.gz",
     "HDFS_VERSION": "hadoop-2.6.0-cdh5.9.1",
+    "JAVA_URI": "https://downloads.mesosphere.com/java/jre-8u112-linux-x64-jce-unlimited.tar.gz",
     "JOURNAL_CPUS": "1",
     "JOURNAL_DISK": "5000",
     "JOURNAL_DISK_TYPE": "ROOT",
@@ -69,21 +70,22 @@
     "TASKCFG_ALL_PERMISSIONS_ENABLED": "false",
     "TASKCFG_ALL_SERVICE_ZK_ROOT": "dcos-service-hdfs",
     "TASKCFG_ALL_TASK_USER": "root",
+    "TASKCFG_ALL_ZKFC_PORT": "8019",
     "ZKFC_CPUS": "1",
     "ZKFC_MEM": "1024"
   },
   "labels": {
     "DCOS_MIGRATION_API_PATH": "/v1/plan",
     "DCOS_MIGRATION_API_VERSION": "v1",
-    "DCOS_PACKAGE_COMMAND": "eyJwaXAiOlsiaHR0cHM6Ly9kb3dubG9hZHMubWVzb3NwaGVyZS5jb20vaGRmcy9hc3NldHMvMS4yLjAtMi42LjAtY2RoNS45LjEvYmluX3dyYXBwZXItMC4wLjEtcHkyLnB5My1ub25lLWFueS53aGwiXX0=",
+    "DCOS_PACKAGE_COMMAND": "eyJwaXAiOlsiaHR0cHM6Ly9kb3dubG9hZHMubWVzb3NwaGVyZS5jb20vaGRmcy9hc3NldHMvMS4zLjAtMi42LjAtY2RoNS45LjEtYmV0YS9iaW5fd3JhcHBlci0wLjAuMS1weTIucHkzLW5vbmUtYW55LndobCJdfQ==",
     "DCOS_PACKAGE_FRAMEWORK_NAME": "hdfs",
     "DCOS_PACKAGE_IS_FRAMEWORK": "true",
-    "DCOS_PACKAGE_METADATA": "eyJwYWNrYWdpbmdWZXJzaW9uIjoiMy4wIiwibmFtZSI6ImhkZnMiLCJ2ZXJzaW9uIjoiMS4yLjAtMi42LjAtY2RoNS45LjEiLCJtYWludGFpbmVyIjoic3VwcG9ydEBtZXNvc3BoZXJlLmlvIiwiZGVzY3JpcHRpb24iOiJBcGFjaGUgSGFkb29wIERpc3RyaWJ1dGVkIEZpbGUgU3lzdGVtIChIREZTKSIsInRhZ3MiOlsiaGRmcyIsImhhZG9vcCJdLCJzZWxlY3RlZCI6ZmFsc2UsImZyYW1ld29yayI6dHJ1ZSwicHJlSW5zdGFsbE5vdGVzIjoiSW4gb3JkZXIgZm9yIEhERlMgdG8gc3RhcnQgc3VjY2Vzc2Z1bGx5LCBpdCByZXF1aXJlcyBhIG1pbmltdW0gb2YgZml2ZSBub2RlczsgZWFjaCB3aXRoIGF0IGxlYXN0IDIgQ1BVIHNoYXJlcyBhbmQgOEdCIG9mIFJBTSBhdmFpbGFibGUgZm9yIHVzZSBieSB0aGUgSERGUyBTZXJ2aWNlLlxuTm90ZSB0aGF0IHRoZSBzZXJ2aWNlIGlzIGNvbnNpZGVyZWQgUHJldmlldyBhbmQgdGhlcmUgbWF5IGJlIGJ1Z3MsIG1pc3NpbmcgZmVhdHVyZXMgb3IgZG9jdW1lbnRhdGlvbiwgYW5kIHNob3VsZCBiZSB0ZXN0ZWQgdGhvcm91Z2hseSBiZWZvcmUgYmVpbmcgcHV0IGludG8gcHJvZHVjdGlvbi4iLCJwb3N0SW5zdGFsbE5vdGVzIjoiREMvT1MgQXBhY2hlIEhERlMgU2VydmljZSBpcyBiZWluZyBpbnN0YWxsZWQuXG5cblx0RG9jdW1lbnRhdGlvbjogaHR0cHM6Ly9kb2NzLm1lc29zcGhlcmUuY29tL2N1cnJlbnQvdXNhZ2Uvc2VydmljZS1ndWlkZXMvaGRmcy9cblx0SXNzdWVzOiBodHRwczovL2ppcmEuZGNvcy5pby9wcm9qZWN0cy9EQ09TX0hERlMiLCJwb3N0VW5pbnN0YWxsTm90ZXMiOiJEQy9PUyBBcGFjaGUgSERGUyBTZXJ2aWNlIGhhcyBiZWVuIHVuaW5zdGFsbGVkLlxuUGxlYXNlIGZvbGxvdyB0aGUgaW5zdHJ1Y3Rpb25zIGF0IGh0dHA6Ly9kb2NzLm1lc29zcGhlcmUuY29tL2N1cnJlbnQvdXNhZ2Uvc2VydmljZS1ndWlkZXMvaGRmcy8jdW5pbnN0YWxsIHRvIHJlbW92ZSBhbnkgcGVyc2lzdGVudCBzdGF0ZSBpZiByZXF1aXJlZC4iLCJpbWFnZXMiOnsiaWNvbi1zbWFsbCI6Imh0dHBzOi8vZG93bmxvYWRzLm1lc29zcGhlcmUuY29tL2hkZnMvYXNzZXRzL2ljb24tc2VydmljZS1oZGZzLXNtYWxsLnBuZyIsImljb24tbWVkaXVtIjoiaHR0cHM6Ly9kb3dubG9hZHMubWVzb3NwaGVyZS5jb20vaGRmcy9hc3NldHMvaWNvbi1zZXJ2aWNlLWhkZnMtbWVkaXVtLnBuZyIsImljb24tbGFyZ2UiOiJodHRwczovL2Rvd25sb2Fkcy5tZXNvc3BoZXJlLmNvbS9oZGZzL2Fzc2V0cy9pY29uLXNlcnZpY2UtaGRmcy1sYXJnZS5wbmcifX0=",
-    "DCOS_PACKAGE_NAME": "hdfs",
+    "DCOS_PACKAGE_METADATA": "eyJwYWNrYWdpbmdWZXJzaW9uIjoiMy4wIiwibmFtZSI6ImJldGEtaGRmcyIsInZlcnNpb24iOiIxLjMuMC0yLjYuMC1jZGg1LjkuMS1iZXRhIiwibWFpbnRhaW5lciI6InN1cHBvcnRAbWVzb3NwaGVyZS5pbyIsImRlc2NyaXB0aW9uIjoiQXBhY2hlIEhhZG9vcCBEaXN0cmlidXRlZCBGaWxlIFN5c3RlbSAoSERGUykiLCJ0YWdzIjpbImhkZnMiLCJoYWRvb3AiXSwic2VsZWN0ZWQiOmZhbHNlLCJmcmFtZXdvcmsiOnRydWUsInByZUluc3RhbGxOb3RlcyI6IlRoaXMgREMvT1MgU2VydmljZSBpcyBjdXJyZW50bHkgaW4gcHJldmlldy4gVGhlcmUgbWF5IGJlIGJ1Z3MsIG1pc3NpbmcgZmVhdHVyZXMsIG9yIG1pc3NpbmcgZG9jdW1lbnRhdGlvbi4gVGVzdCBIREZTIHRob3JvdWdobHkgYmVmb3JlIHB1dHRpbmcgaXQgaW50byBwcm9kdWN0aW9uLiBcbiBIREZTIHJlcXVpcmVzIGEgbWluaW11bSBvZiBmaXZlIG5vZGVzLCBlYWNoIHdpdGggYXQgbGVhc3QgMiBDUFUgc2hhcmVzIGFuZCA4R0Igb2YgUkFNIGF2YWlsYWJsZSB0byB0aGUgSERGUyBzZXJ2aWNlLiIsInBvc3RJbnN0YWxsTm90ZXMiOiJEQy9PUyBBcGFjaGUgSERGUyBTZXJ2aWNlIGlzIGJlaW5nIGluc3RhbGxlZC5cblxuXHREb2N1bWVudGF0aW9uOiBodHRwczovL2RvY3MubWVzb3NwaGVyZS5jb20vY3VycmVudC91c2FnZS9zZXJ2aWNlLWd1aWRlcy9oZGZzL1xuXHRJc3N1ZXM6IGh0dHBzOi8vamlyYS5kY29zLmlvL3Byb2plY3RzL0RDT1NfSERGUyIsInBvc3RVbmluc3RhbGxOb3RlcyI6IkRDL09TIEFwYWNoZSBIREZTIFNlcnZpY2UgaGFzIGJlZW4gdW5pbnN0YWxsZWQuXG5QbGVhc2UgZm9sbG93IHRoZSBpbnN0cnVjdGlvbnMgYXQgaHR0cDovL2RvY3MubWVzb3NwaGVyZS5jb20vY3VycmVudC91c2FnZS9zZXJ2aWNlLWd1aWRlcy9oZGZzLyN1bmluc3RhbGwgdG8gcmVtb3ZlIGFueSBwZXJzaXN0ZW50IHN0YXRlIGlmIHJlcXVpcmVkLiIsImltYWdlcyI6eyJpY29uLXNtYWxsIjoiaHR0cHM6Ly9kb3dubG9hZHMubWVzb3NwaGVyZS5jb20vaGRmcy9hc3NldHMvaWNvbi1zZXJ2aWNlLWhkZnMtc21hbGwucG5nIiwiaWNvbi1tZWRpdW0iOiJodHRwczovL2Rvd25sb2Fkcy5tZXNvc3BoZXJlLmNvbS9oZGZzL2Fzc2V0cy9pY29uLXNlcnZpY2UtaGRmcy1tZWRpdW0ucG5nIiwiaWNvbi1sYXJnZSI6Imh0dHBzOi8vZG93bmxvYWRzLm1lc29zcGhlcmUuY29tL2hkZnMvYXNzZXRzL2ljb24tc2VydmljZS1oZGZzLWxhcmdlLnBuZyJ9fQ==",
+    "DCOS_PACKAGE_NAME": "beta-hdfs",
     "DCOS_PACKAGE_REGISTRY_VERSION": "3.0",
-    "DCOS_PACKAGE_RELEASE": "10",
+    "DCOS_PACKAGE_RELEASE": "11",
     "DCOS_PACKAGE_SOURCE": "https://universe.mesosphere.com/repo",
-    "DCOS_PACKAGE_VERSION": "1.2.0-2.6.0-cdh5.9.1",
+    "DCOS_PACKAGE_VERSION": "1.3.0-2.6.0-cdh5.9.1-beta",
     "DCOS_SERVICE_NAME": "hdfs",
     "DCOS_SERVICE_PORT_INDEX": "0",
     "DCOS_SERVICE_SCHEME": "http",
@@ -95,12 +97,12 @@
   },
   "portDefinitions": [
     {
+      "port": 0,
+      "protocol": "tcp",
+      "name": "api",
       "labels": {
         "VIP_0": "/api.hdfs:80"
-      },
-      "name": "api",
-      "port": 0,
-      "protocol": "tcp"
+      }
     }
   ],
   "healthChecks": [

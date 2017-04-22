@@ -1,5 +1,6 @@
 {
   "service": {
+    "beta-optin": true,
     "name": "hdfs",
     "principal": "hdfs-principal"
   },
@@ -16,7 +17,7 @@
     "mem": 1024
   },
   "data_node": {
-    "count": 3,
+    "count": 5,
     "cpus": 2,
     "mem": 4096,
     "disk": 24576
