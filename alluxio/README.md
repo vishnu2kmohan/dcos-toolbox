@@ -4,7 +4,13 @@
 
 Spin up a 12 private agent, 1 public agent DC/OS 1.9 Stable cluster
 
-### Change `MESOS_HOSTNAME` to use the agent's actual hostname (required for locality).
+### Enable `MESOS_HOSTNAME_LOOKUP` (required for data locality).
+
+Note: `MESOS_HOSTNAME_LOOKUP=true` requires properly configured DNS.
+
+_Ideally_, forward *and* reverse lookups for FQDNs, Short Hostnames and IP addresses should work:
+* `hostname -f` *must* return the FQDN
+* `hostname -s` *must* return the Short Hostname
 
 ```bash
 dcos node ssh --master-proxy --leader
@@ -98,6 +104,8 @@ hdfs dfs -ls -R /
 exit
 exit
 ```
+
+Note: We also created the `/history` folder to store Spark Event Logs, to be used later.
 
 ### Run a Spark Job on Alluxio
 
