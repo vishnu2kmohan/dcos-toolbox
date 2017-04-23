@@ -4,7 +4,7 @@
     "license": "<cat alluxio-license.json | base64 | tr -d '\n'>",
     "alluxio-version": "1.4.0",
     "alluxio-distribution": "cdh5",
-    "worker-count": 1,
+    "worker-count": 3,
     "ufs-address": "hdfs://hdfs",
     "docker-publish": true,
     "docker-publish-url": "registry.marathon.l4lb.thisdcos.directory:5000",
@@ -29,11 +29,11 @@
     "alluxio-client": true,
     "alluxio-client-base": "openjdk:7-jdk-alpine",
     "spark-client": true,
-    "spark-client-base": "mesosphere/spark:1.0.9-2.1.0-1-hadoop-2.6",
+    "spark-client-base": "mesosphere/spark:1.0.6-2.0.2-hadoop-2.6",
     "spark-dist-home": "/opt/spark/dist"
   },
   "hdfs": {
-    "enable-ha": true,
+    "enable-endpoints": true,
     "service-endpoints": "api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints"
   }
 }

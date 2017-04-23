@@ -1,17 +1,53 @@
 {
   "id": "alluxio-enterprise",
-  "cpus": 1,
-  "mem": 1230,
+  "cpus": 1.0,
+  "mem": 2048,
   "instances": 1,
-  "uris": [
-    "https://downloads.mesosphere.com/java/jre-8u112-linux-x64.tar.gz",
-    "https://downloads.mesosphere.com/libmesos-bundle/libmesos-bundle-1.9-argus-1.1.x-2.tar.gz",
-    "https://alluxio-dcos.s3.amazonaws.com/v1.5.0/bootstrap-dcos.sh",
-    "https://alluxio-dcos.s3.amazonaws.com/release/1.0.1-1.4.0/bootstrap.zip",
-    "https://alluxio-dcos.s3.amazonaws.com/release/1.0.1-1.4.0/alluxio-enterprise-scheduler.zip",
-    "https://alluxio-dcos.s3.amazonaws.com/release/1.0.1-1.4.0/executor.zip"
+  "fetch": [
+    {
+      "uri": "https://downloads.mesosphere.com/java/jre-8u112-linux-x64-jce-unlimited.tar.gz",
+      "extract": true,
+      "executable": false,
+      "cache": true
+    },
+    {
+      "uri": "https://downloads.mesosphere.com/libmesos-bundle/libmesos-bundle-1.9.0-rc2-1.2.0-rc2-1.tar.gz",
+      "extract": true,
+      "executable": false,
+      "cache": true
+    },
+    {
+      "uri": "https://alluxio-dcos.s3.amazonaws.com/v1.5.0/bootstrap-dcos.sh",
+      "extract": false,
+      "executable": false,
+      "cache": false
+    },
+    {
+      "uri": "https://alluxio-dcos.s3.amazonaws.com/dev/1.0.1-1.4.0/bootstrap.zip",
+      "extract": true,
+      "executable": false,
+      "cache": false
+    },
+    {
+      "uri": "https://alluxio-dcos.s3.amazonaws.com/dev/1.0.1-1.4.0/alluxio-enterprise-scheduler.zip",
+      "extract": true,
+      "executable": false,
+      "cache": false
+    },
+    {
+      "uri": "https://alluxio-dcos.s3.amazonaws.com/dev/1.0.1-1.4.0/executor.zip",
+      "extract": true,
+      "executable": false,
+      "cache": false
+    },
+    {
+      "uri": "https://alluxio-dcos.s3.amazonaws.com/dev/1.0.1-1.4.0/spark-core-site.xml",
+      "extract": false,
+      "executable": false,
+      "cache": false
+    }
   ],
-  "cmd": "export LD_LIBRARY_PATH=$MESOS_SANDBOX/libmesos-bundle/lib && export MESOS_NATIVE_JAVA_LIBRARY=$(ls $MESOS_SANDBOX/libmesos-bundle/lib/libmesos-*.so) && export PATH=$(ls -d $MESOS_SANDBOX/jre*/bin):$PATH && ./alluxio-enterprise-scheduler/bin/alluxio-enterprise ./alluxio-enterprise-scheduler/svc.yml",
+  "cmd": "export LD_LIBRARY_PATH=$MESOS_SANDBOX/libmesos-bundle/lib:$LD_LIBRARY_PATH; export MESOS_NATIVE_JAVA_LIBRARY=$(ls $MESOS_SANDBOX/libmesos-bundle/lib/libmesos-*.so); export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jre*/); export JAVA_HOME=${JAVA_HOME%/}; export PATH=$(ls -d $JAVA_HOME/bin):$PATH && export JAVA_OPTS=\"-Xms1024M -Xmx1024M\" && ./alluxio-enterprise-scheduler/bin/alluxio-enterprise ./alluxio-enterprise-scheduler/svc.yml",
   "env": {
     "ALLUXIO_DISTRIBUTION": "cdh5",
     "ALLUXIO_JOB_MASTER_PORT": "20001",
@@ -29,22 +65,22 @@
     "ALLUXIO_WORKER_WEB_PORT": "30000",
     "AWS_ACCESS_KEY": "",
     "AWS_SECRET_KEY": "",
-    "BOOTSTRAP_URI": "https://alluxio-dcos.s3.amazonaws.com/release/1.0.1-1.4.0/bootstrap.zip",
+    "BOOTSTRAP_URI": "https://alluxio-dcos.s3.amazonaws.com/dev/1.0.1-1.4.0/bootstrap.zip",
     "CONFIG_TEMPLATE_PATH": "alluxio-enterprise-scheduler",
     "DOCKER_ALLUXIO_CLIENT": "true",
     "DOCKER_ALLUXIO_CLIENT_BASE": "openjdk:7-jdk-alpine",
     "DOCKER_PUBLISH": "true",
     "DOCKER_PUBLISH_URL": "registry.marathon.l4lb.thisdcos.directory:5000",
     "DOCKER_SPARK_CLIENT": "true",
-    "DOCKER_SPARK_CLIENT_BASE": "mesosphere/spark:1.0.9-2.1.0-1-hadoop-2.6",
+    "DOCKER_SPARK_CLIENT_BASE": "mesosphere/spark:1.0.6-2.0.2-hadoop-2.6",
     "DOCKER_SPARK_DIST_HOME": "/opt/spark/dist",
-    "EXECUTOR_URI": "https://alluxio-dcos.s3.amazonaws.com/release/1.0.1-1.4.0/executor.zip",
+    "EXECUTOR_URI": "https://alluxio-dcos.s3.amazonaws.com/dev/1.0.1-1.4.0/executor.zip",
     "FRAMEWORK_NAME": "alluxio-enterprise",
     "FRAMEWORK_PRINCIPAL": "alluxio-enterprise-principal",
     "HDFS_ENABLE_HA": "true",
     "HDFS_SERVICE_ENDPOINTS": "api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints",
-    "JDK_URI": "https://downloads.mesosphere.com/java/jre-8u112-linux-x64.tar.gz",
-    "LIBMESOS_URI": "https://downloads.mesosphere.com/libmesos-bundle/libmesos-bundle-1.9-argus-1.1.x-2.tar.gz",
+    "JAVA_URI": "https://downloads.mesosphere.com/java/jre-8u112-linux-x64-jce-unlimited.tar.gz",
+    "LIBMESOS_URI": "https://downloads.mesosphere.com/libmesos-bundle/libmesos-bundle-1.9.0-rc2-1.2.0-rc2-1.tar.gz",
     "MASTER_CPUS": "1",
     "MASTER_DISK": "1000",
     "MASTER_DISK_TYPE": "ROOT",
@@ -55,7 +91,9 @@
     "PROXYLITE_CPUS": "1",
     "PROXYLITE_MEM": "2048",
     "PROXYLITE_PORT": "19997",
-    "SPARK_CORE_SITE": "https://alluxio-dcos.s3.amazonaws.com/release/1.0.1-1.4.0/spark-core-site.xml",
+    "SECURITY_AUTHENTICATION_TYPE": "NOSASL",
+    "SECURITY_AUTHORIZATION_PERMISSION_ENABLED": "false",
+    "SPARK_CORE_SITE": "https://alluxio-dcos.s3.amazonaws.com/dev/1.0.1-1.4.0/spark-core-site.xml",
     "SWIFT_AUTH_METHOD": "swiftauth",
     "SWIFT_AUTH_URL": "http://ceph.rgw.host:8090/auth/1.0",
     "SWIFT_PASSWORD": "",
@@ -65,24 +103,24 @@
     "SWIFT_USE_PUBLIC_URL": "true",
     "TASKCFG_ALL_ALLUXIO_LOGLEVEL": "",
     "UFS_ADDRESS": "hdfs://hdfs",
-    "WORKER_COUNT": "1",
+    "WORKER_COUNT": "3",
     "WORKER_CPUS": "1",
-    "WORKER_DISK": "1000",
+    "WORKER_DISK": "10000",
     "WORKER_DISK_TYPE": "ROOT",
-    "WORKER_MEM": "2048",
+    "WORKER_MEM": "8",
     "WORKER_PLACEMENT": "hostname:UNIQUE"
   },
   "labels": {
     "DCOS_MIGRATION_API_PATH": "/v1/plan",
     "DCOS_MIGRATION_API_VERSION": "v1",
-    "DCOS_PACKAGE_COMMAND": "eyJwaXAiOlsiaHR0cHM6Ly9hbGx1eGlvLWRjb3MuczMuYW1hem9uYXdzLmNvbS9yZWxlYXNlLzEuMC4xLTEuNC4wL2Jpbl93cmFwcGVyLTAuMC4xLXB5Mi5weTMtbm9uZS1hbnkud2hsIl19",
+    "DCOS_PACKAGE_COMMAND": "eyJwaXAiOlsiaHR0cHM6Ly9hbGx1eGlvLWRjb3MuczMuYW1hem9uYXdzLmNvbS9kZXYvMS4wLjEtMS40LjAvYmluX3dyYXBwZXItMC4wLjEtcHkyLnB5My1ub25lLWFueS53aGwiXX0=",
     "DCOS_PACKAGE_FRAMEWORK_NAME": "alluxio-enterprise",
     "DCOS_PACKAGE_IS_FRAMEWORK": "true",
     "DCOS_PACKAGE_METADATA": "eyJwYWNrYWdpbmdWZXJzaW9uIjoiMi4wIiwibmFtZSI6ImFsbHV4aW8tZW50ZXJwcmlzZSIsInZlcnNpb24iOiIxLjAuMS0xLjQuMCIsIm1haW50YWluZXIiOiJpbmZvQGFsbHV4aW8uY29tIiwiZGVzY3JpcHRpb24iOiJBbGx1eGlvIEVudGVycHJpc2UgRWRpdGlvbiAoQUVFKS4gXG5cbiBBbGx1eGlvLCBmb3JtZXJseSBUYWNoeW9uLCBpcyB0aGUgd29ybGQncyBmaXJzdCBzeXN0ZW0gdGhhdCB1bmlmaWVzIGRpc3BhcmF0ZSBzdG9yYWdlIHN5c3RlbXMgYXQgbWVtb3J5IHNwZWVkLiBXaXRoIEFsbHV4aW8sIGVudGVycHJpc2VzIGNhbiBtYW5hZ2UgZGF0YSBlZmZpY2llbnRseSwgYWNjZWxlcmF0ZSBidXNpbmVzcyBhbmFseXRpY3MsIGFuZCBlYXNlIHRoZSBhZG9wdGlvbiBvZiBoeWJyaWQgY2xvdWQuIFxuXG4gUGxlYXNlIHJlZmVyIHRvIGh0dHBzOi8vYWxsdXhpby5jb20vZG9jcy8gZm9yIGEgZGV0YWlsZWQgb3BlcmF0aW9uIGd1aWRlLiBcblxuIFJlbGVhc2UgTm90ZXM6ICBcbiBWZXJzaW9uIDEuMC4wIG9mIHRoZSBEQy9PUyBTZXJ2aWNlIGlzIHRoZSBmaXJzdCByZWxlYXNlIG9mIHRoaXMgY2FwYWJpbGl0eS4gV2l0aCB0aGlzIGludGVncmF0aW9uLCB5b3UgY2FuIGRlcGxveSBBbGx1eGlvIGluIG1pbnV0ZXMgYW5kIHJlYWxpemUgZmFzdCBvbi1kZW1hbmQgYW5hbHl0aWNzLiBDaG9vc2UgYmV0d2VlbiBjb21tYW5kIGxpbmUgYW5kIEdVSSBiYXNlZCBpbnN0YWxsYXRpb24gdG8gc3VpdCB5b3VyIHByZWZlcmVuY2VzLiIsInRhZ3MiOlsiZW50ZXJwcmlzZSIsImFsbHV4aW8iXSwic2VsZWN0ZWQiOmZhbHNlLCJmcmFtZXdvcmsiOnRydWUsInByZUluc3RhbGxOb3RlcyI6IlBsZWFzZSB2aXNpdCBodHRwczovL2FsbHV4aW8uY29tL3Byb2R1Y3RzIHRvIG9idGFpbiBhIGxpY2Vuc2UgZm9yIEFsbHV4aW8gRW50ZXJwcmlzZSBFZGl0aW9uLiBWaXNpdCBodHRwczovL2FsbHV4aW8uY29tL2RvY3MvZW50ZXJwcmlzZS8xLjQvZW4vQWxsdXhpby1vbi1EQ09TLmh0bWwgZm9yIGEgZGV0YWlsZWQgaW5zdGFsbGF0aW9uIGd1aWRlLiIsInBvc3RJbnN0YWxsTm90ZXMiOiJEQy9PUyBBbGx1eGlvIGlzIGJlaW5nIGluc3RhbGxlZCFcblxuXHREb2N1bWVudGF0aW9uOiBodHRwczovL2FsbHV4aW8uY29tL2RvY3MvIFxuXHRJc3N1ZXM6IGluZm9AYWx1eGlvLmNvbSIsInBvc3RVbmluc3RhbGxOb3RlcyI6IkRDL09TIEFsbHV4aW8gaGFzIGJlZW4gdW5pbnN0YWxsZWQuIiwiaW1hZ2VzIjp7Imljb24tc21hbGwiOiJodHRwczovL2FsbHV4aW8tZGNvcy5zMy5hbWF6b25hd3MuY29tL2ljb25zL2FsbHV4aW9fbG9nb19zbWFsbC5wbmc/cmF3PXRydWUiLCJpY29uLW1lZGl1bSI6Imh0dHBzOi8vYWxsdXhpby1kY29zLnMzLmFtYXpvbmF3cy5jb20vaWNvbnMvYWxsdXhpb19sb2dvX21lZGl1bS5wbmc/cmF3PXRydWUiLCJpY29uLWxhcmdlIjoiaHR0cHM6Ly9hbGx1eGlvLWRjb3MuczMuYW1hem9uYXdzLmNvbS9pY29ucy9hbGx1eGlvX2xvZ29fbGFyZ2UucG5nP3Jhdz10cnVlIn19",
     "DCOS_PACKAGE_NAME": "alluxio-enterprise",
     "DCOS_PACKAGE_REGISTRY_VERSION": "2.0",
     "DCOS_PACKAGE_RELEASE": "0",
-    "DCOS_PACKAGE_SOURCE": "https://s3-us-west-1.amazonaws.com/alluxio-dcos/universe/stub-universe-alluxio-enterprise.zip",
+    "DCOS_PACKAGE_SOURCE": "https://s3-us-west-1.amazonaws.com/alluxio-dcos/dev-universe/stub-universe-alluxio-enterprise.zip",
     "DCOS_PACKAGE_VERSION": "1.0.1-1.4.0",
     "MARATHON_SINGLE_INSTANCE_APP": "true"
   },
