@@ -95,7 +95,6 @@ docker run -it mesosphere/hdfs-client bash
 Within the `hdfs-client` container:
 
 ```bash
-export HADOOP_CONF_DIR="${MESOS_SANDBOX}"
 export PATH=$PATH:/hadoop-2.6.4/bin
 wget http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml
 wget http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml
