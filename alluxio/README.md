@@ -4,13 +4,15 @@
 
 Spin up a 12 private agent, 1 public agent DC/OS 1.9 Stable cluster
 
-### Enable `MESOS_HOSTNAME_LOOKUP` (required for data locality).
+### Enable `MESOS_HOSTNAME_LOOKUP` (required for data locality) and `MESOS_CGROUPS_LIMIT_SWAP`.
 
 Note: `MESOS_HOSTNAME_LOOKUP=true` requires properly configured DNS.
 
 _Ideally_, forward *and* reverse lookups for FQDNs, Short Hostnames and IP addresses should work:
 * `hostname -f` *must* return the FQDN
 * `hostname -s` *must* return the Short Hostname
+
+For details on `MESOS_CGROUPS_LIMIT_SWAP` see: https://github.com/dcos/dcos/pull/1326
 
 ```bash
 dcos node ssh --master-proxy --leader
