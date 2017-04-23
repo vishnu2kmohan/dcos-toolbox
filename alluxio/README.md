@@ -4,9 +4,9 @@
 
 Spin up a 12 private agent, 1 public agent DC/OS 1.9 Stable cluster
 
-### Enable `MESOS_HOSTNAME_LOOKUP` (required for data locality) and `MESOS_CGROUPS_LIMIT_SWAP`.
+### Enable `MESOS_HOSTNAME_LOOKUP` and `MESOS_CGROUPS_LIMIT_SWAP`
 
-Note: `MESOS_HOSTNAME_LOOKUP=true` requires properly configured DNS.
+Note: `MESOS_HOSTNAME_LOOKUP=true` requires properly configured DNS and is required (as a workaround) to improve data locality for Alluxio
 
 _Ideally_, forward *and* reverse lookups for FQDNs, Short Hostnames and IP addresses should work:
 * `hostname -f` *must* return the FQDN
