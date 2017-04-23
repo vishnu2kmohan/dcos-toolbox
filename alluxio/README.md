@@ -2,14 +2,14 @@
 
 ## Prerequisites
 
-Spin up a 10 private agent, 1 public agent DC/OS 1.9 Stable cluster
+Spin up a 12 private agent, 1 public agent DC/OS 1.9 Stable cluster
 
 ### Change `MESOS_HOSTNAME` to use the agent's actual hostname (required for locality).
 
 ```bash
 dcos node ssh --master-proxy --leader
 MESOS_AGENTS=$(curl -sS master.mesos:5050/slaves | jq -er '.slaves[] | .hostname')
-for i in $MESOS_AGENTS; do ssh "$i" -oStrictHostKeyChecking=no 'echo "MESOS_HOSTNAME=`hostname`" | sudo tee -a /var/lib/dcos/mesos-slave-common && agent=`sudo systemctl status dcos-mesos-slave.service | grep "running" | wc -l` && if [ $agent = "1" ]; then sudo systemctl stop dcos-mesos-slave.service && sudo rm -f /var/lib/mesos/slave/meta/slaves/latest && sudo systemctl start dcos-mesos-slave.service --no-block; fi'; done
+for i in $MESOS_AGENTS; do ssh "$i" -oStrictHostKeyChecking=no 'echo -e "MESOS_HOSTNAME_LOOKUP=true\nMESOS_CGROUPS_LIMIT_SWAP=true" | sudo tee -a /var/lib/dcos/mesos-slave-common && agent=`sudo systemctl status dcos-mesos-slave.service | grep "running" | wc -l` && if [ $agent = "1" ]; then sudo systemctl stop dcos-mesos-slave.service && sudo rm -f /var/lib/mesos/slave/meta/slaves/latest && sudo systemctl start dcos-mesos-slave.service --no-block; fi'; done
 exit
 ```
 
@@ -18,7 +18,7 @@ exit
 ```bash
 dcos node ssh --master-proxy --leader
 MESOS_AGENTS=$(curl -sS master.mesos:5050/slaves | jq -er '.slaves[] | .hostname')
-command="sudo mkdir -p  /etc/systemd/system/docker.service.d/ && echo -e '[Service]\nEnvironmentFile=-/etc/sysconfig/docker\nEnvironmentFile=-/etc/sysconfig/docker-storage\nEnvironmentFile=-/etc/sysconfig/docker-network\nExecStart=\nExecStart=/usr/bin/docker daemon -H fd:// $OPTIONS $DOCKER_STORAGE_OPTIONS $DOCKER_NETWORK_OPTIONS $BLOCK_REGISTRY $INSECURE_REGISTRY --storage-driver=overlay --insecure-registry registry.marathon.l4lb.thisdcos.directory:5000' | sudo tee --append /etc/systemd/system/docker.service.d/override.conf && sudo systemctl daemon-reload && sudo systemctl restart docker"
+command="sudo mkdir -p  /etc/systemd/system/docker.service.d/ && echo -e '[Service]\nEnvironmentFile=-/etc/sysconfig/docker\nEnvironmentFile=-/etc/sysconfig/docker-storage\nEnvironmentFile=-/etc/sysconfig/docker-network\nExecStart=\nExecStart=/usr/bin/docker daemon -H fd:// $OPTIONS $DOCKER_STORAGE_OPTIONS $DOCKER_NETWORK_OPTIONS $BLOCK_REGISTRY $INSECURE_REGISTRY --storage-driver=overlay --live-restore --insecure-registry registry.marathon.l4lb.thisdcos.directory:5000' | sudo tee --append /etc/systemd/system/docker.service.d/override.conf && sudo systemctl daemon-reload && sudo systemctl restart docker"
 eval $command
 for i in $MESOS_AGENTS; do ssh "$i" -oStrictHostKeyChecking=no $command; done
 exit
@@ -59,7 +59,9 @@ dcos marathon app add alluxio-enterprise.json
 
 Note: Wait for the deployment to complete
 
-### Test Alluxio
+## Test Alluxio
+
+### Validate the Alluxio install
 
 ```bash
 dcos node ssh --master-proxy --leader
@@ -91,6 +93,7 @@ wget http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml
 wget http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml
 cp core-site.xml hadoop-2.6.4/etc/hadoop
 cp hdfs-site.xml hadoop-2.6.4/etc/hadoop
+hdfs dfs -mkdir -p /history
 hdfs dfs -ls -R /
 exit
 exit
@@ -112,3 +115,44 @@ file.count()
 ```
 
 Note: `Ctrl+D` to exit from the Spark Scala Shell.
+
+## Setup a Spark History Server to view Event Logs
+
+```bash
+dcos marathon app add https://raw.githubusercontent.com/vishnu2kmohan/dcos-toolbox/master/spark/spark-history.json
+```
+
+## `TeraGen`, `TeraSort` and `TeraValidate` 
+
+### Add Spark Jobs to Metronome
+
+```bash
+dcos job add https://raw.githubusercontent.com/vishnu2kmohan/dcos-toolbox/master/alluxio/alluxio-teragen.json
+dcos job add https://raw.githubusercontent.com/vishnu2kmohan/dcos-toolbox/master/alluxio/alluxio-terasort.json
+dcos job add https://raw.githubusercontent.com/vishnu2kmohan/dcos-toolbox/master/alluxio/alluxio-teravalidate.json
+```
+
+### Run `TeraGen`, `TeraSort` and `TeraValidate`
+
+#### `TeraGen`
+
+```bash
+dcos job run alluxio.tera.gen
+```
+
+Note: Wait for the `TeraGen` job to complete
+
+#### `TeraSort`
+
+```bash
+dcos job run alluxio.tera.sort
+```
+
+Note: Wait for the `TeraSort` job to complete
+
+#### `TeraValidate`
+```bash
+dcos job run alluxio.tera.validate
+```
+
+Note: Wait for the `TeraValidate` job to complete
