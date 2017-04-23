@@ -25,7 +25,7 @@
         "containerPath": "var",
         "mode": "RW",
         "persistent": {
-          "size": 4096
+          "size": 10240
         }
       }
     ]

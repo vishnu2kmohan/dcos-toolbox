@@ -6,7 +6,7 @@
   "storage": {
     "persistence": {
       "enable": true,
-      "volume_size_registry": 4096
+      "volume_size_registry": 10240
     }
   }
 }
