@@ -107,7 +107,7 @@
     "WORKER_CPUS": "1",
     "WORKER_DISK": "10000",
     "WORKER_DISK_TYPE": "ROOT",
-    "WORKER_MEM": "8",
+    "WORKER_MEM": "8192",
     "WORKER_PLACEMENT": "hostname:UNIQUE"
   },
   "labels": {
