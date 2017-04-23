@@ -1,0 +1,55 @@
+{
+  "description": "TeraSort with EventLog on HDFS",
+  "id": "alluxio.tera.sort",
+  "run": {
+    "cpus": 1,
+    "mem": 4096,
+    "disk": 0,
+    "user": "nobody",
+    "cmd": "/opt/spark/dist/bin/spark-submit --name ${SPARK_NAME} --master ${SPARK_MASTER} --conf spark.driver.cores=${SPARK_DRIVER_CORES} --conf spark.driver.memory=${SPARK_DRIVER_MEM} --conf spark.executor.memory=${SPARK_EXECUTOR_MEM} --conf spark.executor.home=${SPARK_EXECUTOR_HOME} --conf spark.mesos.executor.docker.image=${SPARK_DOCKER_IMAGE} --conf spark.eventLog.enabled=${SPARK_EVENT_LOG_ENABLED} --conf spark.eventLog.dir=${SPARK_EVENT_LOG_DIR} --conf spark.mesos.uris=${SPARK_URIS} --class ${SPARK_CLASS} ${MESOS_SANDBOX}/${SPARK_JAR} ${SPARK_ARGS}",
+    "env": {
+      "SPARK_NAME": "TeraSort",
+      "SPARK_DOCKER_IMAGE": "registry.marathon.l4lb.thisdcos.directory:5000/alluxio/spark-aee",
+      "SPARK_MASTER": "mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos",
+      "SPARK_CORES_MAX": "10",
+      "SPARK_DRIVER_CORES": "1",
+      "SPARK_DRIVER_MEM": "4g",
+      "SPARK_EXECUTOR_CORES": "2",
+      "SPARK_EXECUTOR_MEM": "6g",
+      "SPARK_EXECUTOR_HOME": "/opt/spark/dist",
+      "SPARK_EVENT_LOG_ENABLED": "true",
+      "SPARK_EVENT_LOG_DIR": "hdfs://hdfs/history",
+      "SPARK_URIS": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml,http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml,https://s3.amazonaws.com/vishnu-mohan/spark-terasort-2.0.2-2.11.8-jar-with-dependencies.jar",
+      "SPARK_CLASS": "com.github.ehiggs.spark.terasort.TeraSort",
+      "SPARK_JAR": "spark-terasort-2.0.2-2.11.8-jar-with-dependencies.jar",
+      "SPARK_ARGS": "alluxio://master-0-node.alluxio-enterprise.mesos:19998/terasort/terasort_in alluxio://master-0-node.alluxio-enterprise.mesos:19998/terasort/terasort_out"
+    },
+    "docker": {
+      "image": "registry.marathon.l4lb.thisdcos.directory:5000/alluxio/spark-aee"
+    },
+    "artifacts": [
+      {
+        "uri": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml",
+        "extract": false,
+        "executable": false,
+        "cache": false
+      },
+      {
+        "uri": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml",
+        "extract": false,
+        "executable": false,
+        "cache": false
+      },
+      {
+        "uri": "https://s3.amazonaws.com/vishnu-mohan/spark-terasort-2.0.2-2.11.8-jar-with-dependencies.jar",
+        "extract": false,
+        "executable": false,
+        "cache": true
+      }
+    ]
+  },
+  "labels": {
+    "location": "olympus",
+    "owner": "zeus"
+  }
+}
