@@ -117,7 +117,7 @@ docker run -it --net=host registry.marathon.l4lb.thisdcos.directory:5000/alluxio
 
 From within the `spark-aee` container:
 ```                                              
-./bin/spark-shell --master mesos://master.mesos:5050 --conf "spark.mesos.executor.docker.image=registry.marathon.l4lb.thisdcos.directory:5000/alluxio/spark-aee" --conf "spark.mesos.executor.docker.forcePullImage=false" --conf "spark.scheduler.minRegisteredResourcesRatio=1" --conf "spark.scheduler.maxRegisteredResourcesWaitingTime=5s" --conf "spark.driver.extraClassPath=/opt/spark/dist/jars/alluxio-enterprise-1.4.0-spark-client.jar" --conf "spark.executor.extraClassPath=/opt/spark/dist/jars/alluxio-enterprise-1.4.0-spark-client.jar" --executor-memory 1G
+./bin/spark-shell --master mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos --conf "spark.mesos.executor.docker.image=registry.marathon.l4lb.thisdcos.directory:5000/alluxio/spark-aee" --conf "spark.mesos.executor.docker.forcePullImage=false" --conf "spark.scheduler.minRegisteredResourcesRatio=1" --conf "spark.scheduler.maxRegisteredResourcesWaitingTime=5s" --conf "spark.driver.extraClassPath=/opt/spark/dist/jars/alluxio-enterprise-1.4.0-spark-client.jar" --conf "spark.executor.extraClassPath=/opt/spark/dist/jars/alluxio-enterprise-1.4.0-spark-client.jar" --executor-memory 1G
 sc.setLogLevel("INFO")                                                          
 val file = sc.textFile("alluxio://master-0-node.alluxio-enterprise.mesos:19998/default_tests_files/Basic_NO_CACHE_THROUGH")
 file.count()
