@@ -25,7 +25,7 @@
       "SPARK_ARGS": "hdfs://hdfs/terasort/terasort_out hdfs://hdfs/terasort/terasort_validate"
     },
     "docker": {
-      "image": "mesosphere/spark:1.0.6-2.0.2-hadoop-2.6"
+      "image": "mesosphere/spark:1.0.6-2.0.2-hadoop-2.7"
     },
     "artifacts": [
       {
