@@ -2,7 +2,29 @@
   "id": "hdfs",
   "cpus": 1.0,
   "mem": 1024,
+  "instances": 1,
+  "user": "nobody",
   "cmd": "export LD_LIBRARY_PATH=$MESOS_SANDBOX/libmesos-bundle/lib:$LD_LIBRARY_PATH && export MESOS_NATIVE_JAVA_LIBRARY=$(ls $MESOS_SANDBOX/libmesos-bundle/lib/libmesos-*.so) && export JAVA_HOME=$(ls -d $MESOS_SANDBOX/jre*/) && export JAVA_HOME=${JAVA_HOME%/} && export PATH=$(ls -d $JAVA_HOME/bin):$PATH && export JAVA_OPTS=\"-Xms1024M -Xmx1024M -XX:-HeapDumpOnOutOfMemoryError\" && ./hdfs-scheduler/bin/hdfs ./hdfs-scheduler/svc.yml",
+  "fetch": [
+    {
+    "uri": "https://downloads.mesosphere.com/java/jre-8u131-linux-x64-jce-unlimited.tar.gz",
+      "extract": true,
+      "executable": false,
+      "cache": true
+    },
+    {
+    "uri": "https://downloads.mesosphere.com/hdfs/assets/2.0.2-2.6.0-cdh5.11.0/hdfs-scheduler.zip",
+      "extract": true,
+      "executable": false,
+      "cache": true
+    },
+    {
+    "uri": "https://downloads.mesosphere.io/libmesos-bundle/libmesos-bundle-1.10-1.4-63e0814.tar.gz",
+      "extract": true,
+      "executable": false,
+      "cache": true
+    }
+  ],
   "env": {
     "BOOTSTRAP_URI": "https://downloads.mesosphere.com/hdfs/assets/2.0.2-2.6.0-cdh5.11.0/bootstrap.zip",
     "CONFIG_TEMPLATE_PATH": "hdfs-scheduler",
@@ -370,27 +392,6 @@
     "ZKFC_CPUS": "1",
     "ZKFC_MEM": "2048"
   },
-  "healthChecks": [
-    {
-      "gracePeriodSeconds": 900,
-      "intervalSeconds": 30,
-      "maxConsecutiveFailures": 0,
-      "path": "/v1/plans/deploy",
-      "portIndex": 0,
-      "protocol": "HTTP",
-      "timeoutSeconds": 30
-    },
-    {
-      "gracePeriodSeconds": 900,
-      "intervalSeconds": 30,
-      "maxConsecutiveFailures": 0,
-      "path": "/v1/plans/recovery",
-      "portIndex": 0,
-      "protocol": "HTTP",
-      "timeoutSeconds": 30
-    }
-  ],
-  "instances": 1,
   "labels": {
     "DCOS_COMMONS_API_VERSION": "v1",
     "DCOS_COMMONS_UNINSTALL": "true",
@@ -416,6 +417,26 @@
       "protocol": "tcp"
     }
   ],
+  "healthChecks": [
+    {
+      "gracePeriodSeconds": 900,
+      "intervalSeconds": 30,
+      "maxConsecutiveFailures": 0,
+      "path": "/v1/plans/deploy",
+      "portIndex": 0,
+      "protocol": "HTTP",
+      "timeoutSeconds": 30
+    },
+    {
+      "gracePeriodSeconds": 900,
+      "intervalSeconds": 30,
+      "maxConsecutiveFailures": 0,
+      "path": "/v1/plans/recovery",
+      "portIndex": 0,
+      "protocol": "HTTP",
+      "timeoutSeconds": 30
+    }
+  ],
   "upgradeStrategy": {
     "maximumOverCapacity": 0,
     "minimumHealthCapacity": 0
@@ -423,11 +444,5 @@
   "unreachableStrategy": {
     "expungeAfterSeconds": 0,
     "inactiveAfterSeconds": 0
-  },
-  "uris": [
-    "https://downloads.mesosphere.com/java/jre-8u131-linux-x64-jce-unlimited.tar.gz",
-    "https://downloads.mesosphere.com/hdfs/assets/2.0.2-2.6.0-cdh5.11.0/hdfs-scheduler.zip",
-    "https://downloads.mesosphere.io/libmesos-bundle/libmesos-bundle-1.10-1.4-63e0814.tar.gz"
-  ],
-  "user": "nobody"
+  }
 }
