@@ -10,9 +10,19 @@
       "image": "mesosphere/spark:2.0.1-2.2.0-1-hadoop-2.7"
     }
   },
-  "uris": [
-    "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml",
-    "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml"
+  "fetch": [
+    {
+    "uri": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml",
+      "extract": false,
+      "executable": false,
+      "cache": false
+    },
+    {
+    "uri": "http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml",
+      "extract": false,
+      "executable": false,
+      "cache": false
+    }
   ],
   "env": {
     "APPLICATION_WEB_PROXY_BASE": "/service/spark-history",
