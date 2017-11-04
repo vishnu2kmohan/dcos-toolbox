@@ -125,7 +125,7 @@ Note: You can see the event logs after the job completes from the Spark History 
 ### Add Spark Jobs to Metronome
 
 ```bash
-dcos job add https://raw.githubusercontent.com/vishnu2kmohan/dcos-toolbox/master/metrnome/teragen.json
+dcos job add https://raw.githubusercontent.com/vishnu2kmohan/dcos-toolbox/master/metronome/teragen.json
 dcos job add https://raw.githubusercontent.com/vishnu2kmohan/dcos-toolbox/master/metronome/terasort.json
 dcos job add https://raw.githubusercontent.com/vishnu2kmohan/dcos-toolbox/master/metronome/teravalidate.json
 ```
