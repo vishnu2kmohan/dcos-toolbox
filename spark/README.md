@@ -94,13 +94,13 @@ spark-submit --verbose --name SparkPi-Local-2-2-0 --conf spark.cores.max=4 --con
 Launch a SparkPi job consuming resources from Mesos in Client Mode
 
 ```bash
-spark-submit --verbose --name SparkPi-Client-2-2-0 --master mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos --conf spark.cores.max=4 --conf spark.executor.cores=2 --conf spark.mesos.executor.docker.image=mesosphere/spark:2.0.2-2.2.0-1-hadoop-2.7 --class org.apache.spark.examples.SparkPi /opt/spark/dist/examples/jars/spark-examples_2.11-2.2.0.jar 100
+spark-submit --verbose --name SparkPi-Client-2-2-0 --master mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos --conf spark.cores.max=4 --conf spark.executor.cores=2 --conf spark.mesos.executor.docker.image=mesosphere/spark:2.1.0-2.2.0-1-hadoop-2.7 --class org.apache.spark.examples.SparkPi /opt/spark/dist/examples/jars/spark-examples_2.11-2.2.0.jar 100
 ```
 
 Launch a SparkPi job against the Dispatcher in Cluster Mode
 
 ```bash
-spark-submit --verbose --deploy-mode cluster --name SparkPi-Dispatcher-2-2-0 --master mesos://spark.marathon.l4lb.thisdcos.directory:7077 --conf spark.cores.max=4 --conf spark.executor.cores=2 --conf spark.mesos.executor.docker.image=mesosphere/spark:2.0.2-2.2.0-1-hadoop-2.7 --conf spark.executor.home=/opt/spark/dist --class org.apache.spark.examples.SparkPi http://downloads.mesosphere.com/spark/assets/spark-examples_2.11-2.0.1.jar 100
+spark-submit --verbose --deploy-mode cluster --name SparkPi-Dispatcher-2-2-0 --master mesos://spark.marathon.l4lb.thisdcos.directory:7077 --conf spark.cores.max=4 --conf spark.executor.cores=2 --conf spark.mesos.executor.docker.image=mesosphere/spark:2.1.0-2.2.0-1-hadoop-2.7 --conf spark.executor.home=/opt/spark/dist --class org.apache.spark.examples.SparkPi http://downloads.mesosphere.com/spark/assets/spark-examples_2.11-2.0.1.jar 100
 ```
 
 Launch a SparkPi job in local mode with the event logs sent to HDFS
@@ -110,12 +110,12 @@ spark-submit --verbose --name SparkPi-HDFS-Eventlog-Local-2-2-0 --conf spark.cor
 
 Launch a SparkPi job in client mode with the event logs sent to HDFS
 ```bash
-spark-submit --verbose --name SparkPi-HDFS-Eventlog-Client-2-2-0 --master mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos --conf spark.cores.max=4 --conf spark.driver.cores=1 --conf spark.driver.memory=1g --conf spark.executor.cores=2 --conf spark.executor.memory=1g --conf spark.mesos.executor.docker.image=mesosphere/spark:2.0.2-2.2.0-1-hadoop-2.7 --conf spark.executor.home=/opt/spark/dist --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hdfs/history --conf spark.mesos.uris=http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml,http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml --class org.apache.spark.examples.SparkPi /opt/spark/dist/examples/jars/spark-examples_2.11-2.2.0.jar 100
+spark-submit --verbose --name SparkPi-HDFS-Eventlog-Client-2-2-0 --master mesos://zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos --conf spark.cores.max=4 --conf spark.driver.cores=1 --conf spark.driver.memory=1g --conf spark.executor.cores=2 --conf spark.executor.memory=1g --conf spark.mesos.executor.docker.image=mesosphere/spark:2.1.0-2.2.0-1-hadoop-2.7 --conf spark.executor.home=/opt/spark/dist --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hdfs/history --conf spark.mesos.uris=http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml,http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml --class org.apache.spark.examples.SparkPi /opt/spark/dist/examples/jars/spark-examples_2.11-2.2.0.jar 100
 ```
 Launch a SparkPi job in cluster mode with the event logs sent to HDFS
 
 ```bash
-spark-submit --verbose --deploy-mode cluster --name SparkPi-HDFS-Eventlog-Dispatcher-2-2-0 --master mesos://spark.marathon.l4lb.thisdcos.directory:7077 --conf spark.cores.max=4 --conf spark.driver.cores=1 --conf spark.driver.memory=1g --conf spark.executor.cores=2 --conf spark.executor.memory=1g --conf spark.mesos.executor.docker.image=mesosphere/spark:2.0.2-2.2.0-1-hadoop-2.7 --conf spark.executor.home=/opt/spark/dist --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hdfs/history --conf spark.mesos.uris=http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml,http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml --class org.apache.spark.examples.SparkPi http://downloads.mesosphere.com/spark/assets/spark-examples_2.11-2.0.1.jar 100
+spark-submit --verbose --deploy-mode cluster --name SparkPi-HDFS-Eventlog-Dispatcher-2-2-0 --master mesos://spark.marathon.l4lb.thisdcos.directory:7077 --conf spark.cores.max=4 --conf spark.driver.cores=1 --conf spark.driver.memory=1g --conf spark.executor.cores=2 --conf spark.executor.memory=1g --conf spark.mesos.executor.docker.image=mesosphere/spark:2.1.0-2.2.0-1-hadoop-2.7 --conf spark.executor.home=/opt/spark/dist --conf spark.eventLog.enabled=true --conf spark.eventLog.dir=hdfs://hdfs/history --conf spark.mesos.uris=http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/hdfs-site.xml,http://api.hdfs.marathon.l4lb.thisdcos.directory/v1/endpoints/core-site.xml --class org.apache.spark.examples.SparkPi http://downloads.mesosphere.com/spark/assets/spark-examples_2.11-2.0.1.jar 100
 ```
 
 Note: You can see the event logs after the job completes from the Spark History Server UI
