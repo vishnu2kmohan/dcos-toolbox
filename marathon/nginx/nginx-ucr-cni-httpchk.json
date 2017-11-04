@@ -1,36 +1,37 @@
 {
   "id": "/nginx/ucr/cni/httpchk",
   "instances": 2,
-  "cpus": 0.01,
+  "cpus": 0.1,
   "mem": 32,
   "cmd": "env | sort && nginx -g \"daemon off;\"",
+  "networks": [
+    {
+      "mode": "container",
+      "name": "dcos"
+    }
+  ],
   "container": {
     "type": "MESOS",
     "docker": {
       "image": "nginx:alpine"
-    }
-  },
-  "ipAddress": {
-    "networkName": "dcos",
-    "discovery": {
-      "ports": [
-        {
-          "number": 80,
-          "name": "http",
-          "protocol": "tcp",
-          "labels": {
-            "VIP_0": "/nginx.ucr.cni.httpchk:80"
-          }
+    },
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "protocol": "tcp",
+        "name": "http",
+        "labels": {
+          "VIP_0": "/nginx.ucr.cni.httpchk:80"
         }
-      ]
-    }
+      }
+    ]
   },
   "healthChecks": [
     {
       "protocol": "MESOS_HTTP",
       "path": "/",
       "port": 80,
-      "gracePeriodSeconds": 30,
+      "gracePeriodSeconds": 60,
       "intervalSeconds": 20,
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3

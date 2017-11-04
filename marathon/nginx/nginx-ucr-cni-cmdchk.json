@@ -1,37 +1,38 @@
 {
   "id": "/nginx/ucr/cni/cmdchk",
   "instances": 2,
-  "cpus": 0.01,
+  "cpus": 0.1,
   "mem": 32,
   "cmd": "env | sort && apk --no-cache add curl && nginx -g \"daemon off;\"",
+  "networks": [
+    {
+      "mode": "container",
+      "name": "dcos"
+    }
+  ],
   "container": {
     "type": "MESOS",
     "docker": {
       "image": "nginx:alpine"
-    }
-  },
-  "ipAddress": {
-    "networkName": "dcos",
-    "discovery": {
-      "ports": [
-        {
-          "number": 80,
-          "name": "http",
-          "protocol": "tcp",
-          "labels": {
-            "VIP_0": "/nginx.ucr.cni.cmdchk:80"
-          }
+    },
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "protocol": "tcp",
+        "name": "http",
+        "labels": {
+          "VIP_0": "/nginx.ucr.cni.cmdchk:80"
         }
-      ]
-    }
+      }
+    ]
   },
   "healthChecks": [
     {
       "protocol": "COMMAND",
       "command": {
-        "value": "curl -fsSL -X GET http://$(hostname):$PORT0/ > /dev/null 2>&1"
+        "value": "curl -fsSL -X GET http://localhost > /dev/null 2>&1"
       },
-      "gracePeriodSeconds": 30,
+      "gracePeriodSeconds": 60,
       "intervalSeconds": 20,
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3

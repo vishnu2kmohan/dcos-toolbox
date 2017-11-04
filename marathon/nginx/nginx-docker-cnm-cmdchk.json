@@ -1,36 +1,38 @@
 {
   "id": "/nginx/docker/cnm/cmdchk",
   "instances": 2,
-  "cpus": 0.01,
+  "cpus": 0.1,
   "mem": 32,
   "cmd": "env | sort && apk --no-cache add curl && nginx -g \"daemon off;\"",
+  "networks": [
+    {
+      "mode": "container",
+      "name": "dcos"
+    }
+  ],
   "container": {
     "type": "DOCKER",
     "docker": {
-      "image": "nginx:alpine",
-      "network": "USER",
-      "portMappings": [
-        {
-          "containerPort": 80,
-          "name": "http",
-          "protocol": "tcp",
-          "labels": {
-            "VIP_0": "/nginx.docker.cnm.cmdchk:80"
-          }
+      "image": "nginx:alpine"
+    },
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "name": "http",
+        "protocol": "tcp",
+        "labels": {
+          "VIP_0": "/nginx.docker.cnm.cmdchk:80"
         }
-      ]
-    }
-  },
-  "ipAddress": {
-    "networkName": "dcos"
+      }
+    ]
   },
   "healthChecks": [
     {
       "protocol": "COMMAND",
       "command": {
-        "value": "curl -fsSL -X GET http://localhost:$PORT0/ > /dev/null 2>&1"
+        "value": "curl -fsSL -X GET http://localhost/ > /dev/null 2>&1"
       },
-      "gracePeriodSeconds": 30,
+      "gracePeriodSeconds": 60,
       "intervalSeconds": 20,
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3

@@ -1,32 +1,38 @@
 {
   "id": "/nginx/docker/bridged/cmdchk",
   "instances": 2,
-  "cpus": 0.01,
+  "cpus": 0.1,
   "mem": 32,
   "cmd": "env | sort && apk --no-cache add curl && nginx -g \"daemon off;\"",
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
   "container": {
     "type": "DOCKER",
     "docker": {
-      "image": "nginx:alpine",
-      "network": "BRIDGE",
-      "portMappings": [
-        {
-          "containerPort": 80,
-          "protocol": "tcp",
-          "labels": {
-            "VIP_0": "/nginx.docker.bridged.cmdchk:80"
-          }
+      "image": "nginx:alpine"
+    },
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "hostPort": 0,
+        "protocol": "tcp",
+        "name": "http",
+        "labels": {
+          "VIP_0": "/nginx.docker.bridged.cmdchk:80"
         }
-      ]
-    }
+      }
+    ]
   },
   "healthChecks": [
     {
       "protocol": "COMMAND",
       "command": {
-        "value": "curl -fsSL -X GET http://$HOST:$PORT0/ > /dev/null 2>&1"
+        "value": "curl -fsSL -X GET http://$HOST:$PORT_HTTP/ > /dev/null 2>&1"
       },
-      "gracePeriodSeconds": 30,
+      "gracePeriodSeconds": 60,
       "intervalSeconds": 20,
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
