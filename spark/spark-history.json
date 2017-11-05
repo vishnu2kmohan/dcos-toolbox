@@ -2,12 +2,12 @@
   "id": "spark-history",
   "cpus": 1,
   "mem": 1024,
-  "user": "root",
+  "user": "nobody",
   "cmd": "SPARK_HISTORY_OPTS=\"-Dspark.history.ui.port=${PORT0} ${SPARK_HISTORY_OPTS}\" ./bin/spark-class org.apache.spark.deploy.history.HistoryServer",
   "container": {
     "type": "MESOS",
     "docker": {
-      "image": "mesosphere/spark:2.0.1-2.2.0-1-hadoop-2.7"
+      "image": "mesosphere/spark:2.1.0-2.2.0-1-hadoop-2.7"
     }
   },
   "fetch": [
@@ -35,28 +35,20 @@
     "DCOS_PACKAGE_REGISTRY_VERSION": "3.0",
     "DCOS_PACKAGE_RELEASE": "0",
     "DCOS_PACKAGE_SOURCE": "https://universe.mesosphere.com/repo",
-    "DCOS_PACKAGE_VERSION": "2.0.1-2.2.0-1",
+    "DCOS_PACKAGE_VERSION": "2.1.0-2.2.0-1",
     "DCOS_SERVICE_NAME": "spark-history",
     "DCOS_SERVICE_PORT_INDEX": "0",
     "DCOS_SERVICE_SCHEME": "http",
     "MARATHON_SINGLE_INSTANCE_APP": "true"
-  },
-  "upgradeStrategy": {
-    "maximumOverCapacity": 0,
-    "minimumHealthCapacity": 0
-  },
-  "unreachableStrategy": {
-    "expungeAfterSeconds": 0,
-    "inactiveAfterSeconds": 0
   },
   "portDefinitions": [
     {
       "protocol": "tcp",
       "port": 0,
       "labels": {
-        "VIP_0": "spark-hdfs-history:18080"
+        "VIP_0": "spark-history:18080"
       },
-      "name": "history-server"
+      "name": "spark-history"
     }
   ],
   "healthChecks": [
@@ -64,10 +56,18 @@
       "protocol": "MESOS_HTTP",
       "path": "/",
       "portIndex": 0,
-      "gracePeriodSeconds": 30,
+      "gracePeriodSeconds": 60,
       "intervalSeconds": 20,
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
     }
-  ]
+  ],
+  "upgradeStrategy": {
+    "maximumOverCapacity": 0,
+    "minimumHealthCapacity": 0
+  },
+  "unreachableStrategy": {
+    "expungeAfterSeconds": 0,
+    "inactiveAfterSeconds": 0
+  }
 }
