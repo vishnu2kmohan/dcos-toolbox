@@ -14,10 +14,15 @@ Note: Wait for the HDFS service to deploy and go healthy
 
 ### Create the /history folder on HDFS
 
-Log onto the Leading Master and pull down the HDFS client Docker Image
+Log onto the Leading Mesos Master
 
 ```bash
 dcos node ssh --master-proxy --leader
+```
+
+Pull down the HDFS client Docker Image
+
+```bash
 docker run -it mesosphere/hdfs-client bash
 ```
 
