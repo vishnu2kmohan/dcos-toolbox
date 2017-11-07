@@ -1,6 +1,6 @@
 {
   "id": "/tomcat/docker/host",
-  "cmd": "whoami && ls -al $CATALINA_HOME/conf/server.xml && env | sort && sed -i -e \"s/8080/${PORT_HTTP}/g\" -e \"s/8005/${PORT_SHUTDOWN}/g\" -e \"s/8009/${PORT_AJP}/g\" $CATALINA_HOME/conf/server.xml && cat $CATALINA_HOME/conf/server.xml && $CATALINA_HOME/bin/catalina.sh run",
+  "cmd": "env | sort && sed -i -e \"s/8080/${PORT_HTTP}/g\" -e \"s/8005/${PORT_SHUTDOWN}/g\" -e \"s/8009/${PORT_AJP}/g\" $CATALINA_HOME/conf/server.xml && $CATALINA_HOME/bin/catalina.sh run",
   "cpus": 1,
   "mem": 256,
   "instances": 2,
