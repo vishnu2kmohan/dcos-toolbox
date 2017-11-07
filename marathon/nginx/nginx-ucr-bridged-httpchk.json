@@ -1,0 +1,47 @@
+{
+  "id": "/nginx/ucr/bridged/httpchck",
+  "instances": 2,
+  "cpus": 0.1,
+  "mem": 32,
+  "cmd": "env | sort && nginx -g \"daemon off;\"",
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
+  "container": {
+    "type": "MESOS",
+    "docker": {
+      "image": "nginx:alpine"
+    },
+    "portMappings": [
+      {
+        "containerPort": 80,
+        "hostPort": 0,
+        "protocol": "tcp",
+        "name": "http",
+        "labels": {
+          "VIP_0": "/nginx.ucr.bridged.httpchk:80"
+        }
+      }
+    ]
+  },
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "portIndex": 0,
+      "gracePeriodSeconds": 60,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "labels": {
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "vhost.example.com",
+    "HAPROXY_0_PATH": "/nginx/ucr/bridged/httpchck",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/nginx/ucr/bridged/httpchck"
+  }
+}
