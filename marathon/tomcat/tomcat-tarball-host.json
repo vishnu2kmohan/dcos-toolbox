@@ -1,6 +1,6 @@
 {
   "id": "/tomcat/tarball/host",
-  "cmd": "env | sort && mv apache* apache-tomcat && export CATALINA_HOME=${MESOS_SANDBOX}/apache-tomcat && sed -i -e \"s/8080/${PORT0}/g\" -e \"s/8005/${PORT1}/g\" -e \"s/8009/${PORT2}/g\" $CATALINA_HOME/conf/server.xml && $CATALINA_HOME/bin/catalina.sh run",
+  "cmd": "env | sort && mv apache* apache-tomcat && export CATALINA_HOME=${MESOS_SANDBOX}/apache-tomcat && sed -i -e \"s/8080/${PORT_HTTP}/g\" -e \"s/8005/${PORT_SHUTDOWN}/g\" -e \"s/8009/${PORT_AJP}/g\" $CATALINA_HOME/conf/server.xml && $CATALINA_HOME/bin/catalina.sh run",
   "cpus": 1,
   "mem": 256,
   "user": "nobody",
@@ -10,7 +10,7 @@
   },
   "fetch": [
     {
-      "uri": "http://mirror.metrocast.net/apache/tomcat/tomcat-8/v8.5.12/bin/apache-tomcat-8.5.12.tar.gz",
+      "uri": "http://mirror.metrocast.net/apache/tomcat/tomcat-9/v9.0.1/bin/apache-tomcat-9.0.1.tar.gz",
       "executable": false,
       "extract": true,
       "cache": true
@@ -47,7 +47,7 @@
       "protocol": "MESOS_HTTP",
       "path": "/",
       "portIndex": 0,
-      "gracePeriodSeconds": 30,
+      "gracePeriodSeconds": 60,
       "intervalSeconds": 20,
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3

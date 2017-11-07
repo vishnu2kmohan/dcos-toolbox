@@ -1,14 +1,13 @@
 {
   "id": "/tomcat/docker/host",
-  "cmd": "env | sort && sed -i -e \"s/8080/${PORT0}/g\" -e \"s/8005/${PORT1}/g\" -e \"s/8009/${PORT2}/g\" $CATALINA_HOME/conf/server.xml && $CATALINA_HOME/bin/catalina.sh run",
+  "cmd": "whoami && ls -al $CATALINA_HOME/conf/server.xml && env | sort && sed -i -e \"s/8080/${PORT_HTTP}/g\" -e \"s/8005/${PORT_SHUTDOWN}/g\" -e \"s/8009/${PORT_AJP}/g\" $CATALINA_HOME/conf/server.xml && cat $CATALINA_HOME/conf/server.xml && $CATALINA_HOME/bin/catalina.sh run",
   "cpus": 1,
   "mem": 256,
   "instances": 2,
   "container": {
     "type": "DOCKER",
     "docker": {
-      "image": "tomcat:8.5-jre8-alpine",
-      "network": "HOST"
+      "image": "tomcat:9.0.1-jre8-alpine"
     }
   },
   "portDefinitions": [
@@ -42,7 +41,7 @@
       "protocol": "MESOS_HTTP",
       "path": "/",
       "portIndex": 0,
-      "gracePeriodSeconds": 30,
+      "gracePeriodSeconds": 60,
       "intervalSeconds": 20,
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
