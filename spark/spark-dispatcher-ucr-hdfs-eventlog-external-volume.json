@@ -44,6 +44,8 @@
     "NO_BOOTSTRAP": "true",
     "PATH": "/usr/bin:/bin:/usr/lib/jvm/jre1.8.0_112/bin:/opt/spark/dist/bin",
     "TERM": "xterm",
+    "SPARK_WORKER_CORES": 2,
+    "SPARK_WORKER_MEMORY": 3072,
     "SPARK_DISPATCHER_MESOS_PRINCIPAL": "",
     "SPARK_DISPATCHER_MESOS_ROLE": "*",
     "SPARK_DISPATCHER_MESOS_SECRET": "",
