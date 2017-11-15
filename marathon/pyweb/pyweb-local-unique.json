@@ -1,6 +1,6 @@
 {
   "id": "/pyweb/local/unique",
-  "cmd": "env | sort && /opt/mesosphere/bin/python3 -m http.server",
+  "cmd": "env | sort && /opt/mesosphere/bin/python3 -m http.server $PORT_HTTP",
   "cpus": 0.1,
   "mem": 32,
   "instances": 2,
