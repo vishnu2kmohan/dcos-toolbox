@@ -1,69 +1,33 @@
 {
-  "id": "/pyweb-docker-bridged-group",
+  "id": "/pyweb/docker/bridged/group",
   "apps": [
     {
-      "id": "/pyweb-docker-bridged-group/controller",
+      "id": "/pyweb/docker/bridged/group/controller",
       "cmd": "env | sort && python3 -m http.server",
       "instances": 1,
-      "cpus": 0.01,
+      "cpus": 0.1,
       "mem": 32,
-      "container": {
-        "type": "DOCKER",
-        "docker": {
-          "image": "python:3-alpine",
-          "network": "BRIDGE",
-          "portMappings": [
-            {
-                "containerPort": 8000,
-                "hostPort": 0,
-                "name": "pyweb-controller",
-                "protocol": "tcp",
-                "labels": { "VIP_0": "/pyweb-docker-bridged-group/controller:8000" }
-            }
-          ]
-        }
-      },
-      "labels": {
-        "HAPROXY_GROUP": "external",
-        "HAPROXY_0_VHOST": "<controller-vhost.example.com>"
-      },
-      "healthChecks": [
+      "networks": [
         {
-          "protocol": "HTTP",
-          "path": "/",
-          "portIndex": 0,
-          "gracePeriodSeconds": 20,
-          "intervalSeconds": 20,
-          "timeoutSeconds": 20,
-          "maxConsecutiveFailures": 3
+          "mode": "container/bridge"
         }
-      ]
-    },
-    {
-      "id": "/pyweb-docker-bridged-group/agent",
-      "cmd": "env | sort && python3 -m http.server",
-      "instances": 4,
-      "cpus": 0.01,
-      "mem": 32,
+      ],
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "python:3-alpine",
-          "network": "BRIDGE",
-          "portMappings": [
-            {
-                "containerPort": 8000,
-                "hostPort": 0,
-                "name": "pyweb-agent",
-                "protocol": "tcp",
-                "labels": { "VIP_0": "/pyweb-docker-bridged-group/agent:8000" }
+          "image": "python:3-alpine"
+        },
+        "portMappings": [
+          {
+            "containerPort": 8000,
+            "hostPort": 0,
+            "name": "controller",
+            "protocol": "tcp",
+            "labels": {
+              "VIP_0": "/pyweb.docker.bridged.group.controller:80"
             }
-          ]
-        }
-      },
-      "labels": {
-        "HAPROXY_GROUP": "external",
-        "HAPROXY_0_VHOST": "<agent-vhost.example.com>"
+          }
+        ]
       },
       "healthChecks": [
         {
@@ -76,9 +40,91 @@
           "maxConsecutiveFailures": 3
         }
       ],
+      "readinessChecks": [
+        {
+          "name": "readinessCheck",
+          "protocol": "HTTP",
+          "path": "/",
+          "portName": "controller",
+          "intervalSeconds": 30,
+          "timeoutSeconds": 10,
+          "httpStatusCodesForReady": [
+            200
+          ],
+          "preserveLastResponse": false
+        }
+      ],
+      "labels": {
+        "HAPROXY_GROUP": "external",
+        "HAPROXY_0_ENABLED": "true",
+        "HAPROXY_0_VHOST": "vhost.example.com",
+        "HAPROXY_0_PATH": "/pyweb/docker/bridged/group/controller",
+        "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/pyweb/docker/bridged/group/controller"
+      }
+    },
+    {
+      "id": "/pyweb/docker/bridged/group/agent",
       "dependencies": [
-        "/pyweb-docker-bridged-group/controller"
-      ]
+        "/pyweb/docker/bridged/group/controller"
+      ],
+      "cmd": "env | sort && python3 -m http.server",
+      "instances": 4,
+      "cpus": 0.1,
+      "mem": 32,
+      "networks": [
+        {
+          "mode": "container/bridge"
+        }
+      ],
+      "container": {
+        "type": "DOCKER",
+        "docker": {
+          "image": "python:3-alpine"
+        },
+        "portMappings": [
+          {
+            "containerPort": 8000,
+            "hostPort": 0,
+            "name": "agent",
+            "protocol": "tcp",
+            "labels": {
+              "VIP_0": "/pyweb.docker.bridged.group.agent:80"
+            }
+          }
+        ]
+      },
+      "healthChecks": [
+        {
+          "protocol": "HTTP",
+          "path": "/",
+          "portIndex": 0,
+          "gracePeriodSeconds": 20,
+          "intervalSeconds": 20,
+          "timeoutSeconds": 20,
+          "maxConsecutiveFailures": 3
+        }
+      ],
+      "readinessChecks": [
+        {
+          "name": "readinessCheck",
+          "protocol": "HTTP",
+          "path": "/",
+          "portName": "agent",
+          "intervalSeconds": 30,
+          "timeoutSeconds": 10,
+          "httpStatusCodesForReady": [
+            200
+          ],
+          "preserveLastResponse": false
+        }
+      ],
+      "labels": {
+        "HAPROXY_GROUP": "external",
+        "HAPROXY_0_ENABLED": "true",
+        "HAPROXY_0_VHOST": "vhost.example.com",
+        "HAPROXY_0_PATH": "/pyweb/docker/bridged/group/agent",
+        "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/pyweb/docker/bridged/group/agent"
+      }
     }
   ]
 }

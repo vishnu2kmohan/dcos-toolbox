@@ -1,24 +1,30 @@
 {
-  "id": "/pyweb-docker-bridged-dynport",
+  "id": "/pyweb/docker/bridged/dynport",
   "cmd": "env | sort && python3 -m http.server",
-  "cpus": 0.01,
-  "mem": 32.0,
+  "cpus": 0.1,
+  "mem": 32,
   "instances": 2,
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
   "container": {
     "type": "DOCKER",
     "docker": {
-      "image": "python:3-alpine",
-      "network": "BRIDGE",
-      "portMappings": [
-        { 
-            "containerPort": 8000, 
-            "hostPort": 0,
-            "name": "pyweb",
-            "protocol": "tcp",
-            "labels": { "VIP_0": "/pyweb-docker-bridged-dynport:8000" }
+      "image": "python:3-alpine"
+    },
+    "portMappings": [
+      {
+        "containerPort": 8000,
+        "hostPort": 0,
+        "name": "http",
+        "protocol": "tcp",
+        "labels": {
+          "VIP_0": "/pyweb.docker.bridged.dynport:80"
         }
-      ]
-    }
+      }
+    ]
   },
   "healthChecks": [
     {
@@ -30,5 +36,26 @@
       "timeoutSeconds": 20,
       "maxConsecutiveFailures": 3
     }
-  ]
+  ],
+  "readinessChecks": [
+    {
+      "name": "readinessCheck",
+      "protocol": "HTTP",
+      "path": "/",
+      "portName": "http",
+      "intervalSeconds": 30,
+      "timeoutSeconds": 10,
+      "httpStatusCodesForReady": [
+        200
+      ],
+      "preserveLastResponse": false
+    }
+  ],
+  "labels": {
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "vishnu-wh-publicsl-1g365cmsseyp4-2006347874.us-east-1.elb.amazonaws.com",
+    "HAPROXY_0_PATH": "/pyweb/docker/bridged/dynport",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/pyweb/docker/bridged/dynport"
+  }
 }

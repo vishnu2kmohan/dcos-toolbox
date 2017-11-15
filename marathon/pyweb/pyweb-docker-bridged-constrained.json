@@ -1,35 +1,68 @@
 {
-  "id": "/pyweb-docker-bridged-constrained",
+  "id": "/pyweb/docker/bridged/constrained",
   "cmd": "env | sort && python3 -m http.server",
-  "cpus": 0.01,
-  "mem": 32.0,
+  "cpus": 0.1,
+  "mem": 32,
   "instances": 2,
-  "constraints": [["hostname", "LIKE", "<AGENT_IP>"]],
+  "constraints": [
+    [
+      "hostname",
+      "LIKE",
+      "<hostname>"
+    ]
+  ],
+  "networks": [
+    {
+      "mode": "container/bridge"
+    }
+  ],
   "container": {
     "type": "DOCKER",
     "docker": {
-      "image": "python:3-alpine",
-      "network": "BRIDGE",
-      "portMappings": [
-        { 
-            "containerPort": 8000, 
-            "hostPort": 0,
-            "name": "web",
-            "protocol": "tcp",
-            "labels": { "VIP_0": "/pyweb-docker-bridged-constrained:8000" }
+      "image": "python:3-alpine"
+    },
+    "portMappings": [
+      {
+        "containerPort": 8000,
+        "hostPort": 0,
+        "name": "http",
+        "protocol": "tcp",
+        "labels": {
+          "VIP_0": "/pyweb.docker.bridged.constrained:80"
         }
-      ]
-    }
+      }
+    ]
   },
   "healthChecks": [
     {
       "protocol": "HTTP",
       "path": "/",
       "portIndex": 0,
-      "gracePeriodSeconds": 20,
+      "gracePeriodSeconds": 60,
       "intervalSeconds": 20,
-      "timeoutSeconds": 20,
+      "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
     }
-  ]  
+  ],
+  "readinessChecks": [
+    {
+      "name": "readinessCheck",
+      "protocol": "HTTP",
+      "path": "/",
+      "portName": "http",
+      "intervalSeconds": 30,
+      "timeoutSeconds": 10,
+      "httpStatusCodesForReady": [
+        200
+      ],
+      "preserveLastResponse": false
+    }
+  ],
+  "labels": {
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "vhost.example.com",
+    "HAPROXY_0_PATH": "/pyweb/docker/bridged/constrained",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/pyweb/docker/bridged/constrained"
+  }
 }

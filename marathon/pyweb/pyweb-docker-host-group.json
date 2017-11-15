@@ -1,74 +1,118 @@
 {
-  "id": "/pyweb-docker-host-group",
+  "id": "/pyweb/docker/host/group",
   "apps": [
     {
-      "id": "/pyweb-docker-host-group/controller",
-      "cmd": "env | sort && python3 -m http.server $PORT0",
-      "cpus": 0.01,
+      "id": "/pyweb/docker/host/group/controller",
+      "cmd": "env | sort && python3 -m http.server $PORT_CONTROLLER",
+      "cpus": 0.1,
       "mem": 32,
       "instances": 1,
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "python:3-alpine",
-          "network": "HOST"
+          "image": "python:3-alpine"
         }
       },
       "portDefinitions": [
-	{
-	  "port": 0,
-	  "name": "pyweb-controller",
-	  "protocol": "tcp",
-	  "labels": { "VIP_0": "/pyweb-docker-host-group/controller:80" }
-	}
+        {
+          "port": 0,
+          "name": "controller",
+          "protocol": "tcp",
+          "labels": {
+            "VIP_0": "/pyweb.docker.host.group.controller:80"
+          }
+        }
       ],
       "healthChecks": [
         {
           "protocol": "HTTP",
           "path": "/",
           "portIndex": 0,
-          "gracePeriodSeconds": 20,
+          "gracePeriodSeconds": 60,
           "intervalSeconds": 20,
-          "timeoutSeconds": 20,
+          "timeoutSeconds": 10,
           "maxConsecutiveFailures": 3
         }
-      ]
+      ],
+      "readinessChecks": [
+        {
+          "name": "readinessCheck",
+          "protocol": "HTTP",
+          "path": "/",
+          "portName": "controller",
+          "intervalSeconds": 30,
+          "timeoutSeconds": 10,
+          "httpStatusCodesForReady": [
+            200
+          ],
+          "preserveLastResponse": false
+        }
+      ],
+      "labels": {
+        "HAPROXY_GROUP": "external",
+        "HAPROXY_0_ENABLED": "true",
+        "HAPROXY_0_VHOST": "vhost.example.com",
+        "HAPROXY_0_PATH": "/pyweb/docker/host/group/controller",
+        "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/pyweb/docker/host/group/controller"
+      }
     },
     {
-      "id": "/pyweb-docker-host-group/agent",
-      "cmd": "env | sort && python3 -m http.server $PORT0",
-      "cpus": 0.01,
+      "id": "/pyweb/docker/host/group/agent",
+      "dependencies": [
+        "/pyweb/docker/host/group/controller"
+      ],
+      "cmd": "env | sort && python3 -m http.server $PORT_AGENT",
+      "cpus": 0.1,
       "mem": 32,
       "instances": 4,
       "container": {
         "type": "DOCKER",
         "docker": {
-          "image": "python:3-alpine",
-          "network": "HOST"
+          "image": "python:3-alpine"
         }
       },
       "portDefinitions": [
-	{
-	  "port": 0,
-	  "name": "pyweb-agent",
-	  "protocol": "tcp",
-	  "labels": { "VIP_0": "/pyweb-docker-host-group/agent:80" }
-	}
+        {
+          "port": 0,
+          "name": "agent",
+          "protocol": "tcp",
+          "labels": {
+            "VIP_0": "/pyweb.docker.host.group.agent:80"
+          }
+        }
       ],
       "healthChecks": [
         {
           "protocol": "HTTP",
           "path": "/",
           "portIndex": 0,
-          "gracePeriodSeconds": 20,
+          "gracePeriodSeconds": 60,
           "intervalSeconds": 20,
-          "timeoutSeconds": 20,
+          "timeoutSeconds": 10,
           "maxConsecutiveFailures": 3
         }
       ],
-      "dependencies": [
-        "/pyweb-docker-host-group/controller"
-      ]
+      "readinessChecks": [
+        {
+          "name": "readinessCheck",
+          "protocol": "HTTP",
+          "path": "/",
+          "portName": "agent",
+          "intervalSeconds": 30,
+          "timeoutSeconds": 10,
+          "httpStatusCodesForReady": [
+            200
+          ],
+          "preserveLastResponse": false
+        }
+      ],
+      "labels": {
+        "HAPROXY_GROUP": "external",
+        "HAPROXY_0_ENABLED": "true",
+        "HAPROXY_0_VHOST": "vhost.example.com",
+        "HAPROXY_0_PATH": "/pyweb/docker/host/group/agent",
+        "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/pyweb/docker/host/group/agent"
+      }
     }
   ]
 }

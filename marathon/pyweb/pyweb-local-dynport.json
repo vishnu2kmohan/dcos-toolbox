@@ -1,15 +1,17 @@
 {
-  "id": "/pyweb-local-dynport",
-  "cmd": "env | sort && /opt/mesosphere/bin/python3 -m http.server $PORT0",
-  "cpus": 0.01,
-  "mem": 32.0,
+  "id": "/pyweb/local/dynport",
+  "cmd": "env | sort && /opt/mesosphere/bin/python3 -m http.server $PORT_HTTP",
+  "cpus": 0.1,
+  "mem": 32,
   "instances": 2,
   "portDefinitions": [
     {
       "port": 0,
-      "name": "web",
+      "name": "http",
       "protocol": "tcp",
-      "labels": { "VIP_0": "/pyweb-local-dynport:80" }
+      "labels": {
+        "VIP_0": "/pyweb.local.dynport:80"
+      }
     }
   ],
   "healthChecks": [
@@ -17,10 +19,31 @@
       "protocol": "HTTP",
       "path": "/",
       "portIndex": 0,
-      "gracePeriodSeconds": 20,
+      "gracePeriodSeconds": 60,
       "intervalSeconds": 20,
-      "timeoutSeconds": 20,
+      "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
     }
-  ]
+  ],
+  "readinessChecks": [
+    {
+      "name": "readinessCheck",
+      "protocol": "HTTP",
+      "path": "/",
+      "portName": "http",
+      "intervalSeconds": 30,
+      "timeoutSeconds": 10,
+      "httpStatusCodesForReady": [
+        200
+      ],
+      "preserveLastResponse": false
+    }
+  ],
+  "labels": {
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "vhost.example.com",
+    "HAPROXY_0_PATH": "/pyweb/local/dynport",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/pyweb/local/dynport"
+  }
 }
