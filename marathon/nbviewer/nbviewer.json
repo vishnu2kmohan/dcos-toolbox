@@ -1,0 +1,74 @@
+{
+  "id": "/nbviewer",
+  "cmd": "python3 -m nbviewer --statsd_host=$STATSD_UDP_HOST --statsd_port=$STATSD_UDP_PORT --port=$PORT_NBVIEWER",
+  "cpus": 0.1,
+  "mem": 32,
+  "user": "nobody",
+  "instances": 1,
+  "container": {                                                                
+    "type": "MESOS",                                                            
+    "docker": {                                                                 
+      "image": "jupyter/nbviewer"                      
+    }                                                                           
+  },
+  "env": {
+    "GITHUB_OAUTH_KEY": {
+      "secret": "secret0"
+    },
+    "GITHUB_OAUTH_SECRET": {
+      "secret": "secret1"
+    }
+  },
+  "secrets": {
+    "secret0": {
+      "source": "/nbviewer/GITHUB_OAUTH_KEY"
+    },
+    "secret1": {
+      "source": "/nbviewer/GITHUB_OAUTH_SECRET"
+    }
+  },
+  "portDefinitions": [
+    {
+      "port": 0,
+      "name": "nbviewer",
+      "protocol": "tcp",
+      "labels": {
+        "VIP_0": "/nbviewer:80"
+      }
+    }
+  ],
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "portIndex": 0,
+      "gracePeriodSeconds": 60,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "readinessChecks": [
+    {
+      "name": "readinessCheck",
+      "protocol": "HTTP",
+      "path": "/",
+      "portName": "nbviewer",
+      "intervalSeconds": 20,
+      "timeoutSeconds": 10,
+      "httpStatusCodesForReady": [
+        200
+      ],
+      "preserveLastResponse": false
+    }
+  ],
+  "labels": {
+    "DCOS_PACKAGE_METADATA":"eyJpbWFnZXMiOnsiaWNvbi1zbWFsbCI6Imh0dHBzOi8vbmJ2aWV3ZXIuanVweXRlci5vcmcvc3RhdGljL2ltZy9uYXZfbG9nby5zdmciLCJpY29uLW1lZGl1bSI6Imh0dHBzOi8vbmJ2aWV3ZXIuanVweXRlci5vcmcvc3RhdGljL2ltZy9uYXZfbG9nby5zdmciLCJpY29uLWxhcmdlIjoiaHR0cHM6Ly9uYnZpZXdlci5qdXB5dGVyLm9yZy9zdGF0aWMvaW1nL25hdl9sb2dvLnN2ZyJ9fQo=",
+    "DCOS_SERVICE_NAME": "nbviewer",                      
+    "DCOS_SERVICE_PORT_INDEX": "0",                                             
+    "DCOS_SERVICE_SCHEME": "http", 
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "vhost.example.com"
+  }
+}
