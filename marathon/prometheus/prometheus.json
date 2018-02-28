@@ -1,0 +1,64 @@
+{
+  "id": "/prom/prometheus",
+  "instances": 1,
+  "cpus": 2,
+  "mem": 4096,
+  "user": "nobody",
+  "cmd": "/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --web.enable-admin-api --web.console.libraries=/etc/prometheus/console_libraries --web.console.templates=/etc/prometheus/consoles --web.listen-address=\":$PORT_WEB\" --storage.tsdb.path=$MESOS_SANDBOX/prometheus",
+  "container": {
+    "type": "MESOS",
+    "docker": {
+      "image": "prom/prometheus"
+    },
+    "volumes": [
+      {
+        "containerPath": "prometheus",
+        "persistent": {
+          "type": "root",
+          "size": 102400,
+          "name": "prometheus-volume"
+        },
+        "mode": "RW"
+      }
+    ]
+  },
+  "residency": {
+    "taskLostBehavior": "WAIT_FOREVER"
+  },
+  "networks": [
+    {
+      "mode": "host"
+    }
+  ],
+  "portDefinitions": [
+    {
+      "port": 0,
+      "protocol": "tcp",
+      "name": "web",
+      "labels": {
+        "VIP_0": "/prom.prometheus:9090"
+      }
+    }
+  ],
+  "healthChecks": [
+    {
+      "portIndex": 0,
+      "protocol": "MESOS_HTTP",
+      "path": "/api/v1/targets",
+      "gracePeriodSeconds": 5,
+      "intervalSeconds": 60,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "labels": {
+    "MARATHON_SINGLE_INSTANCE_APP": "true",
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "vishnu-pk-publicsl-h5wrtccwdl93-1185135300.us-east-1.elb.amazonaws.com"
+  },
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 0,
+    "maximumOverCapacity": 0
+  }
+}

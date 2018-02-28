@@ -1,0 +1,60 @@
+{
+  "id": "/prom/statsd-exporter",
+  "instances": 1,
+  "cpus": 1,
+  "mem": 1024,
+  "user": "nobody",
+  "cmd": "statsd_exporter -statsd.listen-udp=\":$PORT_STATSD\" -statsd.listen-tcp=\":$PORT_STATSD\" -web.listen-address=\":$PORT_WEB\" -web.telemetry-path=\"/metrics\"",
+  "container": {
+    "type": "MESOS",
+    "docker": {
+      "image": "prom/statsd-exporter"
+    }
+  },
+  "networks": [
+    {
+      "mode": "host"
+    }
+  ],
+  "portDefinitions": [
+    {
+      "port": 0,
+      "protocol": "tcp",
+      "name": "web",
+      "labels": {
+        "VIP_0": "/prom.statsd-exporter:9102"
+      }
+    },
+    {
+      "port": 0,
+      "protocol": "udp,tcp",
+      "name": "statsd",
+      "labels": {
+        "VIP_1": "/prom.statsd-exporter:9125"
+      }
+    }
+  ],
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "/",
+      "portIndex": 0,
+      "gracePeriodSeconds": 60,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "labels": {
+    "MARATHON_SINGLE_INSTANCE_APP": "true",
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "vishnu-pk-publicsl-h5wrtccwdl93-1185135300.us-east-1.elb.amazonaws.com",
+    "HAPROXY_0_PATH": "/prom/statsd-exporter",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/prom/statsd-exporter"
+  },
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 0,
+    "maximumOverCapacity": 0
+  }
+}
