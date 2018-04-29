@@ -1,15 +1,17 @@
 # my global config
 global:
-  scrape_interval:     15s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
-  evaluation_interval: 15s # Evaluate rules every 15 seconds. The default is every 1 minute.
-  # scrape_timeout is set to the global default (10s).
+  scrape_interval: 15s      # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  scrape_timeout: 10s       # scrape_timeout is set to the global default (10s).
+  evaluation_interval: 15s  # Evaluate rules every 15 seconds. The default is every 1 minute.
 
 # Alertmanager configuration
 alerting:
   alertmanagers:
   - static_configs:
     - targets:
-      # - alertmanager:9093
+    # - alertmanager:9093
+    scheme: http
+    timeout: 10s
 
 # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
 rule_files:
@@ -19,32 +21,43 @@ rule_files:
 # A scrape configuration containing exactly one endpoint to scrape:
 # Here it's Prometheus itself.
 scrape_configs:
-  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
-  - job_name: 'prometheus'
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-    static_configs:
-      - targets: ['dcosprometheusprometheus.marathon.l4lb.thisdcos.directory:9090']
+# The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+- job_name: prometheus
+# metrics_path defaults to '/metrics'
+# scheme defaults to 'http'.
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+  - targets:
+    - dcosprometheusprometheus.marathon.l4lb.thisdcos.directory:9090
 
-  - job_name: 'prometheus-statsd-exporter'
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-    static_configs:
-      - targets: ['dcosprometheusstatsd-exporter.marathon.l4lb.thisdcos.directory:9102']
+# Collect metrics from prometheus/statsd_exporter for Docker Containers
+- job_name: prometheus-statsd-exporter
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+  - targets:
+    - dcosprometheusstatsd-exporter.marathon.l4lb.thisdcos.directory:9102
 
-  - job_name: 'dcos-metrics'
-    # metrics_path defaults to '/metrics'
-    # scheme defaults to 'http'.
-    static_configs:
-      - targets: [
-          "10.0.7.32:61091",
-          "10.0.0.218:61091",
-          "10.0.0.205:61091",
-          "10.0.2.177:61091",
-          "10.0.3.214:61091",
-          "10.0.2.170:61091",
-          "10.0.0.249:61091",
-          "10.0.1.182:61091",
-          "10.0.1.4:61091",
-          "10.0.0.215:61091"
-        ]
+# Collect metrics from dcos-metrics
+- job_name: dcos-metrics
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+  - targets:
+    - 10.0.7.32:61091
+    - 10.0.0.218:61091
+    - 10.0.0.205:61091
+    - 10.0.2.177:61091
+    - 10.0.3.214:61091
+    - 10.0.2.170:61091
+    - 10.0.0.249:61091
+    - 10.0.1.182:61091
+    - 10.0.1.4:61091
+    - 10.0.0.215:61091
