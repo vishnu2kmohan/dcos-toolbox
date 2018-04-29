@@ -1,0 +1,88 @@
+{
+  "id": "/dcos/dev/mom/user-marathon",
+  "cmd": "cd $MESOS_SANDBOX && LIBPROCESS_PORT=$PORT1 && /marathon/bin/start --default_accepted_resource_roles \"*\" --enable_features \"vips,task_killing,external_volumes,secrets,gpu_resources\" --framework_name dev-user-marathon --hostname $LIBPROCESS_IP --https_port $PORT0 --disable_http --master zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos --max_instances_per_offer 1 --mesos_leader_ui_url /mesos --mesos_role dev_user_marathon-role --zk zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/dev/mom/user-marathon --mesos_authentication --mesos_authentication_principal dev_user_marathon --mesos_user nobody --task_launch_timeout 900000 --zk_timeout 300000 --zk_session_timeout 300000 --deployment_manager_request_timeout 300000 -Dakka.http.host-connection-pool.max-open-requests=256 --reporter_datadog \"udp://$STATSD_UDP_HOST:$STATSD_UDP_PORT?prefix=dev-user-marathon&tags=dev-user-marathon\"",
+  "instances": 1,
+  "user": "nobody",
+  "cpus": 2,
+  "mem": 8192,
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "mesosphere/marathon-dcos-ee:v1.5.8_1.10.2"
+    }
+  },
+  "env": {
+    "CONTAINER_LOGGER_LOGROTATE_MAX_STDERR_SIZE": "20MB",
+    "CONTAINER_LOGGER_LOGROTATE_MAX_STDOUT_SIZE": "20MB",
+    "CONTAINER_LOGGER_LOGROTATE_STDERR_OPTIONS": "rotate 11",
+    "CONTAINER_LOGGER_LOGROTATE_STDOUT_OPTIONS": "rotate 11",
+    "DCOS_PACKAGE_FRAMEWORK_NAME": "dev-user-marathon",
+    "DCOS_SERVICE_ACCOUNT_CREDENTIAL": {
+      "secret": "serviceCredential"
+    },
+    "DCOS_STRICT_SECURITY_ENABLED": "true",
+    "JVM_OPTS": "-Xms4g -Xmx4g",
+    "LIBPROCESS_SSL_ENABLED": "true",
+    "LIBPROCESS_SSL_REQUIRE_CERT": "false",
+    "LIBPROCESS_SSL_SUPPORT_DOWNGRADE": "false",
+    "LIBPROCESS_SSL_VERIFY_CERT": "false",
+    "MESOS_AUTHENTICATEE": "com_mesosphere_dcos_ClassicRPCAuthenticatee",
+    "MESOS_MODULES": "{\"libraries\":[{\"file\":\"/opt/libmesos-bundle/lib/libdcos_security.so\",\"modules\":[{\"name\":\"com_mesosphere_dcos_ClassicRPCAuthenticatee\"}]}]}",
+    "PLUGIN_ACS_URL": "https://master.mesos",
+    "PLUGIN_AUTHN_MODE": "dcos/jwt",
+    "PLUGIN_FRAMEWORK_TYPE": "marathon",
+    "STATSD_UDP_HOST": "dcosprometheusstatsd-exporter.marathon.l4lb.thisdcos.directory",
+    "STATSD_UDP_PORT": "9125",
+    "USER": "dev_user_marathon"
+  },
+  "secrets": {
+    "serviceCredential": {
+      "source": "/dcos/dev/mom/user-marathon/serviceCredential"
+    }
+  },
+  "labels": {
+    "DCOS_SERVICE_SCHEME": "https",
+    "DCOS_SERVICE_PORT_INDEX": "0",
+    "DCOS_SERVICE_NAME": "dev-user-marathon",
+    "MARATHON_SINGLE_INSTANCE_APP": "true"
+  },
+  "networks": [
+    {
+      "mode": "host"
+    }
+  ],
+  "portDefinitions": [
+    {
+      "labels": {
+        "VIP_0": "/dcos/dev/mom/user-marathon:8443"
+      },
+      "name": "https",
+      "protocol": "tcp",
+      "port": 0
+    },
+    {
+      "name": "libprocess",
+      "protocol": "tcp",
+      "port": 0
+    }
+  ],
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTPS",
+      "path": "/ping",
+      "portIndex": 0,
+      "gracePeriodSeconds": 1800,
+      "intervalSeconds": 10,
+      "maxConsecutiveFailures": 3,
+      "timeoutSeconds": 5
+    }
+  ],
+  "upgradeStrategy": {
+    "maximumOverCapacity": 0,
+    "minimumHealthCapacity": 0
+  },
+  "unreachableStrategy": {
+    "inactiveAfterSeconds": 0,
+    "expungeAfterSeconds": 0
+  }
+}
