@@ -4,7 +4,7 @@
   "cpus": 2,
   "mem": 4096,
   "user": "nobody",
-  "cmd": "/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --web.enable-admin-api --web.console.libraries=/etc/prometheus/console_libraries --web.console.templates=/etc/prometheus/consoles --web.listen-address=\":$PORT_WEB\" --storage.tsdb.path=$MESOS_SANDBOX/prometheus",
+  "cmd": "/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --web.enable-admin-api --web.console.libraries=\"/etc/prometheus/console_libraries\" --web.console.templates=\"/etc/prometheus/consoles\" --web.listen-address=\":${PORT_WEB}\" --storage.tsdb.path=\"${MESOS_SANDBOX}/prometheus\"",
   "container": {
     "type": "MESOS",
     "docker": {
@@ -52,6 +52,9 @@
     }
   ],
   "labels": {
+    "DCOS_SERVICE_NAME": "/dcos/prometheus/prometheus",
+    "DCOS_SERVICE_PORT_INDEX": "0",
+    "DCOS_SERVICE_SCHEME": "http",
     "MARATHON_SINGLE_INSTANCE_APP": "true",
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",

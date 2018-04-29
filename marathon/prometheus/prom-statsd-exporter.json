@@ -4,7 +4,7 @@
   "cpus": 1,
   "mem": 1024,
   "user": "nobody",
-  "cmd": "statsd_exporter -statsd.listen-udp=\":$PORT_STATSD\" -statsd.listen-tcp=\":$PORT_STATSD\" -web.listen-address=\":$PORT_WEB\" -web.telemetry-path=\"/metrics\"",
+  "cmd": "statsd_exporter -statsd.listen-udp=\":${PORT_STATSD}\" -statsd.listen-tcp=\":${PORT_STATSD}\" -web.listen-address=\":${PORT_WEB}\" -web.telemetry-path=\"/metrics\"",
   "container": {
     "type": "MESOS",
     "docker": {
@@ -46,6 +46,9 @@
     }
   ],
   "labels": {
+    "DCOS_SERVICE_NAME": "/dcos/prometheus/statsd-exporter",
+    "DCOS_SERVICE_PORT_INDEX": "0",
+    "DCOS_SERVICE_SCHEME": "http",
     "MARATHON_SINGLE_INSTANCE_APP": "true",
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
@@ -56,5 +59,9 @@
   "upgradeStrategy": {
     "minimumHealthCapacity": 0,
     "maximumOverCapacity": 0
+  },
+  "unreachableStrategy": {
+    "expungeAfterSeconds": 0,
+    "inactiveAfterSeconds": 0
   }
 }
