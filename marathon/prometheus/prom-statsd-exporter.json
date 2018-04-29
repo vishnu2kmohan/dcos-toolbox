@@ -1,5 +1,5 @@
 {
-  "id": "/prom/statsd-exporter",
+  "id": "/dcos/prometheus/statsd-exporter",
   "instances": 1,
   "cpus": 1,
   "mem": 1024,
@@ -22,7 +22,7 @@
       "protocol": "tcp",
       "name": "web",
       "labels": {
-        "VIP_0": "/prom.statsd-exporter:9102"
+        "VIP_0": "/dcos/prometheus/statsd-exporter:9102"
       }
     },
     {
@@ -30,7 +30,7 @@
       "protocol": "udp,tcp",
       "name": "statsd",
       "labels": {
-        "VIP_1": "/prom.statsd-exporter:9125"
+        "VIP_1": "/dcos/prometheus/statsd-exporter:9125"
       }
     }
   ],
@@ -49,9 +49,9 @@
     "MARATHON_SINGLE_INSTANCE_APP": "true",
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
-    "HAPROXY_0_VHOST": "vishnu-pk-publicsl-h5wrtccwdl93-1185135300.us-east-1.elb.amazonaws.com",
-    "HAPROXY_0_PATH": "/prom/statsd-exporter",
-    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/prom/statsd-exporter"
+    "HAPROXY_0_VHOST": "vhost.example.com",
+    "HAPROXY_0_PATH": "/dcos/prometheus/statsd-exporter",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/dcos/prometheus/statsd-exporter"
   },
   "upgradeStrategy": {
     "minimumHealthCapacity": 0,

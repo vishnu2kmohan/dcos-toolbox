@@ -1,5 +1,5 @@
 {
-  "id": "/prom/prometheus",
+  "id": "/dcos/prometheus/prometheus",
   "instances": 1,
   "cpus": 2,
   "mem": 4096,
@@ -36,7 +36,7 @@
       "protocol": "tcp",
       "name": "web",
       "labels": {
-        "VIP_0": "/prom.prometheus:9090"
+        "VIP_0": "/dcos/prometheus/prometheus:9090"
       }
     }
   ],
@@ -55,7 +55,7 @@
     "MARATHON_SINGLE_INSTANCE_APP": "true",
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
-    "HAPROXY_0_VHOST": "vishnu-pk-publicsl-h5wrtccwdl93-1185135300.us-east-1.elb.amazonaws.com"
+    "HAPROXY_0_VHOST": "vhost.example.com"
   },
   "upgradeStrategy": {
     "minimumHealthCapacity": 0,
