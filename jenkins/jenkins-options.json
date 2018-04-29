@@ -1,0 +1,28 @@
+{
+  "service": {
+    "mem": 4096,
+    "name": "/dev/jenkins/jenkins-01",
+    "user": "nobody"
+  },
+  "security": {
+    "secret-name": "dev/jenkins/serviceCredential",
+    "strict-mode": true
+  },
+  "advanced": {
+    "jvm-opts": "-Xms2048m -Xmx2048m",
+    "mesos-master": "zk://zk-1.zk:2181,zk-2.zk:2181,zk-3.zk:2181,zk-4.zk:2181,zk-5.zk:2181/mesos"
+  },
+  "roles": {
+    "jenkins-agent-role": "dev__jenkins__agent-role",
+    "jenkins-master-role": "*"
+  },
+  "networking": {
+    "agent-port": 0,
+    "https-redirect": true,
+    "known-hosts": "github.com git.apache.org",
+    "virtual-host": "vhost.example.com"
+  },
+  "storage": {
+    "host-volume": "/mnt/nfs/jenkins_data"
+  }
+}
