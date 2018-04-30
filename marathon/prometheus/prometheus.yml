@@ -27,7 +27,7 @@ scrape_configs:
 # scheme defaults to 'http'.
   scrape_interval: 15s
   scrape_timeout: 10s
-  metrics_path: /metrics
+  metrics_path: /service/dcos/prometheus/prometheus/metrics
   scheme: http
   static_configs:
   - targets:
@@ -43,21 +43,31 @@ scrape_configs:
   - targets:
     - dcosprometheusstatsd-exporter.marathon.l4lb.thisdcos.directory:9102
 
-# Collect metrics from dcos-metrics
-- job_name: dcos-metrics
+# Collect metrics from DC/OS Masters
+- job_name: dcos-masters
   scrape_interval: 15s
   scrape_timeout: 10s
   metrics_path: /metrics
   scheme: http
   static_configs:
   - targets:
-    - 10.0.7.32:61091
-    - 10.0.0.218:61091
-    - 10.0.0.205:61091
-    - 10.0.2.177:61091
-    - 10.0.3.214:61091
-    - 10.0.2.170:61091
-    - 10.0.0.249:61091
-    - 10.0.1.182:61091
-    - 10.0.1.4:61091
-    - 10.0.0.215:61091
+    - 10.0.4.129:61091
+
+# Collect metrics from DC/OS Agents
+- job_name: dcos-agents
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /metrics
+  scheme: http
+  static_configs:
+  - targets:
+    - 10.0.0.130:61091
+    - 10.0.0.166:61091
+    - 10.0.2.161:61091
+    - 10.0.6.238:61091
+    - 10.0.0.164:61091
+    - 10.0.3.146:61091
+    - 10.0.3.90:61091
+    - 10.0.2.194:61091
+    - 10.0.1.194:61091
+    - 10.0.3.183:61091
