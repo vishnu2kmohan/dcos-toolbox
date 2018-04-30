@@ -13,10 +13,10 @@
     },
     "volumes": [
       {
-        "containerPath": "jenkins-01-volume",
+        "containerPath": "dev-jenkins-jenkins-01",
         "external": {
           "size": 10,
-          "name": "dev-jenkins-01-volume",
+          "name": "dev-jenkins-jenkins-01",
           "provider": "dvdi",
           "options": {
             "dvdi/driver": "rexray"
@@ -26,7 +26,7 @@
       },
       {
         "containerPath": "/var/jenkins_home",
-        "hostPath": "jenkins-01-volume",
+        "hostPath": "dev-jenkins-jenkins-01",
         "mode": "RW"
       }
     ]
@@ -68,7 +68,9 @@
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
     "HAPROXY_0_VHOST": "vhost.example.com",
-    "HAPROXY_0_REDIRECT_TO_HTTPS": "true"
+    "HAPROXY_0_REDIRECT_TO_HTTPS": "true",
+    "HAPROXY_0_PATH": "/service/dev/jenkins/jenkins-01",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/service/dev/jenkins/jenkins-01"
   },
   "networks": [
     {
