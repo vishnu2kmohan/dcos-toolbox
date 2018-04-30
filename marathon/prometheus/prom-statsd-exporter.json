@@ -53,8 +53,8 @@
     "HAPROXY_GROUP": "external",
     "HAPROXY_0_ENABLED": "true",
     "HAPROXY_0_VHOST": "vhost.example.com",
-    "HAPROXY_0_PATH": "/dcos/prometheus/statsd-exporter",
-    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/dcos/prometheus/statsd-exporter"
+    "HAPROXY_0_PATH": "/service/dcos/prometheus/statsd-exporter",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/service/dcos/prometheus/statsd-exporter"
   },
   "upgradeStrategy": {
     "minimumHealthCapacity": 0,
