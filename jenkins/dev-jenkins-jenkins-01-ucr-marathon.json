@@ -81,12 +81,18 @@
     {
       "name": "nginx",
       "port": 0,
-      "protocol": "tcp"
+      "protocol": "tcp",
+      "labels": {
+        "VIP_0": "/dev/jenkins/jenkins-01:80"
+      }
     },
     {
       "name": "jenkins",
       "port": 0,
-      "protocol": "tcp"
+      "protocol": "tcp",
+      "labels": {
+        "VIP_1": "/dev/jenkins/jenkins-01:8080"
+      }
     }
   ],
   "healthChecks": [
