@@ -26,7 +26,7 @@
   "env": {
     "GF_INSTALL_PLUGINS": "",
     "GF_SECURITY_ADMIN_PASSWORD": "GrafanaMesos",
-    "GF_SERVER_ROOT_URL": "%(protocol)s://%(domain)s:/dcos/grafana/grafana"
+    "GF_SERVER_ROOT_URL": "%(protocol)s://%(domain)s:/service/dcos/grafana/grafana"
   },
   "labels": {
     "MARATHON_SINGLE_INSTANCE_APP": "true",
@@ -34,8 +34,8 @@
     "HAPROXY_0_ENABLED": "true",
     "HAPROXY_0_REDIRECT_TO_HTTPS": "true",
     "HAPROXY_0_VHOST": "vhost.example.com",
-    "HAPROXY_0_PATH": "/dcos/grafana/grafana",
-    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/dcos/grafana/grafana"
+    "HAPROXY_0_PATH": "/service/dcos/grafana/grafana",
+    "HAPROXY_0_HTTP_BACKEND_PROXYPASS_PATH": "/service/dcos/grafana/grafana"
   },
   "networks": [
     {
