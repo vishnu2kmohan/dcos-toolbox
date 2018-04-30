@@ -18,8 +18,10 @@
           "size": 10,
           "name": "dev-jenkins-01-volume",
           "provider": "dvdi",
-          "options": { "dvdi/driver": "rexray" }
-          },
+          "options": {
+            "dvdi/driver": "rexray"
+          }
+        },
         "mode": "RW"
       },
       {
@@ -62,11 +64,11 @@
     "DCOS_SERVICE_NAME": "/dev/jenkins/jenkins-01",
     "DCOS_SERVICE_PORT_INDEX": "0",
     "DCOS_SERVICE_SCHEME": "http",
-    "HAPROXY_0_ENABLED": "true",
-    "HAPROXY_0_REDIRECT_TO_HTTPS": "true",
-    "HAPROXY_0_VHOST": "vhost.example.com",
+    "MARATHON_SINGLE_INSTANCE_APP": "true",
     "HAPROXY_GROUP": "external",
-    "MARATHON_SINGLE_INSTANCE_APP": "true"
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "vhost.example.com",
+    "HAPROXY_0_REDIRECT_TO_HTTPS": "true"
   },
   "networks": [
     {
@@ -87,13 +89,13 @@
   ],
   "healthChecks": [
     {
-      "gracePeriodSeconds": 120,
-      "intervalSeconds": 90,
-      "maxConsecutiveFailures": 3,
-      "path": "/service/dev/jenkins/jenkins-01/login",
       "portIndex": 0,
       "protocol": "MESOS_HTTP",
-      "timeoutSeconds": 20
+      "path": "/service/dev/jenkins/jenkins-01/login",
+      "gracePeriodSeconds": 180,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
     }
   ],
   "upgradeStrategy": {
