@@ -4,11 +4,16 @@
   "cpus": 2,
   "mem": 4096,
   "user": "nobody",
-  "cmd": "/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --web.enable-admin-api --web.console.libraries=\"/etc/prometheus/console_libraries\" --web.console.templates=\"/etc/prometheus/consoles\" --web.listen-address=\":${PORT_WEB}\" --storage.tsdb.path=\"${MESOS_SANDBOX}/prometheus\"",
+  "cmd": "/bin/prometheus --config.file=/etc/prometheus/prometheus.yml --web.enable-lifecycle --web.enable-admin-api --web.console.libraries=\"/etc/prometheus/console_libraries\" --web.console.templates=\"/etc/prometheus/consoles\" --web.listen-address=\":${PORT_WEB}\" --web.external-url=\"${WEB_EXTERNAL_URL_SCHEME}${WEB_EXTERNAL_URL_HOST}${WEB_EXTERNAL_URL_PATH}\" --storage.tsdb.path=\"${MESOS_SANDBOX}/prometheus\"",
+  "env": {
+    "WEB_EXTERNAL_URL_SCHEME": "https://",
+    "WEB_EXTERNAL_URL_HOST": "vhost.example.com",
+    "WEB_EXTERNAL_URL_PATH": "/service/dcos/prometheus/prometheus"
+  },
   "container": {
     "type": "MESOS",
     "docker": {
-      "image": "prom/prometheus"
+      "image": "prom/prometheus:v2.2.1"
     },
     "volumes": [
       {
@@ -44,22 +49,33 @@
     {
       "portIndex": 0,
       "protocol": "MESOS_HTTP",
-      "path": "/api/v1/targets",
-      "gracePeriodSeconds": 5,
+      "path": "/service/dcos/prometheus/prometheus/-/healthy",
+      "gracePeriodSeconds": 300,
       "intervalSeconds": 60,
       "timeoutSeconds": 10,
       "maxConsecutiveFailures": 3
     }
   ],
+  "readinessChecks": [
+    {
+      "name": "readinessCheck",
+      "protocol": "HTTP",
+      "path": "/service/dcos/prometheus/prometheus/-/ready",
+      "portName": "web",
+      "intervalSeconds": 30,
+      "timeoutSeconds": 10,
+      "httpStatusCodesForReady": [
+        200
+      ],
+      "preserveLastResponse": false
+    }
+  ],
   "labels": {
-    "DCOS_SERVICE_NAME": "/dcos/prometheus/prometheus",
-    "DCOS_SERVICE_PORT_INDEX": "0",
-    "DCOS_SERVICE_SCHEME": "http",
     "MARATHON_SINGLE_INSTANCE_APP": "true",
     "HAPROXY_GROUP": "external",
-    "HAPROXY_0_REDIRECT_TO_HTTPS": "true",
     "HAPROXY_0_ENABLED": "true",
-    "HAPROXY_0_VHOST": "vhost.example.com"
+    "HAPROXY_0_VHOST": "vhost.example.com",
+    "HAPROXY_0_REDIRECT_TO_HTTPS": "true"
   },
   "upgradeStrategy": {
     "minimumHealthCapacity": 0,
