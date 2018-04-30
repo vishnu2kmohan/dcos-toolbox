@@ -57,6 +57,7 @@
     "DCOS_SERVICE_SCHEME": "http",
     "MARATHON_SINGLE_INSTANCE_APP": "true",
     "HAPROXY_GROUP": "external",
+    "HAPROXY_0_REDIRECT_TO_HTTPS": "true",
     "HAPROXY_0_ENABLED": "true",
     "HAPROXY_0_VHOST": "vhost.example.com"
   },
