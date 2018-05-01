@@ -51,7 +51,7 @@ scrape_configs:
   scheme: http
   static_configs:
   - targets:
-    - 10.0.4.129:61091
+    - 10.0.7.193:61091
 
 # Collect metrics from DC/OS Agents
 - job_name: dcos-agents
@@ -61,13 +61,24 @@ scrape_configs:
   scheme: http
   static_configs:
   - targets:
-    - 10.0.0.130:61091
-    - 10.0.0.166:61091
-    - 10.0.2.161:61091
-    - 10.0.6.238:61091
-    - 10.0.0.164:61091
-    - 10.0.3.146:61091
-    - 10.0.3.90:61091
-    - 10.0.2.194:61091
-    - 10.0.1.194:61091
-    - 10.0.3.183:61091
+    - 10.0.3.102:61091
+    - 10.0.3.10:61091
+    - 10.0.3.65:61091
+    - 10.0.2.176:61091
+    - 10.0.2.86:61091
+    - 10.0.1.161:61091
+    - 10.0.2.173:61091
+    - 10.0.0.165:61091
+    - 10.0.0.212:61091
+    - 10.0.7.129:61091
+
+# Collect metrics from /dev/jenkins/jenkins-01
+- job_name: dev-jenkins-jenkins-01
+  scrape_interval: 15s
+  scrape_timeout: 10s
+  metrics_path: /service/dev/jenkins/jenkins-01/prometheus
+  scheme: http
+  static_configs:
+  - targets:
+    - devjenkinsjenkins-01.marathon.l4lb.thisdcos.directory
+
