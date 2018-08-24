@@ -7,7 +7,7 @@ function mesos_agent_get_tasks () {
     -H "Authorization: token=$(dcos config show core.dcos_acs_token)" \
     -H "Content-Type: application/json" \
     "$(dcos config show core.dcos_url)/mesos/state" | \
-  jq -er ".frameworks[].tasks[] | select(.slave_id==\"${agent_id}\") | {id: .id, name: .name, framework_id: .framework_id, executor_id: .executor_id, state: .state}"
+  jq -er ".frameworks[].tasks[] | select(.slave_id==\"${agent_id}\") | select(.state==\"TASK_RUNNING\") | {id: .id, name: .name, framework_id: .framework_id, executor_id: .executor_id, state: .state}"
 }
 
 function mesos_framework_name_for_id() {
