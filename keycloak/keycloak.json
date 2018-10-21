@@ -1,0 +1,60 @@
+{
+  "id": "/dev/keycloak",
+  "instances": 1,
+  "cpus": 2,
+  "mem": 4096,
+  "cmd": "/opt/jboss/docker-entrypoint.sh -b 0.0.0.0 -Djboss.http.port=${PORT_KEYCLOAK}",
+  "env": {
+    "JAVA_OPTS": "-server -Xms2g -Xmx2g -XX:MetaspaceSize=512m -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true",
+    "KEYCLOAK_USER": "bootstrapuser",
+    "KEYCLOAK_PASSWORD": "deleteme",
+    "PROXY_ADDRESS_FORWARDING": "true"
+  },
+  "networks": [
+    {
+      "mode": "host"
+    }
+  ],
+  "container": {
+    "type": "DOCKER",
+    "docker": {
+      "image": "jboss/keycloak:4.5.0.Final"
+    }
+  },
+  "labels": {
+    "MARATHON_SINGLE_INSTANCE_APP": "true",
+    "HAPROXY_GROUP": "external",
+    "HAPROXY_0_ENABLED": "true",
+    "HAPROXY_0_VHOST": "keycloak.example.com",
+    "HAPROXY_0_REDIRECT_TO_HTTPS": "true"
+  },
+  "portDefinitions": [
+    {
+      "port": 0,
+      "protocol": "tcp",
+      "name": "keycloak",
+      "labels": {
+        "VIP_0": "/dev.keycloak:80"
+      }
+    }
+  ],
+  "healthChecks": [
+    {
+      "protocol": "MESOS_HTTP",
+      "path": "/auth",
+      "portIndex": 0,
+      "gracePeriodSeconds": 60,
+      "intervalSeconds": 20,
+      "timeoutSeconds": 10,
+      "maxConsecutiveFailures": 3
+    }
+  ],
+  "upgradeStrategy": {
+    "minimumHealthCapacity": 0,
+    "maximumOverCapacity": 0
+  },
+  "unreachableStrategy": {
+    "expungeAfterSeconds": 0,
+    "inactiveAfterSeconds": 0
+  }
+}
