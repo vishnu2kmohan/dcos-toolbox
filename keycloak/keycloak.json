@@ -3,7 +3,7 @@
   "instances": 1,
   "cpus": 2,
   "mem": 4096,
-  "cmd": "/opt/jboss/docker-entrypoint.sh -b 0.0.0.0 -Djboss.http.port=${PORT_KEYCLOAK}",
+  "cmd": "/opt/jboss/tools/docker-entrypoint.sh -b 0.0.0.0 -Djboss.http.port=${PORT_KEYCLOAK}",
   "env": {
     "JAVA_OPTS": "-server -Xms2g -Xmx2g -XX:MetaspaceSize=512m -XX:MaxMetaspaceSize=512m -Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djava.awt.headless=true",
     "KEYCLOAK_USER": "bootstrapuser",
